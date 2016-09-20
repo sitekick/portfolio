@@ -1,0 +1,21 @@
+{
+  "name": "portfolio",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Hunter Williams"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+	"jquery": "1.12.0",
+    "normalize-css": "^4.2.0"
+  }
+}

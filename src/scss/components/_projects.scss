@@ -1,0 +1,31 @@
+#project {
+// 	background: rgba(255,255,255, .3);
+	background: #CCC;
+	opacity: .3;
+	position: absolute; z-index: 100;
+	overflow: hidden;
+
+	.imagery{
+		float: right;
+		background: white;
+		width: 50%;
+		height: 100%;
+		overflow: hidden;
+		text-align: center;
+		
+		.content {
+			//clear: right;
+			display: inline-block;
+			width: 100%;
+			//margin: 2em 1em 1em 1em;
+		}
+	}
+
+	.controls {
+		list-style: none;
+		float: right;
+	}
+	
+	
+
+}

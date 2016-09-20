@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+var rcts;
+var keyCount=0;
+
+function Highlight(obj) {            
+    rcts = obj.getClientRects();
+    rctLength= rcts.length;
+
+    if (keyCount > rctLength-1) {
+        idBeige.style.display="none";
+        keyCount = 0
+    }
+
+    // set the rendering properties for the yellow div
+    cdRight = rcts[keyCount].right + idBody.scrollLeft;
+    cdLeft = rcts[keyCount].left + idBody.scrollLeft;
+    cdTop = rcts[keyCount].top + idBody.scrollTop;
+    cdBottom = rcts[keyCount].bottom + idBody.scrollTop;
+    idYellow.style.top = cdTop;
+    idYellow.style.width = (cdRight-cdLeft) - 5;
+    idYellow.style.display = 'inline';
+
+    // set the rendering properties for the beige div
+    bndRight = obj.getBoundingClientRect().right +
+	    idBody.scrollLeft;
+    bndLeft = obj.getBoundingClientRect().left +
+	    idBody.scrollLeft;
+    bndTop = obj.getBoundingClientRect().top +
+	    idBody.scrollTop;
+    idBeige.style.top = bndTop;
+    idBeige.style.width = (bndRight-bndLeft) - 5;
+    idBeige.style.height = cdTop - bndTop;
+    if (keyCount>0){
+        idBeige.style.display = 'inline';
+    }
+    keyCount++;
+}
+</script>
+</head>
+
+<body id="idBody">
+
+<div id="oID_1" onclick="Highlight(this)" onkeydown="Highlight(this)">
+	A large block of text should go here. Click this block of text multiple times 
+	to see each line highlight with every click of the mouse button. After each line 
+	has been highlighted, the process will begin again starting with the first line.
+	A large block of text should go here. Click this block of text multiple times 
+	to see each line highlight with every click of the mouse button. After each line 
+	has been highlighted, the process will begin again starting with the first line.
+	A large block of text should go here. Click this block of text multiple times 
+	to see each line highlight with every click of the mouse button. After each line 
+	has been highlighted, the process will begin again starting with the first line.
+A large block of text should go here. Click this block of text multiple times 
+	to see each line highlight with every click of the mouse button. After each line 
+	has been highlighted, the process will begin again starting with the first line.
+</div>
+<div style="position: absolute; 
+    left: 5px; 
+    top: 400px; 
+    z-index: -1; 
+    background-color: yellow; 
+    display: none" 
+    id="idYellow">
+</div>
+<div style="position: absolute; 
+    left: 5px; 
+    top: 400px; 
+    z-index: -1; 
+    background-color: #FFFFCC; 
+    display: none" 
+    id="idBeige">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "repository" : {
+	  "type" : "git",
+	  "url" : "https://github.com/sitekick/portfolio.git"
+  },
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hunter Williams",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "browser-sync": "^2.16.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-cached": "^1.1.0",
+    "gulp-changed": "^1.3.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-inject": "^4.1.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-ruby-sass": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.2.2",
+    "wiredep": "^4.0.0"
+  }
+}

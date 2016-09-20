@@ -1,0 +1,67 @@
+{
+	"projects" : [
+		{
+			"name" : "Bottle Corporation",
+			"description" : "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+			"imagery" : {
+				"logo-design" : "Bottle.svg",
+				"web-design" : "bottle.jpg"
+				},
+			"tags"  : [
+				{
+				"name" : "logo design",
+				"link" : "?project=bottle&id=001&tag=logo-design",
+				"image" : "logo-design/Bottle.svg"
+				},{
+				"name" : "web design",
+				"link" : "?project=bottle&id=001&tag=web-design",
+				"image" : "web-design/bottle.jpg"
+				},{
+				"name" : "html/js",
+				"link" : "?project=bottle&id=001&tag=html-js",
+				"image" : null
+				}
+			]
+		},{
+			"name" : "New Heritage Realty",
+			"description" : "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+			"imagery" : {
+				"logo-design" : "NewHeritage.svg",
+				"web-design" : "newheritage.jpg"
+				},
+			"tags"  : [
+				{
+				"name" : "logo design",
+				"link" : "?project=new-heritage&id=002&tag=logo-design",
+				"image" : "logo-design/NewHeritage.svg"
+				},{
+				"name" : "web design",
+				"link" : "?project=new-heritage&id=002&tag=web-design",
+				"image" : "web-design/newheritage.jpg"
+				},{
+				"name" : "html/js",
+				"link" : "?project=new-heritage&id=002&tag=html-js",
+				"image" : null
+				}
+			]
+		},{
+			"name" : "Sitekick",
+			"description" : "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+			"imagery" : {
+				"logo-design" : "Sitekick.jpg"
+			},
+			"tags"  : [
+				{
+				"name" : "logo design",
+				"link" : "?project=sitekick&id=003&tag=logo-design",
+				"image" : "logo-design/Sitekick.jpg"
+				},{
+				"name" : "web design",
+				"link" : "?project=sitekick&id=003&tag=web-design",
+				"image" : null
+				}
+			]
+		}
+		]
+}
+

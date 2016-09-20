@@ -1,0 +1,51 @@
+{
+	"projects" : [
+		{
+			"name" : "Bottle Corporation",
+			"description" : "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+			"logo" : "Bottle.svg",
+			"tags"  : [
+				{
+				"name" : "logo design",
+				"link" : "?project=bottle&id=001&tag=logo-design"
+				},{
+				"name" : "web design",
+				"link" : "?project=bottle&id=001&tag=web-design"
+				},{
+				"name" : "html/js",
+				"link" : "?project=bottle&id=001&tag=html-js"
+				}
+			]
+		},{
+			"name" : "New Heritage Realty",
+			"description" : "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+			"logo" : "NewHeritage.svg",
+			"tags"  : [
+				{
+				"name" : "logo design",
+				"link" : "?project=new-heritage&id=002&tag=logo-design"
+				},{
+				"name" : "web design",
+				"link" : "?project=new-heritage&id=002&tag=web-design"
+				},{
+				"name" : "html/js",
+				"link" : "?project=new-heritage&id=002&tag=html-js"
+				}
+			]
+		},{
+			"name" : "Sitekick",
+			"description" : "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+			"logo" : "Sitekick.jpg",
+			"tags"  : [
+				{
+				"name" : "logo design",
+				"link" : "?project=sitekick&id=003&tag=logo-design"
+				},{
+				"name" : "web design",
+				"link" : "?project=sitekick&id=003&tag=web-design"
+				}
+			]
+		}
+		]
+}
+
