@@ -36,29 +36,28 @@ div.tile {
 	}// /.side
 }
 
-
-.tags {
-	list-style: none;
-	font-size: .9em;
+#project {
 	
-	li {
-		display: inline-block;
-		margin: .25em;
+	.tabs {
+		font-size: .9em;
 		
-		a{
-			padding: .35em;
-			display: block;
+		ul {
 			
-			background: #666;
-			color: #FFF;
-			text-decoration: none;
-		
-		&:hover{
-			background: #999;
-		}
-		&.active{
-			background: blue;
-		}
+			li {
+			
+				a{
+					background: #999;
+					color: #FFF;
+					margin-right: 1px;
+					
+				&:hover{
+					background: #777;
+				}
+				&.active{
+					background: #333;
+				}
+				}
+			}
 		}
 	}
 }

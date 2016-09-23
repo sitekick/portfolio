@@ -3,13 +3,14 @@
 	list-style: none;
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: flex-start;
 		
 	> li {
-		flex: 0 1 30%;
+		flex: 1 1 300px;
 		height: 400px;
-		flex-wrap: wrap;
+		margin: 0 .5em .5em 0; 
 		display: block;
 // 		border: 1px solid blue;
 		background: rgba(0,0,0, .05);
@@ -36,18 +37,53 @@
 				
 						&.back {
 							transform: rotateY( 180deg );
+						
+							.tags {
+								list-style: none;
+								
+								li {
+									display: inline-block;	
+									margin: .25em;
+									
+									button {
+									
+									&:hover{
+										cursor: pointer;
+									}
+									}
+								}
+								
+							}
+						
+						
 						}
 					}// /.side
 			
-			&:hover{
-// 				cursor: pointer;
-			}
 			&.flipped {
 				transform: rotateY( 180deg );
 				/* webkit bug */
 				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
 				-webkit-transform: rotateY( 180deg ) translateZ(1px);
 			}
-			}
+			}// .tile
+	
+	@include screen-medium{
+// 		flex: 0 1 47.5%;
+		//min-height: 350px;
+		margin-bottom: 1em;
 	}
+	
+	
+	@include screen-small{
+// 		width: 100%;
+// 		flex: 1 1 auto;
+// 		margin-bottom:1em;
+		
+	}
+	
+	}// li
+
+@include screen-small{
+// 	flex-direction: column;
+}
 }

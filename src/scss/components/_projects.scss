@@ -1,7 +1,7 @@
 #project {
-// 	background: rgba(255,255,255, .3);
 	background: #CCC;
 	opacity: .3;
+	
 	position: absolute; z-index: 100;
 	overflow: hidden;
 
@@ -12,20 +12,66 @@
 		height: 100%;
 		overflow: hidden;
 		text-align: center;
+		transition: opacity 500ms;
+		opacity: 0;
+		position: relative;
 		
 		.content {
-			//clear: right;
-			display: inline-block;
-			width: 100%;
-			//margin: 2em 1em 1em 1em;
+			clear: right;
+			display: block;
 		}
+	
+	&.hidden{
+		visibility: hidden;
+	}
+	&.loaded{
+		opacity: 1;
+	}	
+	@include screen-small {
+		float: none;
+		width: 100%;
+		height: 250px;
+	}
 	}
 
 	.controls {
 		list-style: none;
-		float: right;
+		position: absolute; top:0; right: 0; z-index: 100;
 	}
 	
-	
+	.tabs {
+		
+		ul {
+			list-style: none;
+			margin: .5em 0;
+		
+			li {
+			display: inline-block;
+			
+			
+				a{
+					padding: .5em;
+					display: block;
+					background: #333;
+					color: #FFF;
+					text-decoration: none;
+				}
+			}
+		}
+		
+		.content {
+			
+			.copy{
+				display: none;
+			
+			&.active {
+				display: block
+			}
+			}
+		}
+	}
 
+@include screen-small {
+	
+}	
 }

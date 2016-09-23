@@ -1,14 +1,13 @@
-function layoutTiles(data, id) {
+function layoutTiles(data) {
 	
 	var tiles = data;
-	let tile_index = Number(id) || false;
 	
 	var markup = '<ul id="tiles">';
 	
 		for(let i = 0; i < tiles.length; i++){
-			let tag_markup = formatTags(tiles[i].tags);
+ 
 			markup += `<li>
-					<div class="tile tile-${i+1} ${ (tile_index == i + 1) ? 'flipped' : '' }">
+					<div data-project="${i+1}" class="tile tile-${i+1}"> 
 						<div class="side front">
 							<div class="content vcenter">
 							<img src="assets/img/logo-design/${tiles[i].imagery['logo-design']}" alt="" />
@@ -18,7 +17,7 @@ function layoutTiles(data, id) {
 							<div class="content vcenter">
 							<h1>${tiles[i].name}</h1>
 							<p>${tiles[i].description}</p>
-							${tag_markup}
+							${_formatTileTags(tiles[i].tags)}
 							</div>
 						</div>
 					</div>
@@ -29,38 +28,23 @@ function layoutTiles(data, id) {
 	
 	$('#container').append(markup);
 	
-	addEvents();
+	addEvents(tiles);
 	
 }
 
-/*
-function formatTags(tags){
-	
-	let markup = '<ul class="tags">';
-	
-	for(let i = 0; i < tags.length; i++){
-		markup += `<li><a href="${tags[i].link}">${tags[i].name}</a></li>`;
-	}
-	
-	markup += '</ul>';
-	
-	return markup;
-}
-*/
 
-function addEvents() {
+function addEvents(data) {
 	
 	var tiles = document.querySelectorAll('#tiles li');
 	/* place events on bounding element to prevent repeated */
 	/* class toggling during animation of hovered element */
 	
+	/* Tiles */
 	for(let i = 0; i < tiles.length; i++){
 		
 		tiles[i].addEventListener('click', function(){
     	
-    	 let clickedClass = $(this).find('.tile').attr('class');
-    	 
-    	 _clickTile(clickedClass);
+    	 //let clickedClass = $(this).find('.tile').attr('class');
     	
 		}, false);
 		
@@ -72,15 +56,42 @@ function addEvents() {
 		
 		tiles[i].addEventListener('mouseout', function(){
     		
-    		$(this).find('.tile').toggleClass('flipped');
-    	
+    		/* prevent flip of active(clicked) tile */
+    		let active = $(this).find('.tile').hasClass('active');
+    		
+    		if(active === false){
+	    		$(this).find('.tile').toggleClass('flipped');
+    		}
+			
+			
 		}, false);
-		
-		
 	}
+
+	let tags = document.querySelectorAll('.tile .tags button');
+		
+		for(let i=0; i < tags.length; i++) {
+			tags[i].addEventListener('click', function(e){
+				let tag_active = $(this).attr('class');
+				let tile = $(this).parents('.tile');
+				tile.addClass('active');
+				let tile_id = tile.attr('data-project');
+				//console.log(tile);
+				showProject(tile_id, tag_active, data[tile_id-1] );
+			}, false);
+		}
 }
 
-function _clickTile(el) {
+function _formatTileTags(tags){
+	let markup = '<ul class="tags">';
 	
-	//console.log(el);
+	for(let i = 0; i < tags.length; i++){
+		markup += `<li><button class="${tags[i].slug}">${tags[i].name}</button></li>`;
+	}
+	
+	markup += '</ul>';
+	
+	return markup;
 }
+
+
+

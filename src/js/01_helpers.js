@@ -10,15 +10,4 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function formatTags(tags, active){
-	let markup = '<ul class="tags">';
-	
-	for(let i = 0; i < tags.length; i++){
-		let activate = ( tags[i].name.replace(/[\/ ]/g,'-') == active) ? true : false;
-		markup += `<li><a href="${tags[i].link}" class="${(activate) ? 'active' : ''}">${tags[i].name}</a></li>`;
-	}
-	
-	markup += '</ul>';
-	
-	return markup;
-}
+

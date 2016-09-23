@@ -1,7 +1,20 @@
-
-
 #container {
-// 	background: #FFF;
-	margin: 2em 2em;
-	vertical-align: top;
+	margin: 1em;
+	
+	@include screen-full {
+// 		border: 1px solid yellow;
+	}
+	
+	@include screen-large {
+// 		border: 1px solid red;
+	}
+	
+	@include screen-medium {
+// 		border: 1px solid green;
+	}
+	
+	@include screen-small {
+// 		border: 1px solid orange;
+		margin: .5em;
+	}
 }
