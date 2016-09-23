@@ -1,8 +1,8 @@
 #project {
-	background: #CCC;
+	background: $background;
 	opacity: .3;
-	
-	position: absolute; z-index: 100;
+	position: absolute;
+	z-index: 100;
 	overflow: hidden;
 
 	.imagery{
@@ -34,9 +34,18 @@
 	}
 	}
 
-	.controls {
-		list-style: none;
+	.close {
 		position: absolute; top:0; right: 0; z-index: 100;
+		background-color: $background;
+		transition: background-color 500ms;
+		
+		img{
+			display: block;
+		}
+	&:hover{
+		cursor: pointer;
+		background-color: $black;
+	}
 	}
 	
 	.tabs {

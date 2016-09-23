@@ -17,15 +17,16 @@ function showProject(id, tag, data){
 	let container_specs = {
 		offset : container.offset(),
 		width : container.width(),
-		height : container.height()
+		//height : container.height()
+		get height(){
+			return  $(window).height() - (this.offset.top * 2);
+			} 
 	}
 	
 	var markup = `
 	<div id="project">
 		<div class="imagery">
-	 		<ul class="controls">
-	 			<li><button class="close">Close</button></li>
-	 		</ul>
+	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
 	 		<div id="slider" class="content">
 	 			${_formatImages(data.imagery,tag)}
 	 		</div>
@@ -53,12 +54,14 @@ function showProject(id, tag, data){
 		200,
 		function () {
 			$(this).find('.imagery').addClass('loaded');
+			$('#tiles').hide();
 			_projectEvents(id, tag, parent_specs);
 		});
 }
 
 function _projectEvents(id, active_tag, parent_specs) {
 	
+	var resizeid;
 	/* initialize slider */
 	
 	sliderModule({
@@ -68,13 +71,15 @@ function _projectEvents(id, active_tag, parent_specs) {
 			start : $('.tabs .' + active_tag).attr('data-index'),
 			stop : null
 			},
-		nav : '.tabs ul'
+		nav : '.tabs ul',		
+		border : 10
 		});
-	
-	
-	let control = document.querySelector('button.close');
+
+	let control = document.querySelector('.close');
 	
 	control.addEventListener('click', function(e){
+		
+		$('#tiles').show();
 		
 		$('#project').animate({
 			left : parent_specs.offset.left,
@@ -90,7 +95,6 @@ function _projectEvents(id, active_tag, parent_specs) {
 			$(tile).removeClass('active');
 			$(tile).toggleClass('flipped');
 		});
-
 		
 	}, false);
 	
@@ -110,15 +114,55 @@ function _projectEvents(id, active_tag, parent_specs) {
 		})
 	}
 	
+	/* resize */
 	
-}
+	window.addEventListener('resize', resizeThrottle, false);
 	
+	function resizeThrottle() {
+		if ( !resizeid ) {
+		 	resizeid = setTimeout(function() {
+		 		resizeid = null;
+		 		_resizeProject(active_tag);
+       		}, 66);
+    	}
+	}
+	
+	
+}// _projectEvents
+	
+function _resizeProject(active_tag){
+		
+	$('#slider').hide();
+	
+	let container = $('#container');
+		
+	let container_specs = {
+		offset : container.offset(),
+		width : container.width(),
+		get height(){
+			return  $(window).height() - (this.offset.top * 2);
+		} 
+	}
+	
+	$('#project').animate({
+			left : container_specs.offset.left,
+			top : container_specs.offset.top,
+			width : container_specs.width,
+			height : container_specs.height
+		}, 
+		100,
+		function () {
+			/* @ todo resize slider
+			sliderModule.repos; */
+		});
+}	
+		
 function _formatTabTags(data, active){
 	
 	let tags = data.tags;
 	let content = '';
 	let markup = '<div class="tabs"><ul>';
-	//console.log(active);
+	
 	for(let i = 0; i < tags.length; i++){
 		let activate = ( tags[i].name.replace(/[\/ ]/g,'-') == active) ? true : false;
 		markup += `<li data-index="${i}" class="${tags[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${tags[i].name}</a></li>`;
@@ -133,6 +177,11 @@ function _formatTabTags(data, active){
 	return markup;
 }
 
+function _slider(active_tag) {
+	
+	
+
+}
 function _formatImages(images, tag_active){
 	
 	let markup = '';

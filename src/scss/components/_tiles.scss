@@ -68,22 +68,7 @@
 			}// .tile
 	
 	@include screen-medium{
-// 		flex: 0 1 47.5%;
-		//min-height: 350px;
 		margin-bottom: 1em;
 	}
-	
-	
-	@include screen-small{
-// 		width: 100%;
-// 		flex: 1 1 auto;
-// 		margin-bottom:1em;
-		
-	}
-	
 	}// li
-
-@include screen-small{
-// 	flex-direction: column;
-}
-}
+}//ul

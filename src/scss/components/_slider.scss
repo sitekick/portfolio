@@ -1,17 +1,20 @@
 #slider {
-	position: absolute; top: 0; 
-	left: 0; 
-	right: 0; 
-	bottom: 0; 
+	position: absolute; 
+	top: 0; left: 0; right: 0; bottom: 0; 
 	z-index: 1;
+// 	background: orange;
 
 	.image {
 		overflow: hidden;
 		position: relative;
+// 		background: red;
+		border-color: #FFF;
+// 		border-color: violet;
+		border-style: solid;
 		
 		img {
-			position: absolute; top: 50%; left: 0;
-			transform: translateY(-50%);
+			position: absolute; top: 50%; left: 50%;
+			transform: translate(-50%, -50%);
 		}
 	}
 }

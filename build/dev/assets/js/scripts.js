@@ -31,15 +31,16 @@ function showProject(id, tag, data){
 	let container_specs = {
 		offset : container.offset(),
 		width : container.width(),
-		height : container.height()
+		//height : container.height()
+		get height(){
+			return  $(window).height() - (this.offset.top * 2);
+			} 
 	}
 	
 	var markup = `
 	<div id="project">
 		<div class="imagery">
-	 		<ul class="controls">
-	 			<li><button class="close">Close</button></li>
-	 		</ul>
+	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
 	 		<div id="slider" class="content">
 	 			${_formatImages(data.imagery,tag)}
 	 		</div>
@@ -67,12 +68,14 @@ function showProject(id, tag, data){
 		200,
 		function () {
 			$(this).find('.imagery').addClass('loaded');
+			$('#tiles').hide();
 			_projectEvents(id, tag, parent_specs);
 		});
 }
 
 function _projectEvents(id, active_tag, parent_specs) {
 	
+	var resizeid;
 	/* initialize slider */
 	
 	sliderModule({
@@ -82,13 +85,15 @@ function _projectEvents(id, active_tag, parent_specs) {
 			start : $('.tabs .' + active_tag).attr('data-index'),
 			stop : null
 			},
-		nav : '.tabs ul'
+		nav : '.tabs ul',		
+		border : 10
 		});
-	
-	
-	let control = document.querySelector('button.close');
+
+	let control = document.querySelector('.close');
 	
 	control.addEventListener('click', function(e){
+		
+		$('#tiles').show();
 		
 		$('#project').animate({
 			left : parent_specs.offset.left,
@@ -104,7 +109,6 @@ function _projectEvents(id, active_tag, parent_specs) {
 			$(tile).removeClass('active');
 			$(tile).toggleClass('flipped');
 		});
-
 		
 	}, false);
 	
@@ -124,15 +128,55 @@ function _projectEvents(id, active_tag, parent_specs) {
 		})
 	}
 	
+	/* resize */
 	
-}
+	window.addEventListener('resize', resizeThrottle, false);
 	
+	function resizeThrottle() {
+		if ( !resizeid ) {
+		 	resizeid = setTimeout(function() {
+		 		resizeid = null;
+		 		_resizeProject(active_tag);
+       		}, 66);
+    	}
+	}
+	
+	
+}// _projectEvents
+	
+function _resizeProject(active_tag){
+		
+	$('#slider').hide();
+	
+	let container = $('#container');
+		
+	let container_specs = {
+		offset : container.offset(),
+		width : container.width(),
+		get height(){
+			return  $(window).height() - (this.offset.top * 2);
+		} 
+	}
+	
+	$('#project').animate({
+			left : container_specs.offset.left,
+			top : container_specs.offset.top,
+			width : container_specs.width,
+			height : container_specs.height
+		}, 
+		100,
+		function () {
+			/* @ todo resize slider
+			sliderModule.repos; */
+		});
+}	
+		
 function _formatTabTags(data, active){
 	
 	let tags = data.tags;
 	let content = '';
 	let markup = '<div class="tabs"><ul>';
-	//console.log(active);
+	
 	for(let i = 0; i < tags.length; i++){
 		let activate = ( tags[i].name.replace(/[\/ ]/g,'-') == active) ? true : false;
 		markup += `<li data-index="${i}" class="${tags[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${tags[i].name}</a></li>`;
@@ -147,6 +191,11 @@ function _formatTabTags(data, active){
 	return markup;
 }
 
+function _slider(active_tag) {
+	
+	
+
+}
 function _formatImages(images, tag_active){
 	
 	let markup = '';
@@ -158,17 +207,33 @@ function _formatImages(images, tag_active){
 }
 var sliderModule = (function () {
 	
+	//@todo resize slider after window resize
+	
 	var module = function (options) {
 		
 		let selector = {
 			el : options.element,
-			item : options.slide
+			item : options.slide,
+			get name() {
+				return this.el + ' ' + this.item;
+			}
 		};
 		
 		let slider = {
 			offset : $(selector.el).offset(),
 			width: $(selector.el).width(),
+			get itemWidth(){
+				return this.width - (this.border * 2);
+			},
 			height: $(selector.el).height(),
+			get itemHeight(){
+				return this.height - (this.border * 2);
+			},
+			get itemPosition(){
+				//return {top:this.border, left:this.border, 'border-width' : this.border};
+				return {'border-width' : this.border};
+			},
+			border: options.border || 0,
 			start : options.index.start,
 			get startPosition() {
 				return this.offset.top - (this.height * this.start);
@@ -181,9 +246,14 @@ var sliderModule = (function () {
 		};
 		
 		/* make item match dimensions of slider view */
-		$(selector.el + ' ' + selector.item).width(slider.width).height(slider.height);
+		
+		//$(selector.name).width(slider.width).height(slider.height);
+		$(selector.name).width(slider.itemWidth).height(slider.itemHeight);
+		//console.log(slider.itemPosition);
+		$(selector.name).css(slider.itemPosition);
 		/* set start position of slider element */
 		$(selector.el).offset({top : slider.startPosition});
+		
 		/* controls */
 		let buttons = $(options.nav).children();
 		
@@ -210,6 +280,7 @@ var sliderModule = (function () {
 				return;
 			
 			let y_start = slider.currentPosition('top');
+			//let y_end = y_start - ((slider.height + (slider.border*2)) * delta);
 			let y_end = y_start - (slider.height * delta);
 			
 			$(selector.el).animate({
@@ -331,6 +402,8 @@ $(function () {
 		layoutTiles(data);
 			
 	}
+	
+	
 	
 });
 
