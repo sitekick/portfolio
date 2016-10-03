@@ -14,8 +14,6 @@ function getParameterByName(name, url) {
 
 function showProject(id, tag, data){
 	
-	//console.log(id, tag, data);
-	
 	let tile_class = '.tile-' + id;
 	let tile = $(tile_class);
 	
@@ -42,7 +40,7 @@ function showProject(id, tag, data){
 		<div class="imagery">
 	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
 	 		<div id="slider" class="content">
-	 			${_formatImages(data.imagery,tag)}
+	 			${_formatImages(data.sidebar,tag)}
 	 		</div>
 	 	</div>
 	 <h1>${data.name}</h1>
@@ -80,7 +78,7 @@ function _projectEvents(id, active_tag, parent_specs) {
 	
 	sliderModule({
 		element : '#slider',
-		slide : '.image',
+		slide : '.item',
 		index : {
 			start : $('.tabs .' + active_tag).attr('data-index'),
 			stop : null
@@ -137,7 +135,7 @@ function _projectEvents(id, active_tag, parent_specs) {
 		 	resizeid = setTimeout(function() {
 		 		resizeid = null;
 		 		_resizeProject(active_tag);
-       		}, 66);
+       		}, 100);
     	}
 	}
 	
@@ -145,11 +143,9 @@ function _projectEvents(id, active_tag, parent_specs) {
 }// _projectEvents
 	
 function _resizeProject(active_tag){
-		
-	$('#slider').hide();
 	
 	let container = $('#container');
-		
+
 	let container_specs = {
 		offset : container.offset(),
 		width : container.width(),
@@ -166,10 +162,18 @@ function _resizeProject(active_tag){
 		}, 
 		100,
 		function () {
-			/* @ todo resize slider
-			sliderModule.repos; */
+			_resizeImages();
 		});
 }	
+
+function _resizeImages() {
+	
+	let slider_width = $('#slider').width();
+	let border_val = parseInt( $('#slider .image').css('border-width') , 10);
+	
+	$('#slider .image').width( slider_width - (border_val * 2) );
+	
+}
 		
 function _formatTabTags(data, active){
 	
@@ -191,17 +195,23 @@ function _formatTabTags(data, active){
 	return markup;
 }
 
-function _slider(active_tag) {
-	
-	
-
-}
-function _formatImages(images, tag_active){
+function _formatImages(content, tag_active){
 	
 	let markup = '';
 	
-	for(var image in images){	
-		markup += `<div class="image ${image}"><img src="assets/img/${image}/${images[image]}" alt=""/></div>`
+	for(var item in content){	
+	
+		markup += `<div class="item ${content[item].type} ${item}">`
+		switch(content[item].type){
+			case 'image' :
+			markup += `<img src="assets/img/${item}/${content[item].content}" alt=""/>`;
+			break;
+			case 'div' :
+			markup += `<div>${content[item].content}</div>`;
+			break;
+		};
+		
+		markup += `</div>`
 	}
 	return markup;
 }
@@ -230,7 +240,6 @@ var sliderModule = (function () {
 				return this.height - (this.border * 2);
 			},
 			get itemPosition(){
-				//return {top:this.border, left:this.border, 'border-width' : this.border};
 				return {'border-width' : this.border};
 			},
 			border: options.border || 0,
@@ -247,10 +256,10 @@ var sliderModule = (function () {
 		
 		/* make item match dimensions of slider view */
 		
-		//$(selector.name).width(slider.width).height(slider.height);
 		$(selector.name).width(slider.itemWidth).height(slider.itemHeight);
-		//console.log(slider.itemPosition);
+		
 		$(selector.name).css(slider.itemPosition);
+		
 		/* set start position of slider element */
 		$(selector.el).offset({top : slider.startPosition});
 		
@@ -280,7 +289,6 @@ var sliderModule = (function () {
 				return;
 			
 			let y_start = slider.currentPosition('top');
-			//let y_end = y_start - ((slider.height + (slider.border*2)) * delta);
 			let y_end = y_start - (slider.height * delta);
 			
 			$(selector.el).animate({
@@ -304,8 +312,8 @@ function layoutTiles(data) {
 					<div data-project="${i+1}" class="tile tile-${i+1}"> 
 						<div class="side front">
 							<div class="content vcenter">
-							<img src="assets/img/logo-design/${tiles[i].imagery['logo-design']}" alt="" />
-							</div>
+								<img src="assets/img/logo-design/${tiles[i].sidebar['logo-design'].content}" alt="" />
+							</div>	
 						</div>
 						<div class="side back">
 							<div class="content vcenter">
@@ -374,6 +382,7 @@ function addEvents(data) {
 			}, false);
 		}
 }
+
 
 function _formatTileTags(tags){
 	let markup = '<ul class="tags">';

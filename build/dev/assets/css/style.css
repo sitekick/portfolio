@@ -197,13 +197,14 @@ li {
   bottom: 0;
   z-index: 1;
 }
-#slider .image {
+#slider .item {
   overflow: hidden;
   position: relative;
   border-color: #FFF;
   border-style: solid;
 }
-#slider .image img {
+#slider .item img,
+#slider .item div {
   position: absolute;
   top: 50%;
   left: 50%;

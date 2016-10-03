@@ -10,8 +10,8 @@ function layoutTiles(data) {
 					<div data-project="${i+1}" class="tile tile-${i+1}"> 
 						<div class="side front">
 							<div class="content vcenter">
-							<img src="assets/img/logo-design/${tiles[i].imagery['logo-design']}" alt="" />
-							</div>
+								<img src="assets/img/logo-design/${tiles[i].sidebar['logo-design'].content}" alt="" />
+							</div>	
 						</div>
 						<div class="side back">
 							<div class="content vcenter">
@@ -80,6 +80,7 @@ function addEvents(data) {
 			}, false);
 		}
 }
+
 
 function _formatTileTags(tags){
 	let markup = '<ul class="tags">';

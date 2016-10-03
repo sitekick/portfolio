@@ -23,7 +23,6 @@ var sliderModule = (function () {
 				return this.height - (this.border * 2);
 			},
 			get itemPosition(){
-				//return {top:this.border, left:this.border, 'border-width' : this.border};
 				return {'border-width' : this.border};
 			},
 			border: options.border || 0,
@@ -40,10 +39,10 @@ var sliderModule = (function () {
 		
 		/* make item match dimensions of slider view */
 		
-		//$(selector.name).width(slider.width).height(slider.height);
 		$(selector.name).width(slider.itemWidth).height(slider.itemHeight);
-		//console.log(slider.itemPosition);
+		
 		$(selector.name).css(slider.itemPosition);
+		
 		/* set start position of slider element */
 		$(selector.el).offset({top : slider.startPosition});
 		
@@ -73,7 +72,6 @@ var sliderModule = (function () {
 				return;
 			
 			let y_start = slider.currentPosition('top');
-			//let y_end = y_start - ((slider.height + (slider.border*2)) * delta);
 			let y_end = y_start - (slider.height * delta);
 			
 			$(selector.el).animate({

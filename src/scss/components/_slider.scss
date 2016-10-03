@@ -4,7 +4,7 @@
 	z-index: 1;
 // 	background: orange;
 
-	.image {
+	.item {
 		overflow: hidden;
 		position: relative;
 // 		background: red;
@@ -12,7 +12,8 @@
 // 		border-color: violet;
 		border-style: solid;
 		
-		img {
+		img,
+		div {
 			position: absolute; top: 50%; left: 50%;
 			transform: translate(-50%, -50%);
 		}
