@@ -42,12 +42,6 @@ function addEvents(data) {
 	/* Tiles */
 	for(let i = 0; i < tiles.length; i++){
 		
-		tiles[i].addEventListener('click', function(){
-    	
-    	 //let clickedClass = $(this).find('.tile').attr('class');
-    	
-		}, false);
-		
 		tiles[i].addEventListener('mouseover', function(){
     	
     		$(this).find('.tile').toggleClass('flipped');

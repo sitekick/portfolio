@@ -4,12 +4,11 @@ $(function () {
 		_init(data.projects);
 	});
 	
-	
 	function _init(data) {
 		
 		layoutTiles(data);
-			
 	}
+	
 	
 	
 	

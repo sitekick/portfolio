@@ -17,8 +17,8 @@
 		position: relative;
 		
 		.content {
-			clear: right;
-			display: block;
+			//clear: right;
+			//display: block;
 		}
 	
 	&.hidden{
@@ -27,9 +27,12 @@
 	&.loaded{
 		opacity: 1;
 	}	
-	@include screen-small {
+	@include screen-medium {
 		float: none;
 		width: 100%;
+		height: 300px;
+	}
+	@include screen-small {
 		height: 250px;
 	}
 	}

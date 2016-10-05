@@ -1,63 +1,61 @@
 function showProject(id, tag, data){
 	
+	let viewport = getViewport();
+	
 	let tile_class = '.tile-' + id;
 	let tile = $(tile_class);
-	
-	let container = $('#container');
 	let parent = tile.parent();
-
+	
+	/* the selected tile */
 	let parent_specs = {
 		offset : parent.offset(),
 		width : parent.width(),
 		height : parent.height()
 	}
-
+	/* the project pane */
 	let container_specs = {
-		offset : container.offset(),
-		width : container.width(),
-		//height : container.height()
+		offset : $('#container').offset(),
+		width : $('#container').width(),
 		get height(){
-			return  $(window).height() - (this.offset.top * 2);
-			} 
+			return Math.round( $(window).height() - (this.offset.top * 2) );
+		}
+				
 	}
 	
 	var markup = `
 	<div id="project">
 		<div class="imagery">
 	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
-	 		<div id="slider" class="content">
-	 			${_formatImages(data.sidebar,tag)}
-	 		</div>
+	 		<div id="slider" class="content ${viewport}">${_formatImages(data.sidebar,tag)}</div>
 	 	</div>
-	 <h1>${data.name}</h1>
-	 <p>${data.description}</p>
+	 <h1>${data.name}</h1><p>${data.description}</p>
 	 ${_formatTabTags(data,tag)}
 	</div>`;
 	
 	$(markup).prependTo('#container')
-	.offset({
-		top: parent_specs.offset.top, 
-		left: parent_specs.offset.left
-		})
-	.width(parent_specs.width)
-	.height(parent_specs.height);
+		.offset({
+			top: parent_specs.offset.top, 
+			left: parent_specs.offset.left
+			})
+			.width(parent_specs.width)
+			.height(parent_specs.height);
 	
 	$('#project').animate({
-			left : container_specs.offset.left,
-			top : container_specs.offset.top,
+			top : Math.round(container_specs.offset.top),
+			left : Math.round(container_specs.offset.left),
 			width : container_specs.width,
-			height : container_specs.height,
+			height :container_specs.height,
 			opacity : 1
 		}, 
-		200,
+		150,
 		function () {
 			$(this).find('.imagery').addClass('loaded');
 			$('#tiles').hide();
-			_projectEvents(id, tag, parent_specs);
+			_projectEvents(id, tag, parent_specs, viewport);
 		});
 }
 
-function _projectEvents(id, active_tag, parent_specs) {
+function _projectEvents(id, active_tag, parent_specs, mode) {
 	
 	var resizeid;
 	/* initialize slider */
@@ -65,12 +63,9 @@ function _projectEvents(id, active_tag, parent_specs) {
 	sliderModule({
 		element : '#slider',
 		slide : '.item',
-		index : {
-			start : $('.tabs .' + active_tag).attr('data-index'),
-			stop : null
-			},
+		index : Number($('.tabs .' + active_tag).attr('data-index')),
 		nav : '.tabs ul',		
-		border : 10
+		mode : mode
 		});
 
 	let control = document.querySelector('.close');
@@ -130,37 +125,23 @@ function _projectEvents(id, active_tag, parent_specs) {
 	
 function _resizeProject(active_tag){
 	
-	let container = $('#container');
-
 	let container_specs = {
-		offset : container.offset(),
-		width : container.width(),
+		offset : $('#container').offset(),
+		width : $('#container').width(),
 		get height(){
-			return  $(window).height() - (this.offset.top * 2);
+			return  $(window).height() - (this.offset.top * 2) ;
 		} 
 	}
 	
-	$('#project').animate({
-			left : container_specs.offset.left,
-			top : container_specs.offset.top,
+	$('#project').css({
+			top : Math.round(container_specs.offset.top),
+			left : Math.round(container_specs.offset.left),
 			width : container_specs.width,
-			height : container_specs.height
-		}, 
-		100,
-		function () {
-			_resizeImages();
-		});
+			height : Math.round(container_specs.height)
+		}); 
 }	
 
-function _resizeImages() {
-	
-	let slider_width = $('#slider').width();
-	let border_val = parseInt( $('#slider .image').css('border-width') , 10);
-	
-	$('#slider .image').width( slider_width - (border_val * 2) );
-	
-}
-		
+
 function _formatTabTags(data, active){
 	
 	let tags = data.tags;
@@ -180,6 +161,11 @@ function _formatTabTags(data, active){
 	
 	return markup;
 }
+
+function replaceImages() {
+	
+}
+
 
 function _formatImages(content, tag_active){
 	
