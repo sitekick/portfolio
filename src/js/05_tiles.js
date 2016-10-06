@@ -1,7 +1,7 @@
 function layoutTiles(data) {
 	
 	var tiles = data;
-	
+	console.log(tiles);
 	var markup = '<ul id="tiles">';
 	
 		for(let i = 0; i < tiles.length; i++){

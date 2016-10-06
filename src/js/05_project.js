@@ -28,8 +28,10 @@ function showProject(id, tag, data){
 	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
 	 		<div id="slider" class="content ${viewport}">${_formatImages(data.sidebar,tag)}</div>
 	 	</div>
-	 <h1>${data.name}</h1><p>${data.description}</p>
-	 ${_formatTabTags(data,tag)}
+	 	<div class="info">
+	 		<h1>${data.name}</h1><p>${data.description}</p>
+	 		${_formatTabTags(data,tag)}
+		</div>
 	</div>`;
 	
 	$(markup).prependTo('#container')

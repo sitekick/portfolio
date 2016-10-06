@@ -10,10 +10,10 @@
 	> li {
 		flex: 1 1 300px;
 		height: 400px;
-		margin: 0 .5em .5em 0; 
+		margin: 0 2em 2em 0; 
 		display: block;
 // 		border: 1px solid blue;
-		background: rgba(0,0,0, .05);
+		background: rgba(0,0,0, .15);
 		perspective: 800px;
 						
 			div.tile {
@@ -36,6 +36,7 @@
 						}
 				
 						&.back {
+							background-color: $grey;
 							transform: rotateY( 180deg );
 						
 							.tags {
