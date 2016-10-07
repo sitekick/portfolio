@@ -1,12 +1,26 @@
 $(function () {
 	
+	var projects;
+	
 	$.getJSON('assets/data/projects.json', function (data) {
-		_init(data.projects);
+		
+		projects = data;
+		_init();
+		
 	});
 	
-	function _init(data) {
+	
+	function _init() {
 		
-		layoutTiles(data);
+		$('#main button').on('click', function(){
+			$('#tiles').remove();
+			$('#main button').removeClass('active');
+			let clicked = $(this).attr('id');
+			$(this).addClass('active');
+			let cloned = Object.assign({}, projects);
+			layoutTiles(cloned, clicked);
+		})
+	
 	}
 	
 	

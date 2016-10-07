@@ -1,5 +1,11 @@
+#mask {
+	//background: rgba(255,0,0, .5);
+	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000;
+}
+
 #tiles{
 	width: 100%;
+	position: relative;
 	list-style: none;
 	display: flex;
 	flex-direction: row;
@@ -8,9 +14,9 @@
 	align-items: flex-start;
 		
 	> li {
-		flex: 1 1 300px;
-		height: 400px;
-		margin: 0 2em 2em 0; 
+		flex: 1 1 250px;
+		height: 350px;
+		margin: 0 3em 3em 0; 
 		display: block;
 // 		border: 1px solid blue;
 		background: rgba(0,0,0, .15);
@@ -22,12 +28,22 @@
 				position: relative; 
 // 				border: 1px solid red;
 				transform-style: preserve-3d;
-				transition: transform 500ms;
+				transition: transform 750ms;
+				transform: rotateX( 0deg );
+				/* webkit bug */
+				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
+				-webkit-transform: rotateX( 0deg ) translateY(1px);
 				
 					.side {
 						position: absolute; 
 						left: 0;top: 0;right: 0;bottom: 0;
 						backface-visibility: hidden;
+						transition: background-color, 750ms;
+						
+						.content{
+							//transition: opacity 750ms;
+						}
+					
 					
 						.vcenter {
 							position: absolute; 
@@ -35,36 +51,55 @@
 							transform: translateY(-50%);
 						}
 				
-						&.back {
-							background-color: $grey;
-							transform: rotateY( 180deg );
+					&.back {
+// 						background-color: $grey;
+						background-color: $background;
+						transform: rotateY( 180deg );
 						
-							.tags {
-								list-style: none;
-								
-								li {
-									display: inline-block;	
-									margin: .25em;
-									
-									button {
-									
-									&:hover{
-										cursor: pointer;
-									}
-									}
-								}
-								
+						.content {
+							transition: opacity 750ms;
+							opacity: 0;
 							}
 						
 						
+						.tags {
+							list-style: none;
+								
+							li {
+								display: inline-block;	
+								margin: .25em;
+									
+								button {
+									
+								&:hover{
+									cursor: pointer;
+								}
+								}
+							}
+								
+						}
 						}
 					}// /.side
 			
-			&.flipped {
+			&.flip-x {
 				transform: rotateY( 180deg );
 				/* webkit bug */
 				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
 				-webkit-transform: rotateY( 180deg ) translateZ(1px);
+				
+				.side.back{
+					background-color: $grey;
+					
+					.content {opacity: 1;}
+				}
+			
+			
+			}
+			&.flip-y {
+				transform: rotateX( 180deg );
+				/* webkit bug */
+				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
+				-webkit-transform: rotateX( 180deg ) translateY(1px);
 			}
 			}// .tile
 	

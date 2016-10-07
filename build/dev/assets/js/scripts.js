@@ -46,6 +46,15 @@ var getViewport = (function() {
 	
 })();
 
+function sigmaCalculation(start, end, whatToSum){
+    var sum = 0;
+
+    for (var i = start; i <= end; i++){
+        sum += whatToSum(i);
+    };
+
+    return sum;
+}
 
 
 function showProject(id, tag, data){
@@ -76,7 +85,7 @@ function showProject(id, tag, data){
 	<div id="project">
 		<div class="imagery">
 	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
-	 		<div id="slider" class="content ${viewport}">${_formatImages(data.sidebar,tag)}</div>
+	 		<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>
 	 	</div>
 	 	<div class="info">
 	 		<h1>${data.name}</h1><p>${data.description}</p>
@@ -138,7 +147,7 @@ function _projectEvents(id, active_tag, parent_specs, mode) {
 			$(this).remove();
 			let tile = '.tile-' + id;
 			$(tile).removeClass('active');
-			$(tile).toggleClass('flipped');
+			$(tile).toggleClass('flip-x');
 		});
 		
 	}, false);
@@ -196,14 +205,14 @@ function _resizeProject(active_tag){
 
 function _formatTabTags(data, active){
 	
-	let tags = data.tags;
+	let foci = data.foci;
 	let content = '';
 	let markup = '<div class="tabs"><ul>';
 	
-	for(let i = 0; i < tags.length; i++){
-		let activate = ( tags[i].name.replace(/[\/ ]/g,'-') == active) ? true : false;
-		markup += `<li data-index="${i}" class="${tags[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${tags[i].name}</a></li>`;
-		content += `<div class="copy ${tags[i].slug} ${(activate) ? 'active' : ''}">${data.copy[tags[i].slug]}</div>`;
+	for(let i = 0; i < foci.length; i++){
+		let activate = ( foci[i].slug == active) ? true : false;
+		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${foci[i].tag}</a></li>`;
+		content += `<div class="copy ${foci[i].slug} ${(activate) ? 'active' : ''}">${foci[i].copy}</div>`;
 	}
 	
 	markup += '</ul>';
@@ -214,24 +223,22 @@ function _formatTabTags(data, active){
 	return markup;
 }
 
-function replaceImages() {
-	
-}
 
-
-function _formatImages(content, tag_active){
+function _formatImages(data, tag_active){
 	
 	let markup = '';
 	
-	for(var item in content){	
+	let highlights = data.foci
 	
-		markup += `<div class="item ${content[item].type} ${item}">`
-		switch(content[item].type){
+	for(let i = 0; i < highlights.length; i++){	
+	
+		markup += `<div class="item ${highlights[i].highlight.type} ${highlights[i].slug}">`
+		switch(highlights[i].highlight.type){
 			case 'image' :
-			markup += `<img src="assets/img/${item}/${content[item].content}" alt=""/>`;
+			markup += `<img src="assets/img/${highlights[i].slug}/${highlights[i].highlight.content}" alt=""/>`;
 			break;
 			case 'div' :
-			markup += `<div>${content[item].content}</div>`;
+			markup += `<div>${highlights[i].highlight.content}</div>`;
 			break;
 		};
 		
@@ -347,26 +354,72 @@ var sliderModule = (function () {
 	return module;
 		
 })();
-function layoutTiles(data) {
+function layoutTiles(data, focus) {
 	
-	var tiles = data;
-	console.log(tiles);
-	var markup = '<ul id="tiles">';
-	
-		for(let i = 0; i < tiles.length; i++){
- 
+	var tiles = data.projects;
+	let num = tiles.length;
+	let continued = 0;
+	var markup = `<ul id="tiles" class="${focus}"><div id="mask"></div>`;
+		
+		tiles: 
+		for(let i = 0; i < num; i++){
+			let tile_foci = tiles[i].foci;
+			
+			mode: 
+				switch(focus){
+					case 'fav' :
+						let not_favs = [];
+						
+						for(tile_focus in tile_foci){
+							if (tile_foci[tile_focus].favorite === false) {
+								not_favs.push(Number(tile_focus));
+							}
+						}
+						
+						if(not_favs.length == tile_foci.length){
+							continued++;
+							continue tiles;
+						}
+							
+						
+						tile_foci = $.grep(tile_foci, function(n, i) {
+							return $.inArray(i, not_favs) ==-1;
+						});
+						
+						
+					break mode;
+					default : 
+						let found = false;
+							
+						filter:
+						/* filter out non-matching tiles */
+						for(tile_focus in tile_foci){
+							if (tile_foci[tile_focus].slug == focus) {
+								found = true;
+								break filter;
+							}
+						}
+						if(found === false) {
+							continued++;
+							continue tiles; 
+						}
+							
+				}//switch
+				
+			/* markup for matching tiles */
 			markup += `<li>
-					<div data-project="${i+1}" class="tile tile-${i+1}"> 
+					<div data-project="${i+1}" class="tile tile-${(i+1) - continued} flip-y"> 
 						<div class="side front">
 							<div class="content vcenter">
-								<img src="assets/img/logo-design/${tiles[i].sidebar['logo-design'].content}" alt="" />
+								<img src="assets/img/${tiles[i].foci[0].slug}/${tiles[i].foci[0].highlight.content}" alt="" />
+
 							</div>	
 						</div>
 						<div class="side back">
 							<div class="content vcenter">
 							<h1>${tiles[i].name}</h1>
 							<p>${tiles[i].description}</p>
-							${_formatTileTags(tiles[i].tags)}
+							${_formatTileTags(tile_foci)}
 							</div>
 						</div>
 					</div>
@@ -377,8 +430,26 @@ function layoutTiles(data) {
 	
 	$('#container').append(markup);
 	
-	addEvents(tiles);
+	let time = 100;
+	let lengthen = 75;
+	let numTiles = num - continued;
+	let dur = time + ((numTiles-1)*lengthen);
+	let transitionMs = 750;
+
+	setTimeout(function() {
+		$('#mask').remove();
+	},(dur + transitionMs));
+
+	for(let i = 1; i <= numTiles; i++){
+		setTimeout(function() {
+		
+		$('#tiles .tile-' + i).removeClass('flip-y');
+		},time);
+		time += lengthen;
+	}
 	
+	addEvents(tiles);
+		
 }
 
 
@@ -392,8 +463,8 @@ function addEvents(data) {
 	for(let i = 0; i < tiles.length; i++){
 		
 		tiles[i].addEventListener('mouseover', function(){
-    	
-    		$(this).find('.tile').toggleClass('flipped');
+    		
+    		$(this).find('.tile').toggleClass('flip-x');
     	
 		}, false);
 		
@@ -403,7 +474,7 @@ function addEvents(data) {
     		let active = $(this).find('.tile').hasClass('active');
     		
     		if(active === false){
-	    		$(this).find('.tile').toggleClass('flipped');
+	    		$(this).find('.tile').toggleClass('flip-x');
     		}
 			
 			
@@ -418,18 +489,20 @@ function addEvents(data) {
 				let tile = $(this).parents('.tile');
 				tile.addClass('active');
 				let tile_id = tile.attr('data-project');
-				//console.log(tile);
 				showProject(tile_id, tag_active, data[tile_id-1] );
 			}, false);
 		}
 }
 
 
+
+
 function _formatTileTags(tags){
+	
 	let markup = '<ul class="tags">';
 	
 	for(let i = 0; i < tags.length; i++){
-		markup += `<li><button class="${tags[i].slug}">${tags[i].name}</button></li>`;
+		markup += `<li><button class="${tags[i].slug}">${tags[i].tag}</button></li>`;
 	}
 	
 	markup += '</ul>';
@@ -442,13 +515,27 @@ function _formatTileTags(tags){
 
 $(function () {
 	
+	var projects;
+	
 	$.getJSON('assets/data/projects.json', function (data) {
-		_init(data.projects);
+		
+		projects = data;
+		_init();
+		
 	});
 	
-	function _init(data) {
+	
+	function _init() {
 		
-		layoutTiles(data);
+		$('#main button').on('click', function(){
+			$('#tiles').remove();
+			$('#main button').removeClass('active');
+			let clicked = $(this).attr('id');
+			$(this).addClass('active');
+			let cloned = Object.assign({}, projects);
+			layoutTiles(cloned, clicked);
+		})
+	
 	}
 	
 	

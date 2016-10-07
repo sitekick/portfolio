@@ -26,7 +26,7 @@ function showProject(id, tag, data){
 	<div id="project">
 		<div class="imagery">
 	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
-	 		<div id="slider" class="content ${viewport}">${_formatImages(data.sidebar,tag)}</div>
+	 		<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>
 	 	</div>
 	 	<div class="info">
 	 		<h1>${data.name}</h1><p>${data.description}</p>
@@ -88,7 +88,7 @@ function _projectEvents(id, active_tag, parent_specs, mode) {
 			$(this).remove();
 			let tile = '.tile-' + id;
 			$(tile).removeClass('active');
-			$(tile).toggleClass('flipped');
+			$(tile).toggleClass('flip-x');
 		});
 		
 	}, false);
@@ -146,14 +146,14 @@ function _resizeProject(active_tag){
 
 function _formatTabTags(data, active){
 	
-	let tags = data.tags;
+	let foci = data.foci;
 	let content = '';
 	let markup = '<div class="tabs"><ul>';
 	
-	for(let i = 0; i < tags.length; i++){
-		let activate = ( tags[i].name.replace(/[\/ ]/g,'-') == active) ? true : false;
-		markup += `<li data-index="${i}" class="${tags[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${tags[i].name}</a></li>`;
-		content += `<div class="copy ${tags[i].slug} ${(activate) ? 'active' : ''}">${data.copy[tags[i].slug]}</div>`;
+	for(let i = 0; i < foci.length; i++){
+		let activate = ( foci[i].slug == active) ? true : false;
+		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${foci[i].tag}</a></li>`;
+		content += `<div class="copy ${foci[i].slug} ${(activate) ? 'active' : ''}">${foci[i].copy}</div>`;
 	}
 	
 	markup += '</ul>';
@@ -164,24 +164,22 @@ function _formatTabTags(data, active){
 	return markup;
 }
 
-function replaceImages() {
-	
-}
 
-
-function _formatImages(content, tag_active){
+function _formatImages(data, tag_active){
 	
 	let markup = '';
 	
-	for(var item in content){	
+	let highlights = data.foci
 	
-		markup += `<div class="item ${content[item].type} ${item}">`
-		switch(content[item].type){
+	for(let i = 0; i < highlights.length; i++){	
+	
+		markup += `<div class="item ${highlights[i].highlight.type} ${highlights[i].slug}">`
+		switch(highlights[i].highlight.type){
 			case 'image' :
-			markup += `<img src="assets/img/${item}/${content[item].content}" alt=""/>`;
+			markup += `<img src="assets/img/${highlights[i].slug}/${highlights[i].highlight.content}" alt=""/>`;
 			break;
 			case 'div' :
-			markup += `<div>${content[item].content}</div>`;
+			markup += `<div>${highlights[i].highlight.content}</div>`;
 			break;
 		};
 		

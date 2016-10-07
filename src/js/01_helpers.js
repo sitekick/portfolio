@@ -43,4 +43,13 @@ var getViewport = (function() {
 	
 })();
 
+function sigmaCalculation(start, end, whatToSum){
+    var sum = 0;
+
+    for (var i = start; i <= end; i++){
+        sum += whatToSum(i);
+    };
+
+    return sum;
+}
 
