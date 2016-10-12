@@ -12,20 +12,24 @@ $(function () {
 	
 	function _init() {
 		
+		var cloned = Object.assign({}, projects);
+
 		$('#main button').on('click', function(){
 			$('#tiles').remove();
 			$('#main button').removeClass('active');
 			let clicked = $(this).attr('id');
 			$(this).addClass('active');
-			let cloned = Object.assign({}, projects);
-			layoutTiles(cloned, clicked);
-		})
-	
+			
+			_navClick(clicked);
+		});
+		
+		function _navClick(active) {
+			layoutTiles(cloned, active);
+		};
+		
+		$('#fav').click();
 	}
-	
-	
-	
-	
+
 });
 
 

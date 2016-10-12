@@ -1,10 +1,8 @@
-function showProject(id, tag, data){
+function showProject(tile_class, tag, data){
 	
 	let viewport = getViewport();
 	
-	let tile_class = '.tile-' + id;
-	let tile = $(tile_class);
-	let parent = tile.parent();
+	let parent = $(tile_class, '#tiles ').parent();
 	
 	/* the selected tile */
 	let parent_specs = {
@@ -53,11 +51,11 @@ function showProject(id, tag, data){
 		function () {
 			$(this).find('.imagery').addClass('loaded');
 			$('#tiles').hide();
-			_projectEvents(id, tag, parent_specs, viewport);
+			_projectEvents(tile_class, tag, parent_specs, viewport);
 		});
 }
 
-function _projectEvents(id, active_tag, parent_specs, mode) {
+function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 	
 	var resizeid;
 	/* initialize slider */
@@ -86,9 +84,7 @@ function _projectEvents(id, active_tag, parent_specs, mode) {
 		200,
 		function () {
 			$(this).remove();
-			let tile = '.tile-' + id;
-			$(tile).removeClass('active');
-			$(tile).toggleClass('flip-x');
+			$(tile_class, '#tiles ').removeClass('active').toggleClass('flip-x');
 		});
 		
 	}, false);
@@ -149,10 +145,15 @@ function _formatTabTags(data, active){
 	let foci = data.foci;
 	let content = '';
 	let markup = '<div class="tabs"><ul>';
-	
+
 	for(let i = 0; i < foci.length; i++){
 		let activate = ( foci[i].slug == active) ? true : false;
-		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${foci[i].tag}</a></li>`;
+		let a_classes = '';
+		if(activate)
+			a_classes += 'active ';
+		if(foci[i].favorite)
+			a_classes += 'fav';
+		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${a_classes}">${foci[i].tag}</a></li>`;
 		content += `<div class="copy ${foci[i].slug} ${(activate) ? 'active' : ''}">${foci[i].copy}</div>`;
 	}
 	

@@ -57,13 +57,130 @@ function sigmaCalculation(start, end, whatToSum){
 }
 
 
-function showProject(id, tag, data){
+function _buildTileNav(buttons) {
+	
+	let nav = '<ul id="tilenav">';
+	
+	for(button in buttons){
+		nav += `<li><a id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
+	}
+	
+	nav += '</ul>';
+	
+	$('#container').append(nav);
+	
+	_buildTileNavEvents();
+}
+
+function _buildTileNavEvents() {
+	
+	
+	
+	$('#tilenav .button').on({
+		
+		click : function () {
+			let id = $(this).attr('id')
+			_cycleTiles(id);
+		}
+	});
+	
+}
+
+function _cycleTiles(id) {
+	
+	
+	let buttons = $('#tilenav .button');
+	var group =  {
+			total : buttons.length, 
+			active : 4
+		};
+	
+/*
+	var states = {
+		current : {
+			get selected() {
+				let start = _retrieveId( $('#tilenav .active').first().attr('id') ) ;
+				let end = start + (group.active - 1);
+				return { 
+					'start' : start,
+					'end' : end
+				}
+			}
+		},
+		next : {
+			get selected() {
+				
+				let clicked = _retrieveId(id);
+				let include = group.active - 1;
+				
+				let start = ((clicked - include) > 1) ? clicked - include : 1;
+				
+				let end = start + include;
+				return {
+					'start' : start,
+					'end' : end
+					}
+			}
+		}
+	}
+*/
+	var states2 = {
+			get current() {
+				var start = _retrieveId( $('#tilenav .active').first().attr('id') ) ;
+				var end = start + (group.active - 1);
+				return { 
+					'start' : start,
+					'end' : end
+				}
+			},
+			get next() {
+				
+				let clicked = _retrieveId(id);
+				let include = group.active - 1;
+				let start;
+				/* which dir */
+					if(clicked > this.current.start) {
+						start = ((clicked - include) > 1) ? clicked - include : 1; 
+					} else {
+						start = clicked;
+					}
+				
+				
+				let end = start + include;
+				
+				return {
+					'start' : start,
+					'end' : end
+					}
+			}
+	}
+	
+	
+	let start = states2.next.start;
+	let end = states2.next.end;
+	
+	$(buttons).removeClass('active');
+	//let tiles = $('#tiles > li');
+	$('#tiles li').removeClass('show');
+	
+	for(i=start; i<=end; i++){
+		let button = $('#button-' + i);
+		$(button).addClass('active');
+		let tile = $('#tiles > li').get(i-1);
+		$(tile).addClass('show');
+	}
+	
+	function _retrieveId(str){
+		let val = str.substring(7,str.length+1);
+		return Number(val);
+	}
+	
+}
+function showProject(tile_class, tag, data){
 	
 	let viewport = getViewport();
 	
-	let tile_class = '.tile-' + id;
-	let tile = $(tile_class);
-	let parent = tile.parent();
+	let parent = $(tile_class, '#tiles ').parent();
 	
 	/* the selected tile */
 	let parent_specs = {
@@ -112,11 +229,11 @@ function showProject(id, tag, data){
 		function () {
 			$(this).find('.imagery').addClass('loaded');
 			$('#tiles').hide();
-			_projectEvents(id, tag, parent_specs, viewport);
+			_projectEvents(tile_class, tag, parent_specs, viewport);
 		});
 }
 
-function _projectEvents(id, active_tag, parent_specs, mode) {
+function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 	
 	var resizeid;
 	/* initialize slider */
@@ -145,9 +262,7 @@ function _projectEvents(id, active_tag, parent_specs, mode) {
 		200,
 		function () {
 			$(this).remove();
-			let tile = '.tile-' + id;
-			$(tile).removeClass('active');
-			$(tile).toggleClass('flip-x');
+			$(tile_class, '#tiles ').removeClass('active').toggleClass('flip-x');
 		});
 		
 	}, false);
@@ -208,10 +323,15 @@ function _formatTabTags(data, active){
 	let foci = data.foci;
 	let content = '';
 	let markup = '<div class="tabs"><ul>';
-	
+
 	for(let i = 0; i < foci.length; i++){
 		let activate = ( foci[i].slug == active) ? true : false;
-		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${(activate) ? 'active' : ''}">${foci[i].tag}</a></li>`;
+		let a_classes = '';
+		if(activate)
+			a_classes += 'active ';
+		if(foci[i].favorite)
+			a_classes += 'fav';
+		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${a_classes}">${foci[i].tag}</a></li>`;
 		content += `<div class="copy ${foci[i].slug} ${(activate) ? 'active' : ''}">${foci[i].copy}</div>`;
 	}
 	
@@ -357,9 +477,15 @@ var sliderModule = (function () {
 function layoutTiles(data, focus) {
 	
 	var tiles = data.projects;
+	var mode = getViewport();
+	//console.log(mode);
 	let num = tiles.length;
 	let continued = 0;
-	var markup = `<ul id="tiles" class="${focus}"><div id="mask"></div>`;
+	var markup = `<ul id="tiles" class="${focus} bground"><div id="mask"></div>`;
+	let cap = 4;
+	var nav = {
+		buttons : [],
+	};	
 		
 		tiles: 
 		for(let i = 0; i < num; i++){
@@ -407,7 +533,7 @@ function layoutTiles(data, focus) {
 				}//switch
 				
 			/* markup for matching tiles */
-			markup += `<li>
+			markup += `<li class="${(cap > 0) ? 'show' : ''}">
 					<div data-project="${i+1}" class="tile tile-${(i+1) - continued} flip-y"> 
 						<div class="side front">
 							<div class="content vcenter">
@@ -424,17 +550,25 @@ function layoutTiles(data, focus) {
 						</div>
 					</div>
 					</li>`;
+		
+		
+		nav.buttons.push({
+			tile : (i+1) - continued, 
+			state : (cap > 0) ? 'show' : 'hide'
+			});
+		cap --;
 		}
 		
-	markup += '</ul>';	
-	
+	markup += '</ul>';
 	$('#container').append(markup);
+	$('#tilenav').remove();
+	_buildTileNav(nav.buttons);
 	
 	let time = 100;
 	let lengthen = 75;
 	let numTiles = num - continued;
 	let dur = time + ((numTiles-1)*lengthen);
-	let transitionMs = 750;
+	let transitionMs = 1500;
 
 	setTimeout(function() {
 		$('#mask').remove();
@@ -452,8 +586,30 @@ function layoutTiles(data, focus) {
 		
 }
 
-
 function addEvents(data) {
+	
+	
+	setTimeout(function() {
+		$('#tiles').removeClass('bground');
+		
+	}, 100)
+	
+/*
+	let i = 1;
+	let classInterval = setInterval( classTimer, 500);
+*/
+	
+	function classTimer(){
+		
+		$('#tiles').removeClass('bground-' + (i-1));
+		$('#tiles').addClass('bground-' + i);
+			if(i <= 3){
+			i++;
+			} else {
+			clearInterval(classInterval);
+			}
+	}
+	
 	
 	var tiles = document.querySelectorAll('#tiles li');
 	/* place events on bounding element to prevent repeated */
@@ -489,13 +645,13 @@ function addEvents(data) {
 				let tile = $(this).parents('.tile');
 				tile.addClass('active');
 				let tile_id = tile.attr('data-project');
-				showProject(tile_id, tag_active, data[tile_id-1] );
+				let tile_classes = tile.attr('class');
+				let tile_class = _findTileClass(tile_classes, true)
+				
+				showProject(tile_class, tag_active, data[tile_id-1] );
 			}, false);
 		}
 }
-
-
-
 
 function _formatTileTags(tags){
 	
@@ -511,6 +667,25 @@ function _formatTileTags(tags){
 }
 
 
+function _findTileClass(haystack, asSelector){
+	
+	let classes = haystack.split(' ');
+	let tileClass;
+	
+	for (i = 0; i < classes.length; i++){
+		
+		let tile_class = classes[i];
+		
+		if( tile_class.indexOf('tile-') > -1 ) {
+		 	tileClass = tile_class ;
+		 	break;
+		 } else {
+			continue;
+		 };
+	}
+	
+	return (asSelector) ? '.' + tileClass : tileClass;
+}
 
 
 $(function () {
@@ -527,20 +702,24 @@ $(function () {
 	
 	function _init() {
 		
+		var cloned = Object.assign({}, projects);
+
 		$('#main button').on('click', function(){
 			$('#tiles').remove();
 			$('#main button').removeClass('active');
 			let clicked = $(this).attr('id');
 			$(this).addClass('active');
-			let cloned = Object.assign({}, projects);
-			layoutTiles(cloned, clicked);
-		})
-	
+			
+			_navClick(clicked);
+		});
+		
+		function _navClick(active) {
+			layoutTiles(cloned, active);
+		};
+		
+		$('#fav').click();
 	}
-	
-	
-	
-	
+
 });
 
 

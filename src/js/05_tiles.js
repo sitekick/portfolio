@@ -1,9 +1,15 @@
 function layoutTiles(data, focus) {
 	
 	var tiles = data.projects;
+	var mode = getViewport();
+	//console.log(mode);
 	let num = tiles.length;
 	let continued = 0;
-	var markup = `<ul id="tiles" class="${focus}"><div id="mask"></div>`;
+	var markup = `<ul id="tiles" class="${focus} bground"><div id="mask"></div>`;
+	let cap = 4;
+	var nav = {
+		buttons : [],
+	};	
 		
 		tiles: 
 		for(let i = 0; i < num; i++){
@@ -51,7 +57,7 @@ function layoutTiles(data, focus) {
 				}//switch
 				
 			/* markup for matching tiles */
-			markup += `<li>
+			markup += `<li class="${(cap > 0) ? 'show' : ''}">
 					<div data-project="${i+1}" class="tile tile-${(i+1) - continued} flip-y"> 
 						<div class="side front">
 							<div class="content vcenter">
@@ -68,17 +74,25 @@ function layoutTiles(data, focus) {
 						</div>
 					</div>
 					</li>`;
+		
+		
+		nav.buttons.push({
+			tile : (i+1) - continued, 
+			state : (cap > 0) ? 'show' : 'hide'
+			});
+		cap --;
 		}
 		
-	markup += '</ul>';	
-	
+	markup += '</ul>';
 	$('#container').append(markup);
+	$('#tilenav').remove();
+	_buildTileNav(nav.buttons);
 	
 	let time = 100;
 	let lengthen = 75;
 	let numTiles = num - continued;
 	let dur = time + ((numTiles-1)*lengthen);
-	let transitionMs = 750;
+	let transitionMs = 1500;
 
 	setTimeout(function() {
 		$('#mask').remove();
@@ -96,8 +110,30 @@ function layoutTiles(data, focus) {
 		
 }
 
-
 function addEvents(data) {
+	
+	
+	setTimeout(function() {
+		$('#tiles').removeClass('bground');
+		
+	}, 100)
+	
+/*
+	let i = 1;
+	let classInterval = setInterval( classTimer, 500);
+*/
+	
+	function classTimer(){
+		
+		$('#tiles').removeClass('bground-' + (i-1));
+		$('#tiles').addClass('bground-' + i);
+			if(i <= 3){
+			i++;
+			} else {
+			clearInterval(classInterval);
+			}
+	}
+	
 	
 	var tiles = document.querySelectorAll('#tiles li');
 	/* place events on bounding element to prevent repeated */
@@ -133,13 +169,13 @@ function addEvents(data) {
 				let tile = $(this).parents('.tile');
 				tile.addClass('active');
 				let tile_id = tile.attr('data-project');
-				showProject(tile_id, tag_active, data[tile_id-1] );
+				let tile_classes = tile.attr('class');
+				let tile_class = _findTileClass(tile_classes, true)
+				
+				showProject(tile_class, tag_active, data[tile_id-1] );
 			}, false);
 		}
 }
-
-
-
 
 function _formatTileTags(tags){
 	
@@ -155,4 +191,23 @@ function _formatTileTags(tags){
 }
 
 
+function _findTileClass(haystack, asSelector){
+	
+	let classes = haystack.split(' ');
+	let tileClass;
+	
+	for (i = 0; i < classes.length; i++){
+		
+		let tile_class = classes[i];
+		
+		if( tile_class.indexOf('tile-') > -1 ) {
+		 	tileClass = tile_class ;
+		 	break;
+		 } else {
+			continue;
+		 };
+	}
+	
+	return (asSelector) ? '.' + tileClass : tileClass;
+}
 

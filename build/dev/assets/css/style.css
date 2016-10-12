@@ -12,6 +12,7 @@ li {
 
 #container {
   margin: 1em;
+  vertical-align: top;
 }
 @media screen and (max-width: 500px) {
   #container {
@@ -44,9 +45,9 @@ li {
      -moz-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  -webkit-flex-wrap: nowrap;
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
      -moz-box-pack: justify;
@@ -66,7 +67,7 @@ li {
           flex: 1 1 250px;
   height: 350px;
   margin: 0 3em 3em 0;
-  display: block;
+  display: none;
   background: rgba(0, 0, 0, 0.15);
   -webkit-perspective: 800px;
           perspective: 800px;
@@ -77,10 +78,10 @@ li {
   position: relative;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 750ms;
-  transition: -webkit-transform 750ms;
-  transition: transform 750ms;
-  transition: transform 750ms, -webkit-transform 750ms;
+  -webkit-transition: -webkit-transform 1500ms;
+  transition: -webkit-transform 1500ms;
+  transition: transform 1500ms;
+  transition: transform 1500ms, -webkit-transform 1500ms;
   transform: rotateX(0deg);
   /* webkit bug */
   /* https://bugs.webkit.org/show_bug.cgi?id=54371 */
@@ -94,8 +95,8 @@ li {
   bottom: 0;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  -webkit-transition: background-color, 750ms;
-  transition: background-color, 750ms;
+  -webkit-transition: background-color, 1500ms;
+  transition: background-color, 1500ms;
 }
 #tiles > li div.tile .side .vcenter {
   position: absolute;
@@ -107,13 +108,13 @@ li {
           transform: translateY(-50%);
 }
 #tiles > li div.tile .side.back {
-  background-color: #999;
+  background-color: #4A4A4A;
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
 }
 #tiles > li div.tile .side.back .content {
-  -webkit-transition: opacity 750ms;
-  transition: opacity 750ms;
+  -webkit-transition: opacity 1500ms;
+  transition: opacity 1500ms;
   opacity: 0;
 }
 #tiles > li div.tile .side.back .tags {
@@ -144,10 +145,30 @@ li {
   /* https://bugs.webkit.org/show_bug.cgi?id=54371 */
   -webkit-transform: rotateX(180deg) translateY(1px);
 }
-@media screen and (max-width: 768px) {
-  #tiles > li {
-    margin-bottom: 1em;
-  }
+#tiles > li.show {
+  display: block;
+}
+
+#tilenav {
+  list-style: none;
+  margin: 1em;
+}
+#tilenav li {
+  display: inline-block;
+  margin-right: 2px;
+}
+#tilenav li a {
+  display: block;
+  padding: .25em 1em;
+  background-color: rgba(74, 139, 216, 0.5);
+  -webkit-transition: background-color 750ms;
+  transition: background-color 750ms;
+}
+#tilenav li a span {
+  display: none;
+}
+#tilenav li a.active {
+  background-color: #4a8bd8;
 }
 
 #project {
@@ -215,7 +236,7 @@ li {
   top: 0;
   right: 0;
   z-index: 100;
-  background-color: #999;
+  background-color: #4A4A4A;
   -webkit-transition: background-color 500ms;
   transition: background-color 500ms;
 }
@@ -276,7 +297,7 @@ li {
 }
 
 body {
-  background: #999;
+  background: #4A4A4A;
 }
 
 img {
@@ -284,18 +305,24 @@ img {
   height: auto;
 }
 
-/* =========== UL ============ */
+/* =========== NAV =========== */
 #main {
-  list-style: none;
   margin: 0 0;
   padding: 0 0;
-  overflow: hidden;
   display: inline-block;
+  vertical-align: top;
 }
-#main li {
-  float: left;
+#main button {
+  display: inline-block;
+  padding: .5em;
+  border-width: 0;
+  cursor: pointer;
+}
+#main button.active {
+  background-color: white;
 }
 
+/* =========== UL ============ */
 div.tile .side {
   background: #FFF;
 }
@@ -334,6 +361,8 @@ div.tile .side.back {
 /* =========== HEADERS ============ */
 #container > h1 {
   display: inline-block;
+  vertical-align: top;
+  margin: 0 1em .5em 0;
 }
 
 
