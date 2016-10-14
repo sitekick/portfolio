@@ -78,14 +78,12 @@ li {
   position: relative;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 1500ms;
-  transition: -webkit-transform 1500ms;
-  transition: transform 1500ms;
-  transition: transform 1500ms, -webkit-transform 1500ms;
-  transform: rotateX(0deg);
-  /* webkit bug */
-  /* https://bugs.webkit.org/show_bug.cgi?id=54371 */
-  -webkit-transform: rotateX(0deg) translateY(1px);
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
+  -webkit-transition: -webkit-transform 750ms;
+  transition: -webkit-transform 750ms;
+  transition: transform 750ms;
+  transition: transform 750ms, -webkit-transform 750ms;
 }
 #tiles > li div.tile .side {
   position: absolute;
@@ -95,8 +93,6 @@ li {
   bottom: 0;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  -webkit-transition: background-color, 1500ms;
-  transition: background-color, 1500ms;
 }
 #tiles > li div.tile .side .vcenter {
   position: absolute;
@@ -107,15 +103,19 @@ li {
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
 }
+#tiles > li div.tile .side.front {
+  background-color: #FFF;
+}
 #tiles > li div.tile .side.back {
   background-color: #4A4A4A;
-  -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
+  -webkit-transform: rotateX(180deg);
+          transform: rotateX(180deg);
 }
-#tiles > li div.tile .side.back .content {
-  -webkit-transition: opacity 1500ms;
-  transition: opacity 1500ms;
-  opacity: 0;
+#tiles > li div.tile .side.back .content .source {
+  display: block;
+}
+#tiles > li div.tile .side.back .content .faux {
+  display: none;
 }
 #tiles > li div.tile .side.back .tags {
   list-style: none;
@@ -127,23 +127,38 @@ li {
 #tiles > li div.tile .side.back .tags li button:hover {
   cursor: pointer;
 }
-#tiles > li div.tile.flip-x {
-  transform: rotateY(180deg);
-  /* webkit bug */
-  /* https://bugs.webkit.org/show_bug.cgi?id=54371 */
-  -webkit-transform: rotateY(180deg) translateZ(1px);
+#tiles > li div.tile .side.back.back.transition {
+  background-color: #FFF;
 }
-#tiles > li div.tile.flip-x .side.back {
-  background-color: #CCC;
+#tiles > li div.tile .side.back.back.transition .content .source {
+  display: none;
 }
-#tiles > li div.tile.flip-x .side.back .content {
-  opacity: 1;
+#tiles > li div.tile .side.back.back.transition .content .faux {
+  display: block;
 }
 #tiles > li div.tile.flip-y {
-  transform: rotateX(180deg);
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+#tiles > li div.tile.flip-y .back {
+  background-color: #CCC;
+}
+#tiles > li div.tile.flip-y .back .content {
+  opacity: 1;
+}
+#tiles > li div.tile.notransition {
+  -webkit-transition: none;
+  transition: none;
+}
+#tiles > li div.tile.flip-x {
+  -webkit-transform: rotateX(0deg);
+          transform: rotateX(0deg);
+}
+#tiles > li div.tile.flip-x2 {
+  -webkit-transform: rotateX(-180deg);
+          transform: rotateX(-180deg);
   /* webkit bug */
   /* https://bugs.webkit.org/show_bug.cgi?id=54371 */
-  -webkit-transform: rotateX(180deg) translateY(1px);
 }
 #tiles > li.show {
   display: block;

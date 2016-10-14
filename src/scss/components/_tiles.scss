@@ -1,5 +1,5 @@
 #mask {
-	//background: rgba(255,0,0, .5);
+// 	background: rgba(255,0,0, .5);
 	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000;
 }
 
@@ -22,41 +22,40 @@
 // 		border: 1px solid blue;
 		background: rgba(0,0,0, .15);
 		perspective: 800px;
+
 			
 			div.tile {
 				width: 100%;
 				height: 100%;
 				position: relative;
-// 				overflow: hidden;
-// 				border: 1px solid red;
 				transform-style: preserve-3d;
-				transition: transform 1500ms;
-				transform: rotateX( 0deg );
-				/* webkit bug */
-				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
-				-webkit-transform: rotateX( 0deg ) translateY(1px);
+				transform: rotateX( -180deg ) rotateY( 0deg );
+				transition: transform 750ms;
 				
 					.side {
 						position: absolute; 
 						left: 0;top: 0;right: 0;bottom: 0;
 						backface-visibility: hidden;
-						transition: background-color, 1500ms;
+						//transition: background-color, 1500ms;
 						
 						.vcenter {
 							position: absolute; 
 							left: 0;top: 50%;right: 0; 
 							transform: translateY(-50%);
 						}
-				
+						
+					&.front {
+						background-color: $white;
+					}
+						
 					&.back {
 						background-color: $background;
-						transform: rotateY( 180deg );
+						transform: rotateX( 180deg );
 						
 						.content {
-							transition: opacity 1500ms;
-							opacity: 0;
+							.source{display: block;}
+							.faux{display: none;}
 							}
-						
 						
 						.tags {
 							list-style: none;
@@ -73,29 +72,41 @@
 								}
 							}
 								
+					}
+					&.back.transition{
+						background-color: $white;
+						
+						.content{
+							.source{display: none;}
+							.faux{display: block;}
 						}
-						}
+					}
+					}// /.back
 					}// /.side
 			
-			&.flip-x {
+			&.flip-y {
 				transform: rotateY( 180deg );
-				/* webkit bug */
-				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
-				-webkit-transform: rotateY( 180deg ) translateZ(1px);
 				
-				.side.back{
+				.back{
 					background-color: $grey;
-
-					.content {opacity: 1;}
+					
+					.content {
+						opacity: 1;
+					}
 				}
 			
 			
 			}
-			&.flip-y {
-				transform: rotateX( 180deg );
+			&.notransition{transition : none;}
+			
+			&.flip-x {
+				transform: rotateX( 0deg );
+			}
+			&.flip-x2 {
+				transform: rotateX( -180deg );
 				/* webkit bug */
 				/* https://bugs.webkit.org/show_bug.cgi?id=54371 */
-				-webkit-transform: rotateX( 180deg ) translateY(1px);
+				//-webkit-transform: rotateX( -180deg ) translateY(1px);
 			}
 			}// .tile
 	

@@ -57,53 +57,69 @@ function layoutTiles(data, focus) {
 				}//switch
 				
 			/* markup for matching tiles */
-			markup += `<li class="${(cap > 0) ? 'show' : ''}">
-					<div data-project="${i+1}" class="tile tile-${(i+1) - continued} flip-y"> 
-						<div class="side front">
-							<div class="content vcenter">
-								<img src="assets/img/${tiles[i].foci[0].slug}/${tiles[i].foci[0].highlight.content}" alt="" />
-
-							</div>	
-						</div>
-						<div class="side back">
-							<div class="content vcenter">
-							<h1>${tiles[i].name}</h1>
-							<p>${tiles[i].description}</p>
-							${_formatTileTags(tile_foci)}
+			markup += `<li class="${(i < cap) ? 'show' : ''}">
+					<div data-project="${i+1}" class="tile tile-${(i+1) - continued}"> 
+										
+							<div class="side front">
+								<div class="content vcenter">
+									<img src="assets/img/${tiles[i].foci[0].slug}/${tiles[i].foci[0].highlight.content}" alt="" />
+	
+								</div>	
 							</div>
-						</div>
+							
+							<div class="side back">
+								<div class="content vcenter">
+								
+									<div class="source">
+										<h1>${tiles[i].name}</h1>
+										<p>${tiles[i].description}</p>
+										${_formatTileTags(tile_foci)}
+										</div>
+									<div class="faux"></div>
+								</div>
+							</div>
+							
 					</div>
 					</li>`;
 		
 		
 		nav.buttons.push({
 			tile : (i+1) - continued, 
-			state : (cap > 0) ? 'show' : 'hide'
+			state : (i < cap) ? 'show' : 'hide'
 			});
-		cap --;
+		
 		}
 		
 	markup += '</ul>';
 	$('#container').append(markup);
 	$('#tilenav').remove();
+	
 	_buildTileNav(nav.buttons);
 	
-	let time = 100;
-	let lengthen = 75;
+	let time =100;
+	let lengthen = 200;
+/*
 	let numTiles = num - continued;
 	let dur = time + ((numTiles-1)*lengthen);
+*/
+	let dur = time + ((cap-1)*lengthen);
 	let transitionMs = 1500;
 
 	setTimeout(function() {
 		$('#mask').remove();
+		
 	},(dur + transitionMs));
 
-	for(let i = 1; i <= numTiles; i++){
-		setTimeout(function() {
+	
+	for(let i = 1; i <= cap; i++){
 		
-		$('#tiles .tile-' + i).removeClass('flip-y');
+		setTimeout(function() {
+			/* flip the first set of tiles */
+			let li = $('#tiles .tile-' + i).addClass('flip-x');
+
 		},time);
 		time += lengthen;
+		
 	}
 	
 	addEvents(tiles);
@@ -111,29 +127,6 @@ function layoutTiles(data, focus) {
 }
 
 function addEvents(data) {
-	
-	
-	setTimeout(function() {
-		$('#tiles').removeClass('bground');
-		
-	}, 100)
-	
-/*
-	let i = 1;
-	let classInterval = setInterval( classTimer, 500);
-*/
-	
-	function classTimer(){
-		
-		$('#tiles').removeClass('bground-' + (i-1));
-		$('#tiles').addClass('bground-' + i);
-			if(i <= 3){
-			i++;
-			} else {
-			clearInterval(classInterval);
-			}
-	}
-	
 	
 	var tiles = document.querySelectorAll('#tiles li');
 	/* place events on bounding element to prevent repeated */
@@ -144,7 +137,7 @@ function addEvents(data) {
 		
 		tiles[i].addEventListener('mouseover', function(){
     		
-    		$(this).find('.tile').toggleClass('flip-x');
+    		//$(this).find('.tile').toggleClass('flip-x');
     	
 		}, false);
 		
@@ -154,7 +147,7 @@ function addEvents(data) {
     		let active = $(this).find('.tile').hasClass('active');
     		
     		if(active === false){
-	    		$(this).find('.tile').toggleClass('flip-x');
+	    		//$(this).find('.tile').toggleClass('flip-x');
     		}
 			
 			
