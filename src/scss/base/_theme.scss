@@ -9,23 +9,6 @@ img {
 
 /* =========== NAV =========== */
 
-#main {
-	margin: 0 0;
-	padding: 0 0;
-	display: inline-block;
-	vertical-align: top;
-	
-	button{
-		display: inline-block;
-		padding: .5em;
-		border-width: 0;
-		cursor:pointer;
-			
-	&.active{
-		background-color: white;
-	}	
-	}
-}
 
 /* =========== UL ============ */
 

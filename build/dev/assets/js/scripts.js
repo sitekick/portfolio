@@ -57,167 +57,56 @@ function sigmaCalculation(start, end, whatToSum){
 }
 
 
-function _buildTileNav(buttons) {
+var resizeQuery = (function () {
 	
-	let nav = '<ul id="tilenav">';
+		var mQueries = ['(max-width: 500px)','(max-width: 768px)','(max-width: 1024px)', '(min-width: 1024px)'];
+		var currentMQ = idQuery();
 	
-	for(button in buttons){
-		nav += `<li><a id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
-	}
-	
-	nav += '</ul>';
-	
-	$('#container').append(nav);
-	
-	_buildTileNavEvents();
-}
-
-function _buildTileNavEvents() {
-	
-	
-	$('#tilenav .button').on({
-		
-		click : function () {
-			let id = $(this).attr('id')
-			if( $(this).hasClass('active') )
-				return;
+		var monitorMQ = function (eventsobj, init) {
 			
-			_cycleTiles(id);
-		}
-	});
-	
-}
-
-function _disable(bool) {
-		
-		var disabled = (bool) ? bool : disabled;
-		
-		return disabled;
-}
-	
-function _cycleTiles(id) {
-	
-	
-	var buttons =  {
-			el : '#tilenav .button', 
-			get total() {
-				return $(this.el).length;
-			},
-			active : 4,
-			clicked : _retrieveId(id)
-		};
-	
-	var startIndex = {
-			get current() {
-				var start = _retrieveId( $('#tilenav .active').first().attr('id') ) ;
-				return start;
-			},
-			get next() {
-				
-				let include = buttons.active - 1;
-				let start;
-				/* which dir */
-					if(buttons.clicked > this.current) {
-						start = ((buttons.clicked - include) > 1) ? buttons.clicked - include : 1; 
-					} else {
-						start = buttons.clicked;
+			var tmpMQ = currentMQ;
+			
+			if(init){
+				fireCallback(eventsobj,currentMQ);
+			}
+			
+			window.onresize = function() {
+				var newMQ = idQuery();
+			
+				if(newMQ != tmpMQ){
+					fireCallback(eventsobj,newMQ);
+					
+					if(eventsobj['(all)']){
+						fireCallback(eventsobj,'(all)');
 					}
+					
+					tmpMQ = newMQ;
+				};
+			};
+
+		}
+		
+		function idQuery() {
+			for (var i=0 ;i < mQueries.length; i++) {
+				if(Modernizr.mq(mQueries[i]) == true){
+					
+					return mQueries[i];
 				
-				return start;
+				break;
+				}
 			}
-	};
-	
-	/* need to put these in variables before removing .active class */
-	let next_start = startIndex.next;
-	let current_start = startIndex.current;
-	$(buttons.el).removeClass('active');
-	
-	let timer = {
-		time : 100,
-		lengthen : 75,
-		get dur() {
-			 /* total time to compete function */
-			 return this.time + ((buttons.active-1)*this.lengthen);
-		},
-		transitionMs : 1500,
-		get transitionDur() {
-			 /* dur time plus transition completion time */
-			let css = $('#tiles .tile').css('transition-duration').split(',');
-			let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
-			
-			return this.dur + val ;
-		}
-	}
-	
-
-	let nexts = [];
-	let currents = [];
-	
-	/* manipulate the CURRENT tiles to show flip effect */
-	for(let i=0; i<buttons.active; i++){
-		
-		/* buttons */
-		let button = $('#button-' + next_start);
-		$(button).addClass('active');
-		
-		/* tile faces */
-		let current_tile = $('#tiles .tile-' + current_start);
-		let tmp_html = $('#tiles .tile-' + next_start + ' .front .content').html();
-		$('.back .faux', current_tile).append(tmp_html);
-		
-		/* flip */
-		setTimeout(function() {
-			$(current_tile).removeClass('notransition').addClass('flip-x2');
-			$('.back', current_tile).addClass('transition');
-			
-		},timer.time);
-		timer.time += timer.lengthen;
-		
-		/* counters */
-		currents.push(current_start);
-		current_start++
-		nexts.push(next_start);
-		next_start++
-	};
-	
-	setTimeout(function() {
-		
-		/* manipulate classes for appropriate tiles */
-		/* timed to occur after transition transform completion */
-		
-		for(let i=0; i<buttons.active; i++){
-			
-			let tile_current = '#tiles .tile-' + currents[i];
-			let tile_next = '#tiles .tile-' + nexts[i];
-			
-			if( nexts.indexOf(currents[i]) < 0 ) {
-  				/* previous tiles not shown on next set */
-  				let tile = '#tiles .tile-' + currents[i];
-  				$(tile_current).removeClass('flip-x flip-x2').parent('li').removeClass('show');
-			} else {
-				/* previous tiles shown on next set in new position */
-				$(tile_current).addClass('notransition').removeClass('flip-x2');
-			}
-			
-			if( currents.indexOf(nexts[i]) < 0 ) {
-				/* new tiles shown on next set */
-				$(tile_next).addClass('flip-x').parent('li').addClass('show');
-			}
-			
-			/* remove faux content */
-			$('.faux img', tile_current).remove();
-			$('.back', tile_current).removeClass('transition');
 		}
 		
-	},timer.transitionDur);
+		function fireCallback(events,index) {
+			
+			if( typeof(events[index]) === 'function' ){
+				return events[index]();
+				}
+		}
+		
+		return monitorMQ; 
 	
-	function _retrieveId(str){
-		let val = str.substring(7,str.length+1);
-		return Number(val);
-	}
-	
-}
-
+})();
 function showProject(tile_class, tag, data){
 	
 	let viewport = getViewport();
@@ -516,25 +405,336 @@ var sliderModule = (function () {
 	return module;
 		
 })();
-function layoutTiles(data, focus) {
+var tileModule = (function() {
 	
-	var tiles = data.projects;
-	var mode = getViewport();
-	//console.log(mode);
-	let num = tiles.length;
-	let continued = 0;
-	var markup = `<ul id="tiles" class="${focus} bground"><div id="mask"></div>`;
-	let cap = 4;
-	var nav = {
-		buttons : [],
-	};	
+	/* 	@ todo 
+		1) dynamic tile count display
+	
+	*/
+	
+	let active, //slug of desired tile projects to show
+		viewport, //active media query
+		viewmode, //desktop layout or mobile
+		disabled = false, //flag for preventing events until transitions completed 
+		projects, //hold project data
+		events = {
+			'(max-width: 500px)' : function() { 
+					viewport = 'screen-small';
+					viewmode = 'mobile';
+			},
+			'(max-width: 768px)' : function() { 
+					viewport = 'screen-medium';
+					viewmode = 'mobile';
+			},
+			'(max-width: 1024px)' : function() { 
+					viewport = 'screen-large';
+					viewmode = 'desktop';
+			},
+			'(min-width: 1024px)' : function() { 
+					viewport = 'screen-full';
+					viewmode = 'desktop';
+			},
+			'(all)' : function() {
+				console.log(viewmode);
+			}
+		}
+			 
+	resizeQuery(events, true);	
+	
+	
+	var module = function(data) {
 		
-		tiles: 
-		for(let i = 0; i < num; i++){
-			let tile_foci = tiles[i].foci;
+		projects = data.projects;
+		
+		layoutTiles('fav');
+	}
+	
+	function layoutTiles(clicked) {
+	
+		let vars = {
+			tiles : projects.slice(),
+			filter : {
+				active : clicked,
+				all : ['fav','logo-design','web-design','html-js']
+			},
+			continued : 0,  //counter for filtered rows
+			get cap() {
+				let val;//number of tiles per row
+				switch(viewport){
+					case 'screen-small' :
+						val = 1;
+					break;
+					case 'screen-medium' : 
+						val = 2;
+					break;
+					case 'screen-large' : 
+						val = 3;
+					break;
+					case 'screen-full' :
+						val = 4;
+					break; 
+					default :
+					val = 1;
+				}
+				return val;
+			},
+			buttons : [] //store tile data to build controls
+		}
+ 		
+		$('#container').append( _tileMarkup() );
+		
+		/* animate tiles */
+		_animateTiles();
+		
+		
+		function _animateTiles(){
 			
-			mode: 
-				switch(focus){
+			let timer = {
+					time : 100,
+					lengthen : 200,
+					get dur() {
+						/* total time to compete function */
+						return this.time + ((vars.cap-1)*this.lengthen);
+					},
+					get transitionDur() {
+						/* dur time plus transition completion time */
+						let css = $('#tiles .tile').css('transition-duration').split(',');
+						let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
+				
+						return this.dur + val ;
+					}
+			};
+			
+			setTimeout(function() {
+				$('#mask').remove();
+				_addEvents();
+			},(timer.transitionDur));
+	
+			/* animate active tiles */
+			for(let i = 1; i <= vars.cap; i++){
+				setTimeout(function() {
+					/* flip the first set of tiles */
+					let li = $('#tiles .tile-' + i).addClass('flip-x');
+				},timer.time);
+				timer.time += timer.lengthen;
+			};
+
+		}
+		
+		function _addEvents() {
+	
+			/* Tiles */
+			var tiles = document.querySelectorAll('#tiles li');
+			/* place events on bounding element to prevent repeated */
+			/* class toggling during animation of hovered element */
+			
+			for(let i = 0; i < tiles.length; i++){
+				
+				tiles[i].addEventListener('mouseover', function(){
+		    		//$(this).find('.tile').toggleClass('flip-x');
+				}, false);
+				
+				tiles[i].addEventListener('mouseout', function(){
+		    		/* prevent flip of active(clicked) tile */
+		    		let active = $(this).find('.tile').hasClass('active');
+		    		
+		    		if(active === false){
+			    		//$(this).find('.tile').toggleClass('flip-x');
+		    		}
+				}, false);
+			}
+			/* Tags */
+			let tags = document.querySelectorAll('.tile .tags button');
+				
+				for(let i=0; i < tags.length; i++) {
+					tags[i].addEventListener('click', function(e){
+						let tag_active = $(this).attr('class');
+						let tile = $(this).parents('.tile');
+						tile.addClass('active');
+						let tile_id = tile.attr('data-project');
+						let tile_classes = tile.attr('class');
+						let tile_class = __findTileClass(tile_classes, true)
+						
+						showProject(tile_class, tag_active, data[tile_id-1] );
+					}, false);
+				}
+				
+			/* Main Nav */
+			$('#nav > button').on('click', function(){
+				$('#interface').remove();
+				let clicked = $(this).attr('id');
+				layoutTiles(clicked);
+			});
+
+			/* Tile Nav */
+			$('.controls .button').on('click', function(){
+				
+				if( $(this).hasClass('active') )
+						return;
+				
+				let id = $(this).attr('id');
+				
+				if(disabled === false)
+					__cycleTiles(id);
+						
+			});
+		
+			function __cycleTiles(id) {
+		
+				disabled = true;
+					
+				let clicked = {
+					get val() {
+						let val = id.substring(7,id.length+1);
+						return Number(val);
+					}
+				}
+				
+				let startIndex = {
+						get current() {
+							let start_str = $('.controls .active').first().attr('id');
+							let start_num = start_str .substring(7,start_str .length+1)
+							return  Number(start_num);
+						},
+						get next() {
+							let include = vars.cap - 1;
+							let start;
+							/* which dir */
+								if(clicked.val > this.current) {
+									start = ((clicked.val - include) > 1) ? clicked.val - include : 1; 
+								} else {
+									start = clicked.val;
+								}
+							
+							return start;
+						}
+						
+				};
+				
+				/* need to put these in variables before removing .active class */
+				let next_start = startIndex.next;
+				let current_start = startIndex.current;
+				$('.controls .button').removeClass('active');
+				
+				let timer = {
+					time : 100,
+					lengthen : 75,
+					get dur() {
+						 /* total time to compete function */
+						 return this.time + ((vars.cap-1)*this.lengthen);
+					},
+					get transitionDur() {
+						 /* dur time plus transition completion time */
+						let css = $('#tiles .tile').css('transition-duration').split(',');
+						let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
+						
+						return this.dur + val ;
+					},
+					
+				}
+				
+				let nexts = [];
+				let currents = [];
+				
+				/* manipulate the CURRENT tiles to show flip effect */
+				for(let i=0; i < vars.cap; i++){
+					
+					/* buttons */
+					let button = $('#button-' + next_start);
+					$(button).addClass('active');
+					
+					/* tile faces */
+					let current_tile = $('#tiles .tile-' + current_start);
+					let tmp_html = $('#tiles .tile-' + next_start + ' .front .content').html();
+					$('.back .faux', current_tile).append(tmp_html);
+					
+					/* flip */
+					setTimeout(function() {
+						$(current_tile).removeClass('notransition').addClass('flip-x2');
+						$('.back', current_tile).addClass('transition');
+						
+					},timer.time);
+					timer.time += timer.lengthen;
+					
+					/* counters */
+					currents.push(current_start);
+					current_start++
+					nexts.push(next_start);
+					next_start++
+				};
+				
+				setTimeout(function() {
+					
+					/* manipulate classes for appropriate tiles */
+					/* timed to occur after transition transform completion */
+					
+					for(let i=0; i<vars.cap; i++){
+						
+						let tile_current = '#tiles .tile-' + currents[i];
+						let tile_next = '#tiles .tile-' + nexts[i];
+						
+						if( nexts.indexOf(currents[i]) < 0 ) {
+			  				/* previous tiles not shown on next set */
+			  				let tile = '#tiles .tile-' + currents[i];
+			  				$(tile_current).removeClass('flip-x flip-x2').parent('li').removeClass('show');
+						} else {
+							/* previous tiles shown on next set in new position */
+							$(tile_current).addClass('notransition').removeClass('flip-x2');
+						}
+						
+						if( currents.indexOf(nexts[i]) < 0 ) {
+							/* new tiles shown on next set */
+							$(tile_next).addClass('flip-x').parent('li').addClass('show');
+						}
+						
+						/* remove faux content */
+						$('.faux img', tile_current).remove();
+						$('.back', tile_current).removeClass('transition');
+						
+						/* re-enable button controls */
+						disabled = false;
+					}
+					
+				},timer.transitionDur);
+				
+			}
+			
+			function __findTileClass(haystack, asSelector){
+		
+				let classes = haystack.split(' ');
+				let tileClass;
+		
+				for (i = 0; i < classes.length; i++){
+					
+					let tile_class = classes[i];
+					
+					if( tile_class.indexOf('tile-') > -1 ) {
+					 	tileClass = tile_class ;
+					 	break;
+					 } else {
+						continue;
+					 };
+				}
+		
+				return (asSelector) ? '.' + tileClass : tileClass;
+			}
+			
+		}
+
+		function _tileMarkup(){
+			
+			let markup = `<div id="interface" class="${viewmode}"><div class="wrapper">`
+			
+			markup += `<ul id="tiles" class="${vars.filter.active}"><div id="mask"></div>`;
+			
+			tiles: 
+			for(let i = 0; i < vars.tiles.length; i++){
+				
+				let tile_foci = vars.tiles[i].foci;
+				let idelta = i - vars.continued; //track index when rows are continued
+				
+				mode: 
+				switch(vars.filter.active){
 					case 'fav' :
 						let not_favs = [];
 						
@@ -545,7 +745,7 @@ function layoutTiles(data, focus) {
 						}
 						
 						if(not_favs.length == tile_foci.length){
-							continued++;
+							vars.continued++;
 							continue tiles;
 						}
 							
@@ -558,203 +758,113 @@ function layoutTiles(data, focus) {
 					break mode;
 					default : 
 						let found = false;
-							
 						filter:
 						/* filter out non-matching tiles */
 						for(tile_focus in tile_foci){
-							if (tile_foci[tile_focus].slug == focus) {
+							if (tile_foci[tile_focus].slug == vars.filter.active) {
 								found = true;
 								break filter;
 							}
 						}
 						if(found === false) {
-							continued++;
+							vars.continued++;
 							continue tiles; 
 						}
 							
 				}//switch
 				
 			/* markup for matching tiles */
-			markup += `<li class="${(i < cap) ? 'show' : ''}">
-					<div data-project="${i+1}" class="tile tile-${(i+1) - continued}"> 
-										
+			markup += `<li class="${(idelta < vars.cap) ? 'show' : ''}">
+					<div data-project="${(idelta+1)}" class="tile tile-${(idelta + 1)}"> 
 							<div class="side front">
 								<div class="content vcenter">
-									<img src="assets/img/${tiles[i].foci[0].slug}/${tiles[i].foci[0].highlight.content}" alt="" />
-	
+									<img src="assets/img/${vars.tiles[i].foci[0].slug}/${vars.tiles[i].foci[0].highlight.content}" alt="" />
 								</div>	
 							</div>
-							
 							<div class="side back">
 								<div class="content vcenter">
-								
 									<div class="source">
-										<h1>${tiles[i].name}</h1>
-										<p>${tiles[i].description}</p>
-										${_formatTileTags(tile_foci)}
+										<h1>${vars.tiles[i].name}</h1>
+										<p>${vars.tiles[i].description}</p>
+										 ${__formatTileTags(tile_foci)} 
 										</div>
 									<div class="faux"></div>
 								</div>
 							</div>
-							
 					</div>
 					</li>`;
-		
-		
-		nav.buttons.push({
-			tile : (i+1) - continued, 
-			state : (i < cap) ? 'show' : 'hide'
+			
+			vars.buttons.push({
+				tile : (idelta + 1), 
+				state : (idelta < vars.cap) ? 'show' : 'hide'
 			});
+			}
+			
+			if(viewmode == 'mobile') {
+				markup += `</ul>${__tileControls(vars.buttons, viewmode)}</div>`;
+			} else {
+				markup += `</ul></div>`
+			}
+							
+			markup += `<div class="wrapper"><div id="nav">`
+							
+							for(let i=0; i<vars.filter.all.length; i++){
+								markup += `<button id="${vars.filter.all[i]}" class="${(vars.filter.active == vars.filter.all[i]) ? 'active' : ''}">${vars.filter.all[i]}</button>`
+								if(viewmode == 'desktop' && i == 1)
+									markup += __tileControls(vars.buttons, viewmode);
+							}
+							
+			markup += `</div></div></div>`;
+		
+		
+		return markup;
+		
+		function __formatTileTags(tags){
+	
+			let markup = '<ul class="tags">';
+	
+			for(let i = 0; i < tags.length; i++){
+				markup += `<li><button class="${tags[i].slug}">${tags[i].tag}</button></li>`;
+			}
+	
+			markup += '</ul>';
+	
+			return markup;
+		}
+		
+		
+		function __tileControls(buttons, mode){
+			
+			let markup = `<div class="controls ${mode}"><h1>Portfolio</h1><ul>`;
+			for(button in buttons){
+				markup += `<li><a id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
+			}
+			
+			markup += '</ul></div>';
+			
+			return markup;
+		}
 		
 		}
 		
-	markup += '</ul>';
-	$('#container').append(markup);
-	$('#tilenav').remove();
-	
-	_buildTileNav(nav.buttons);
-	
-	let time =100;
-	let lengthen = 200;
-/*
-	let numTiles = num - continued;
-	let dur = time + ((numTiles-1)*lengthen);
-*/
-	let dur = time + ((cap-1)*lengthen);
-	let transitionMs = 1500;
-
-	setTimeout(function() {
-		$('#mask').remove();
 		
-	},(dur + transitionMs));
-
+	}// _layoutTiles()
 	
-	for(let i = 1; i <= cap; i++){
-		
-		setTimeout(function() {
-			/* flip the first set of tiles */
-			let li = $('#tiles .tile-' + i).addClass('flip-x');
-
-		},time);
-		time += lengthen;
-		
-	}
 	
-	addEvents(tiles);
-		
-}
-
-function addEvents(data) {
+	return module;
 	
-	var tiles = document.querySelectorAll('#tiles li');
-	/* place events on bounding element to prevent repeated */
-	/* class toggling during animation of hovered element */
-	
-	/* Tiles */
-	for(let i = 0; i < tiles.length; i++){
-		
-		tiles[i].addEventListener('mouseover', function(){
-    		
-    		//$(this).find('.tile').toggleClass('flip-x');
-    	
-		}, false);
-		
-		tiles[i].addEventListener('mouseout', function(){
-    		
-    		/* prevent flip of active(clicked) tile */
-    		let active = $(this).find('.tile').hasClass('active');
-    		
-    		if(active === false){
-	    		//$(this).find('.tile').toggleClass('flip-x');
-    		}
-			
-			
-		}, false);
-	}
-
-	let tags = document.querySelectorAll('.tile .tags button');
-		
-		for(let i=0; i < tags.length; i++) {
-			tags[i].addEventListener('click', function(e){
-				let tag_active = $(this).attr('class');
-				let tile = $(this).parents('.tile');
-				tile.addClass('active');
-				let tile_id = tile.attr('data-project');
-				let tile_classes = tile.attr('class');
-				let tile_class = _findTileClass(tile_classes, true)
-				
-				showProject(tile_class, tag_active, data[tile_id-1] );
-			}, false);
-		}
-}
-
-function _formatTileTags(tags){
-	
-	let markup = '<ul class="tags">';
-	
-	for(let i = 0; i < tags.length; i++){
-		markup += `<li><button class="${tags[i].slug}">${tags[i].tag}</button></li>`;
-	}
-	
-	markup += '</ul>';
-	
-	return markup;
-}
-
-
-function _findTileClass(haystack, asSelector){
-	
-	let classes = haystack.split(' ');
-	let tileClass;
-	
-	for (i = 0; i < classes.length; i++){
-		
-		let tile_class = classes[i];
-		
-		if( tile_class.indexOf('tile-') > -1 ) {
-		 	tileClass = tile_class ;
-		 	break;
-		 } else {
-			continue;
-		 };
-	}
-	
-	return (asSelector) ? '.' + tileClass : tileClass;
-}
-
-
+})();
 $(function () {
 	
-	var projects;
+	//var projects;
 	
 	$.getJSON('assets/data/projects.json', function (data) {
 		
-		projects = data;
-		_init();
+		tileModule(data);
 		
 	});
 	
 	
-	function _init() {
-		
-		var cloned = Object.assign({}, projects);
-
-		$('#main button').on('click', function(){
-			$('#tiles').remove();
-			$('#main button').removeClass('active');
-			let clicked = $(this).attr('id');
-			$(this).addClass('active');
-			
-			_navClick(clicked);
-		});
-		
-		function _navClick(active) {
-			layoutTiles(cloned, active);
-		};
-		
-		$('#fav').click();
-	}
-
 });
 
 

@@ -3,27 +3,40 @@
 	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000;
 }
 
+#interface {
+	display: flex;
+	flex-flow: column nowrap; 
+
+	.wrapper{
+		flex: 0 1 auto;
+		text-align: center;
+	}
+&.mobile {
+	flex-flow: column-reverse nowrap;
+}
+}
+
+
 #tiles{
 	width: 100%;
+	margin: 2em 0;
 	position: relative;
 	list-style: none;
 	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-flow: row nowrap;
 	justify-content: space-between;
 	align-items: flex-start;
 	
 	> li {
-		flex: 1 1 250px;
+// 		flex: 1 1 250px;
+		flex: 1 1 25%;
 		height: 350px;
-		margin: 0 3em 3em 0; 
-// 		display: block;
+		margin-right: 2em;
+// 		margin: 0 3em 3em 0; 
 		display: none;
-// 		border: 1px solid blue;
 		background: rgba(0,0,0, .15);
 		perspective: 800px;
 
-			
 			div.tile {
 				width: 100%;
 				height: 100%;
@@ -117,36 +130,76 @@
 	&.show{
 		display: block;
 	}
-	&.hide{
-		
-	}
 	
 	}// li
-}//ul
 
+}//#tiles
 
-
-#tilenav {
-	list-style: none;
-	margin: 1em;
+#nav {
+	margin: 0 0;
+	padding: 0 0;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	width: 90%;
+	margin: 0 auto;
 	
-	li{
-		display: inline-block;
-		margin-right: 2px;
-	
-		a{
-			display: block;
-			padding: .25em 1em;
-			background-color: rgba(74,139,216, .5);
-			transition: background-color 750ms;
+	button{
+		display: inline !important;
+		background: none;
+		border: 0;
+		cursor:pointer;
+		color: $grey;
 			
-			span{
-				display: none;
-			}
-		
-		&.active{
-			background-color: rgba(74,139,216, 1);
-		}
-		}
+	&.active{
+		color: white;
+	}	
 	}
+		
 }
+
+
+.controls {
+		
+		h1 {
+			color: $white;
+			font-weight: normal;
+			letter-spacing: 2px;
+			text-align: center;
+			margin: 0 auto .25em;
+		}
+		
+		
+		ul {
+			list-style: none;
+			margin: 0 0 .5em;
+			display: table;
+			width: 100%;
+		
+			li{
+				display: table-cell;
+				padding-right: 2px;
+			
+				a{
+					display: block;
+					padding: .25em;
+					background-color: rgba(74,139,216, .5);
+					transition: background-color 750ms;
+					
+					span{
+						display: none;
+					}
+				
+				&.active{
+					background-color: rgba(74,139,216, 1);
+				}
+				}
+			
+			.mobile &{
+				padding-right: 10px;
+			}
+			
+			}
+		}
+}//controls

@@ -1,7 +1,15 @@
 function layoutTiles(data, focus) {
 	
+	/* @todo
+		1) prevent double tap
+		2) set number of tiles based on media size
+		3) y axis hover
+		
+		*/
+	
+	
 	var tiles = data.projects;
-	var mode = getViewport();
+	//var mode = getViewport();
 	//console.log(mode);
 	let num = tiles.length;
 	let continued = 0;
