@@ -84,7 +84,7 @@ function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 		200,
 		function () {
 			$(this).remove();
-			$(tile_class, '#tiles ').removeClass('active').toggleClass('flip-x');
+			$(tile_class, '#tiles ').removeClass('active').toggleClass('flip-y');
 		});
 		
 	}, false);

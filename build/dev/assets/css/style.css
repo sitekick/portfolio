@@ -11,7 +11,7 @@ li {
 }
 
 #container {
-  margin: 1em;
+  margin: 2em;
   vertical-align: top;
 }
 @media screen and (max-width: 500px) {
@@ -55,7 +55,7 @@ li {
 
 #tiles {
   width: 100%;
-  margin: 2em 0;
+  margin: 0 0 1em;
   position: relative;
   list-style: none;
   display: -webkit-box;
@@ -96,12 +96,17 @@ li {
   position: relative;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
-  -webkit-transform: rotateX(-180deg) rotateY(0deg);
-          transform: rotateX(-180deg) rotateY(0deg);
   -webkit-transition: -webkit-transform 750ms;
   transition: -webkit-transform 750ms;
   transition: transform 750ms;
   transition: transform 750ms, -webkit-transform 750ms;
+  -webkit-transform: rotateX(0deg) rotateY(-180deg);
+          transform: rotateX(0deg) rotateY(-180deg);
+  /*
+  				border-top: 1px solid yellow;
+  				border-bottom: 1px solid blue;	
+  				border-left: 1px solid green;
+  */
 }
 #tiles > li div.tile .side {
   position: absolute;
@@ -122,12 +127,20 @@ li {
           transform: translateY(-50%);
 }
 #tiles > li div.tile .side.front {
-  background-color: #FFF;
+  -webkit-transform: rotateX(0deg) rotateY(0deg);
+          transform: rotateX(0deg) rotateY(0deg);
 }
 #tiles > li div.tile .side.back {
   background-color: #4A4A4A;
-  -webkit-transform: rotateX(180deg);
-          transform: rotateX(180deg);
+  -webkit-transition: background-color 250ms;
+  transition: background-color 250ms;
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
+}
+#tiles > li div.tile .side.back .content {
+  -webkit-transition: opacity 750ms;
+  transition: opacity 750ms;
+  opacity: 0;
 }
 #tiles > li div.tile .side.back .content .source {
   display: block;
@@ -145,45 +158,63 @@ li {
 #tiles > li div.tile .side.back .tags li button:hover {
   cursor: pointer;
 }
-#tiles > li div.tile .side.back.back.transition {
+#tiles > li div.tile .side.back.flipping {
   background-color: #FFF;
 }
-#tiles > li div.tile .side.back.back.transition .content .source {
+#tiles > li div.tile .side.back.flipping .content {
+  opacity: 1;
+}
+#tiles > li div.tile .side.back.flipping .content .source {
   display: none;
 }
-#tiles > li div.tile .side.back.back.transition .content .faux {
+#tiles > li div.tile .side.back.flipping .content .faux {
   display: block;
 }
+#tiles > li div.tile.transform0 {
+  -webkit-transition: -webkit-transform 0s;
+  transition: -webkit-transform 0s;
+  transition: transform 0s;
+  transition: transform 0s, -webkit-transform 0s;
+}
+#tiles > li div.tile.flip-x {
+  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
+          transform: rotateX(-180deg) rotateY(-180deg);
+}
+#tiles > li div.tile.flip-x .front {
+  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
+          transform: rotateX(-180deg) rotateY(-180deg);
+}
+#tiles > li div.tile.flip-x .back {
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
+}
 #tiles > li div.tile.flip-y {
-  -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
 }
 #tiles > li div.tile.flip-y .back {
-  background-color: #CCC;
+  background: #CCC;
 }
 #tiles > li div.tile.flip-y .back .content {
   opacity: 1;
 }
-#tiles > li div.tile.notransition {
-  -webkit-transition: none;
-  transition: none;
-}
-#tiles > li div.tile.flip-x {
-  -webkit-transform: rotateX(0deg);
-          transform: rotateX(0deg);
-}
 #tiles > li div.tile.flip-x2 {
-  -webkit-transform: rotateX(-180deg);
-          transform: rotateX(-180deg);
-  /* webkit bug */
-  /* https://bugs.webkit.org/show_bug.cgi?id=54371 */
+  -webkit-transform: rotateX(0deg) rotateY(-180deg);
+          transform: rotateX(0deg) rotateY(-180deg);
+}
+#tiles > li div.tile.flip-x2 .back {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
 }
 #tiles > li.show {
   display: block;
 }
+#tiles > li.last {
+  margin-right: 0;
+}
 
 #nav {
-  margin: 0 0;
+  margin: 1em auto 0;
   padding: 0 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -204,7 +235,6 @@ li {
       -ms-flex-align: center;
           align-items: center;
   width: 90%;
-  margin: 0 auto;
 }
 #nav button {
   display: inline !important;
@@ -215,6 +245,10 @@ li {
 }
 #nav button.active {
   color: white;
+}
+.mobile #nav {
+  margin: 1em 0;
+  width: 100%;
 }
 
 .controls h1 {

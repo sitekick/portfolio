@@ -1,10 +1,5 @@
 var tileModule = (function() {
 	
-	/* 	@ todo 
-		1) dynamic tile count display
-	
-	*/
-	
 	let active, //slug of desired tile projects to show
 		viewport, //active media query
 		viewmode, //desktop layout or mobile
@@ -28,7 +23,9 @@ var tileModule = (function() {
 					viewmode = 'desktop';
 			},
 			'(all)' : function() {
-				console.log(viewmode);
+				//console.log(viewmode);
+				layoutTiles();
+				//console.log(active)
 			}
 		}
 			 
@@ -38,21 +35,26 @@ var tileModule = (function() {
 	var module = function(data) {
 		
 		projects = data.projects;
+			
+		layoutTiles();
 		
-		layoutTiles('fav');
+		//layoutTiles('fav');
 	}
 	
-	function layoutTiles(clicked) {
+	function layoutTiles() {
 	
+		$('#interface').remove();
+		
 		let vars = {
 			tiles : projects.slice(),
 			filter : {
-				active : clicked,
+				//active : clicked,
+				active : active || 'fav',
 				all : ['fav','logo-design','web-design','html-js']
 			},
 			continued : 0,  //counter for filtered rows
 			get cap() {
-				let val;//number of tiles per row
+				let val;  //number of tiles per row
 				switch(viewport){
 					case 'screen-small' :
 						val = 1;
@@ -71,37 +73,34 @@ var tileModule = (function() {
 				}
 				return val;
 			},
-			buttons : [] //store tile data to build controls
+			buttons : [], //store tile data to build controls,
+			timerCalc : function(time, lengthen) {
+				/* total time to compete function */
+				let dur = time + ((vars.cap-1)*lengthen);
+				/* dur time plus transition completion time */
+				let css = $('#tiles .tile').css('transition-duration').split(',');
+				let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
+				return dur + val ;
+			}
 		}
  		
 		$('#container').append( _tileMarkup() );
 		
-		/* animate tiles */
+		/* animate tiles; fires _addEvents after completion */
 		_animateTiles();
-		
 		
 		function _animateTiles(){
 			
 			let timer = {
-					time : 100,
-					lengthen : 200,
-					get dur() {
-						/* total time to compete function */
-						return this.time + ((vars.cap-1)*this.lengthen);
-					},
-					get transitionDur() {
-						/* dur time plus transition completion time */
-						let css = $('#tiles .tile').css('transition-duration').split(',');
-						let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
-				
-						return this.dur + val ;
-					}
+				time : 100,
+				lengthen : 200
 			};
 			
+			//console.log( vars.timerCalc(timer.time, timer.lengthen) );
 			setTimeout(function() {
 				$('#mask').remove();
 				_addEvents();
-			},(timer.transitionDur));
+			},vars.timerCalc(timer.time, timer.lengthen));
 	
 			/* animate active tiles */
 			for(let i = 1; i <= vars.cap; i++){
@@ -124,7 +123,7 @@ var tileModule = (function() {
 			for(let i = 0; i < tiles.length; i++){
 				
 				tiles[i].addEventListener('mouseover', function(){
-		    		//$(this).find('.tile').toggleClass('flip-x');
+		    		$(this).find('.tile').removeClass('transform0').toggleClass('flip-y');
 				}, false);
 				
 				tiles[i].addEventListener('mouseout', function(){
@@ -132,7 +131,7 @@ var tileModule = (function() {
 		    		let active = $(this).find('.tile').hasClass('active');
 		    		
 		    		if(active === false){
-			    		//$(this).find('.tile').toggleClass('flip-x');
+			    		$(this).find('.tile').toggleClass('flip-y');
 		    		}
 				}, false);
 			}
@@ -141,22 +140,23 @@ var tileModule = (function() {
 				
 				for(let i=0; i < tags.length; i++) {
 					tags[i].addEventListener('click', function(e){
-						let tag_active = $(this).attr('class');
+						let focus_clicked = $(this).attr('class');
 						let tile = $(this).parents('.tile');
 						tile.addClass('active');
 						let tile_id = tile.attr('data-project');
 						let tile_classes = tile.attr('class');
 						let tile_class = __findTileClass(tile_classes, true)
-						
-						showProject(tile_class, tag_active, data[tile_id-1] );
+												
+						showProject(tile_class, focus_clicked, vars.tiles[tile_id-1] );
 					}, false);
 				}
 				
 			/* Main Nav */
 			$('#nav > button').on('click', function(){
-				$('#interface').remove();
+// 				$('#interface').remove();
 				let clicked = $(this).attr('id');
-				layoutTiles(clicked);
+				active = clicked;
+				layoutTiles();
 			});
 
 			/* Tile Nav */
@@ -211,50 +211,11 @@ var tileModule = (function() {
 				
 				let timer = {
 					time : 100,
-					lengthen : 75,
-					get dur() {
-						 /* total time to compete function */
-						 return this.time + ((vars.cap-1)*this.lengthen);
-					},
-					get transitionDur() {
-						 /* dur time plus transition completion time */
-						let css = $('#tiles .tile').css('transition-duration').split(',');
-						let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
-						
-						return this.dur + val ;
-					},
-					
+					lengthen : 200
 				}
 				
 				let nexts = [];
 				let currents = [];
-				
-				/* manipulate the CURRENT tiles to show flip effect */
-				for(let i=0; i < vars.cap; i++){
-					
-					/* buttons */
-					let button = $('#button-' + next_start);
-					$(button).addClass('active');
-					
-					/* tile faces */
-					let current_tile = $('#tiles .tile-' + current_start);
-					let tmp_html = $('#tiles .tile-' + next_start + ' .front .content').html();
-					$('.back .faux', current_tile).append(tmp_html);
-					
-					/* flip */
-					setTimeout(function() {
-						$(current_tile).removeClass('notransition').addClass('flip-x2');
-						$('.back', current_tile).addClass('transition');
-						
-					},timer.time);
-					timer.time += timer.lengthen;
-					
-					/* counters */
-					currents.push(current_start);
-					current_start++
-					nexts.push(next_start);
-					next_start++
-				};
 				
 				setTimeout(function() {
 					
@@ -272,7 +233,7 @@ var tileModule = (function() {
 			  				$(tile_current).removeClass('flip-x flip-x2').parent('li').removeClass('show');
 						} else {
 							/* previous tiles shown on next set in new position */
-							$(tile_current).addClass('notransition').removeClass('flip-x2');
+							$(tile_current).addClass('transform0').removeClass('flip-x2');
 						}
 						
 						if( currents.indexOf(nexts[i]) < 0 ) {
@@ -280,15 +241,51 @@ var tileModule = (function() {
 							$(tile_next).addClass('flip-x').parent('li').addClass('show');
 						}
 						
+						/* adjust last class */
+							if(currents[i] == currents[(vars.cap-1)])
+								$(tile_current).parent('li').removeClass('last');
+								
+							if(nexts[i] == nexts[(vars.cap-1)])
+								$(tile_next).parent('li').addClass('last');
+						
 						/* remove faux content */
 						$('.faux img', tile_current).remove();
-						$('.back', tile_current).removeClass('transition');
-						
-						/* re-enable button controls */
-						disabled = false;
+						$('.back', tile_current).removeClass('flipping');
 					}
 					
-				},timer.transitionDur);
+					/* re-enable button controls */
+					disabled = false;
+					
+					
+				},vars.timerCalc(timer.time, timer.lengthen));
+				
+				
+				/* manipulate the CURRENT tiles to show flip effect */
+				for(let i=0; i < vars.cap; i++){
+					
+					/* buttons */
+					let button = $('#button-' + next_start);
+					$(button).addClass('active');
+					
+					/* tile faces */
+					let current_tile = $('#tiles .tile-' + current_start);
+					let tmp_html = $('#tiles .tile-' + next_start + ' .front .content').html();
+					$('.back .faux', current_tile).append(tmp_html);
+					
+					/* flip */
+					setTimeout(function() {
+						$(current_tile).removeClass('transform0').addClass('flip-x2');
+						$('.back', current_tile).addClass('flipping');
+						
+					},timer.time);
+					timer.time += timer.lengthen;
+					
+					/* counters */
+					currents.push(current_start);
+					current_start++
+					nexts.push(next_start);
+					next_start++
+				};
 				
 			}
 			
@@ -365,9 +362,10 @@ var tileModule = (function() {
 						}
 							
 				}//switch
-				
+			//markup += `<li class="${(idelta < vars.cap) ? 'show' : ''}">	
 			/* markup for matching tiles */
-			markup += `<li class="${(idelta < vars.cap) ? 'show' : ''}">
+			markup += `<li class="${(idelta < vars.cap) ? ((idelta+1) == vars.cap) ? 'show last' : 'show' : ''}">
+					
 					<div data-project="${(idelta+1)}" class="tile tile-${(idelta + 1)}"> 
 							<div class="side front">
 								<div class="content vcenter">
@@ -440,9 +438,7 @@ var tileModule = (function() {
 		
 		}
 		
-		
 	}// _layoutTiles()
-	
 	
 	return module;
 	
