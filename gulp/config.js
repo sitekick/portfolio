@@ -83,8 +83,9 @@ module.exports = {
 	autoprefixer: {
 		browsers: [
 			'last 2 versions',
-			'Firefox >= 20',
-			'Safari >= 5.1',
+			'Firefox >= 43',
+			'Chrome >= 43',
+			'Safari >= 8',
 			'ie >= 9',
 			'Edge >= 12',
 			'Opera >= 12.1',

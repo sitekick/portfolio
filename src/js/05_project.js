@@ -4,6 +4,8 @@ function showProject(tile_class, tag, data){
 	
 	let parent = $(tile_class, '#tiles ').parent();
 	
+	$('#container').addClass('project');
+	
 	/* the selected tile */
 	let parent_specs = {
 		offset : parent.offset(),
@@ -23,7 +25,7 @@ function showProject(tile_class, tag, data){
 	var markup = `
 	<div id="project">
 		<div class="imagery">
-	 		<div class="close"><img src="assets/img/button.close.png" alt="close button"/></div>
+	 		<div class="close" tabindex="0"><img tabindex="-1" src="assets/img/button.close.png" alt="close button"/></div>
 	 		<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>
 	 	</div>
 	 	<div class="info">
@@ -50,7 +52,7 @@ function showProject(tile_class, tag, data){
 		150,
 		function () {
 			$(this).find('.imagery').addClass('loaded');
-			$('#tiles').hide();
+			$('#interface').hide();
 			_projectEvents(tile_class, tag, parent_specs, viewport);
 		});
 }
@@ -59,6 +61,13 @@ function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 	
 	var resizeid;
 	/* initialize slider */
+	
+	/* a11y */
+	
+	let ally = {
+		'tags' : keyFocus('#project .tabs'),
+		'close' : keyFocus('#project .close')
+	};
 	
 	sliderModule({
 		element : '#slider',
@@ -72,7 +81,7 @@ function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 	
 	control.addEventListener('click', function(e){
 		
-		$('#tiles').show();
+		$('#interface').show();
 		
 		$('#project').animate({
 			left : parent_specs.offset.left,
@@ -84,7 +93,8 @@ function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 		200,
 		function () {
 			$(this).remove();
-			$(tile_class, '#tiles ').removeClass('active').toggleClass('flip-y');
+			$(tile_class, '#tiles ').removeClass('active').removeClass('flip-y');
+			$('#container').removeClass('project');
 		});
 		
 	}, false);
@@ -144,7 +154,7 @@ function _formatTabTags(data, active){
 	
 	let foci = data.foci;
 	let content = '';
-	let markup = '<div class="tabs"><ul>';
+	let markup = '<div class="tabs"><ul tabindex="0">';
 
 	for(let i = 0; i < foci.length; i++){
 		let activate = ( foci[i].slug == active) ? true : false;
@@ -153,7 +163,7 @@ function _formatTabTags(data, active){
 			a_classes += 'active ';
 		if(foci[i].favorite)
 			a_classes += 'fav';
-		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" class="${a_classes}">${foci[i].tag}</a></li>`;
+		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" tabindex="-1" class="${a_classes}">${foci[i].tag}</a></li>`;
 		content += `<div class="copy ${foci[i].slug} ${(activate) ? 'active' : ''}">${foci[i].copy}</div>`;
 	}
 	

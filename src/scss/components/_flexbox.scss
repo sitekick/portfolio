@@ -1,0 +1,154 @@
+.flexbox {
+	/* flexbox required for flipping effect; slide transition used for non-supporting browsers */ 
+	
+	
+	#interface {
+		display: flex;
+		flex-flow: column nowrap; 
+
+		.wrapper{
+			flex: 0 1 auto;
+		}
+	
+	@include screen-medium{
+		flex-flow: column-reverse nowrap;
+	}
+	}
+	
+	#tiles {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		align-items: flex-start;
+		
+		li {
+			flex: 1 1 25%;
+			margin-right: 2em;
+			padding-right: 0;
+			background: rgba(0,0,0, .15);
+			/* confirm this */
+			overflow: visible; 
+			/* flip effect */
+			perspective: 800px;
+		
+			div.tile{
+				width: 100%;
+				/* flip effect */
+				transform-style: preserve-3d;
+				transition: transform 750ms;
+				transform: rotateX( 0deg ) rotateY(-180deg); 
+			
+				.side {
+					/* flip effect */
+					backface-visibility: hidden;
+				
+				&.front {
+					/* flip effect */
+					transform: rotateX( 0deg ) rotateY(0deg); 
+				}
+				&.back {
+					background: $background;
+					transition: background-color 350ms;
+					/* flip effect */
+					transform: rotateX( -180deg ) rotateY(0deg); 
+					
+					.content {
+						/* flip effect */
+						transition: opacity 350ms;
+						opacity: 0;
+					}
+				&.flipping{
+					background-color: $white;		
+					
+					.content{
+						/* flip effect */
+						opacity: 1;
+					}
+				}
+				}//.back
+				}//.side
+			&.transform0{
+				/* flip effect */
+				transition : transform 0s;
+			}
+			&.flip-x {
+				/* flip effect */
+				transform: rotateX( -180deg ) rotateY( -180deg );
+				
+				.front {
+					/* flip effect */
+					transform: rotateX( -180deg ) rotateY(-180deg);
+				}
+					
+				.back{
+					/* flip effect */
+					transform: rotateX( -180deg ) rotateY(0deg);
+				}
+			}
+			&.flip-y{
+				/* flip effect */
+				transform: rotateX( -180deg ) rotateY( 0deg );
+				
+				.back {
+					background: $grey;
+					
+					.content{
+						opacity: 1;
+					}
+					
+				}
+			}
+			&.flip-x2 {
+				/* flip effect */
+				transform: rotateX( 0deg ) rotateY( -180deg );
+					
+				.back {
+					/* flip effect */
+					transform: rotateY( 180deg );
+				}
+			}
+			}//.tile
+		
+		&.show{
+			display: block;
+		}
+		
+		&.last{
+			margin-right: 0;
+			padding-right: 0;
+		}
+		}//li
+	}//tiles
+
+
+	#nav {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		align-items: center;
+		margin: 1em auto;
+		width: 90%;
+		
+		button{
+			display: block;
+			padding: 0;
+		}
+	
+	
+	@include screen-medium{
+		margin: 0 0 1.5em 0;
+		width: 100%;
+	}
+	@include screen-small{
+		margin: 1.5em 0;
+	}
+	}
+
+	.controls {
+		display: block;
+		margin: 0;
+	}
+
+
+} // flexbox
+

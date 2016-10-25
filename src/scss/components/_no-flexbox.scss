@@ -1,0 +1,122 @@
+.no-flexbox {
+
+	#interface {
+	position: relative;
+		
+		display: block;
+		 
+		.wrapper{
+			display: block;
+		}
+	
+	@include screen-medium{
+		padding-top: 3em;
+	}
+	}
+	
+	#tiles {
+		display: table;
+		
+		> li {
+			overflow: hidden;
+			padding-right: 1em;
+			
+			
+			div.tile{
+				/* slide effect (vertical) */
+				transform-style: flat;
+				transition: transform 500ms;
+				transform: translateY(-100%);
+			
+				.side {
+				&.back{
+					background-color: rgba(255,255,255, .7);
+					/* slide effect (vertical 2) */
+					transition: transform 500ms;
+					transform: translateY(-100%);	
+				
+				&.flipping {
+					background-color: rgba(255,255,255, 1);
+				}
+				}// .back
+				}// .side
+			&.transform0{
+				
+					.back {
+						/* slide effect (vertical 2)*/
+						transition : transform 0s;		
+					}
+			}
+			&.flip-x {
+					/* slide effect (vertical 1)*/
+					transform: translateY(0);
+				}
+			&.flip-y{
+					
+				.back {
+					/* slide effect (vertical 2)*/
+					transform: translateY(0);
+				}
+				
+			}	
+			&.flip-x2 {
+									
+				.back {
+					/* slide effect (vertical 2)*/
+					transform: translateY(0)
+				}
+			}		
+			}// .tile
+		&.show{
+			display: table-cell;
+		}
+		&.last{
+			padding-right: 0;
+		}	
+		}// li
+	
+	&.cols-4 > li{width: 25%;}
+	&.cols-3 > li{width: 33.3333%;}
+	&.cols-2 > li{width: 50%;}
+	&.cols-1 > li{width: 100%;}
+	}// #tiles
+	
+	#nav {
+		padding: 0 0;
+		display: block;
+		width: 100%;
+		
+		button{
+			display: inline-block;
+			padding: 0 1em;	
+		
+		&.active{
+			color: white;
+		}
+		@include screen-medium{
+			margin: 0 1em;
+			padding: 0 .5em;	
+		}
+		@include screen-small{
+			margin: 0 .5em;
+		}	
+		}
+	
+	@include screen-medium{
+		position: absolute;
+		top: .5em;
+	}		
+	}	
+
+	.controls {
+		display: inline-block;
+		margin: 0 3em;
+	
+	@include screen-medium{
+		margin: 0 0;
+	}
+
+	}
+
+
+}// no-flexbox

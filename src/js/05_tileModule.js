@@ -1,5 +1,7 @@
 var tileModule = (function() {
 	
+	/* @todo : polyfill or handle ie9 lack of csstransition support */
+	
 	let active, //slug of desired tile projects to show
 		viewport, //active media query
 		viewmode, //desktop layout or mobile
@@ -23,22 +25,17 @@ var tileModule = (function() {
 					viewmode = 'desktop';
 			},
 			'(all)' : function() {
-				//console.log(viewmode);
 				layoutTiles();
-				//console.log(active)
 			}
 		}
 			 
 	resizeQuery(events, true);	
-	
 	
 	var module = function(data) {
 		
 		projects = data.projects;
 			
 		layoutTiles();
-		
-		//layoutTiles('fav');
 	}
 	
 	function layoutTiles() {
@@ -48,7 +45,6 @@ var tileModule = (function() {
 		let vars = {
 			tiles : projects.slice(),
 			filter : {
-				//active : clicked,
 				active : active || 'fav',
 				all : ['fav','logo-design','web-design','html-js']
 			},
@@ -69,7 +65,7 @@ var tileModule = (function() {
 						val = 4;
 					break; 
 					default :
-					val = 1;
+						val = 1;
 				}
 				return val;
 			},
@@ -82,9 +78,20 @@ var tileModule = (function() {
 				let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
 				return dur + val ;
 			}
+			
 		}
  		
 		$('#container').append( _tileMarkup() );
+		
+		/* if resized while project overlay displayed */
+		if( $('#container').hasClass('project') )
+			$('#interface').hide();
+			
+		/* accesibility controls*/
+		let a11y = {
+			tiles : keyFocus('#tiles'),
+			nav : keyFocus('#nav')
+		};
 		
 		/* animate tiles; fires _addEvents after completion */
 		_animateTiles();
@@ -116,25 +123,38 @@ var tileModule = (function() {
 		function _addEvents() {
 	
 			/* Tiles */
-			var tiles = document.querySelectorAll('#tiles li');
+			
 			/* place events on bounding element to prevent repeated */
 			/* class toggling during animation of hovered element */
 			
-			for(let i = 0; i < tiles.length; i++){
-				
-				tiles[i].addEventListener('mouseover', function(){
-		    		$(this).find('.tile').removeClass('transform0').toggleClass('flip-y');
-				}, false);
-				
-				tiles[i].addEventListener('mouseout', function(){
-		    		/* prevent flip of active(clicked) tile */
-		    		let active = $(this).find('.tile').hasClass('active');
-		    		
-		    		if(active === false){
-			    		$(this).find('.tile').toggleClass('flip-y');
-		    		}
-				}, false);
-			}
+			let tile_events = {
+				flip : function(el) {
+					$('.tile', el).removeClass('transform0').addClass('flip-y');
+				},
+				unflip : function(el) {
+					let active = $('.tile', el).hasClass('active');
+					
+					if(active === false){
+			    		$('.tile', el).removeClass('flip-y');
+					}
+				}
+			};
+			
+			$('#tiles li').on({
+					focusin : function(){
+						tile_events.flip(this);
+					},
+					focusout : function(){
+						tile_events.unflip(this);
+					},
+					mouseover : function(){
+						tile_events.flip(this);
+					},
+					mouseout : function(){
+						tile_events.unflip(this);
+					}
+			});
+
 			/* Tags */
 			let tags = document.querySelectorAll('.tile .tags button');
 				
@@ -153,7 +173,6 @@ var tileModule = (function() {
 				
 			/* Main Nav */
 			$('#nav > button').on('click', function(){
-// 				$('#interface').remove();
 				let clicked = $(this).attr('id');
 				active = clicked;
 				layoutTiles();
@@ -230,7 +249,7 @@ var tileModule = (function() {
 						if( nexts.indexOf(currents[i]) < 0 ) {
 			  				/* previous tiles not shown on next set */
 			  				let tile = '#tiles .tile-' + currents[i];
-			  				$(tile_current).removeClass('flip-x flip-x2').parent('li').removeClass('show');
+			  				$(tile_current).removeClass('flip-x flip-x2').parent('li').removeAttr('tabindex').removeClass('show');
 						} else {
 							/* previous tiles shown on next set in new position */
 							$(tile_current).addClass('transform0').removeClass('flip-x2');
@@ -238,7 +257,7 @@ var tileModule = (function() {
 						
 						if( currents.indexOf(nexts[i]) < 0 ) {
 							/* new tiles shown on next set */
-							$(tile_next).addClass('flip-x').parent('li').addClass('show');
+							$(tile_next).addClass('flip-x').parent('li').attr('tabindex', '-1').addClass('show');
 						}
 						
 						/* adjust last class */
@@ -255,7 +274,8 @@ var tileModule = (function() {
 					
 					/* re-enable button controls */
 					disabled = false;
-					
+					/* reset key focus for tiles */
+					a11y.tiles.resetListeners();
 					
 				},vars.timerCalc(timer.time, timer.lengthen));
 				
@@ -315,7 +335,7 @@ var tileModule = (function() {
 			
 			let markup = `<div id="interface" class="${viewmode}"><div class="wrapper">`
 			
-			markup += `<ul id="tiles" class="${vars.filter.active}"><div id="mask"></div>`;
+			markup += `<ul id="tiles" tabindex="0" class="${vars.filter.active} cols-${vars.cap}"><div id="mask"></div>`;
 			
 			tiles: 
 			for(let i = 0; i < vars.tiles.length; i++){
@@ -323,7 +343,7 @@ var tileModule = (function() {
 				let tile_foci = vars.tiles[i].foci;
 				let idelta = i - vars.continued; //track index when rows are continued
 				
-				mode: 
+				//mode: 
 				switch(vars.filter.active){
 					case 'fav' :
 						let not_favs = [];
@@ -344,8 +364,9 @@ var tileModule = (function() {
 							return $.inArray(i, not_favs) ==-1;
 						});
 						
-						
-					break mode;
+					//break mode;
+					break;
+					
 					default : 
 						let found = false;
 						filter:
@@ -362,9 +383,9 @@ var tileModule = (function() {
 						}
 							
 				}//switch
-			//markup += `<li class="${(idelta < vars.cap) ? 'show' : ''}">	
+			
 			/* markup for matching tiles */
-			markup += `<li class="${(idelta < vars.cap) ? ((idelta+1) == vars.cap) ? 'show last' : 'show' : ''}">
+			markup += `<li ${(idelta < vars.cap) ? 'tabindex="-1"' : ''} class="${(idelta < vars.cap) ? ((idelta+1) == vars.cap) ? 'show last' : 'show' : ''}">
 					
 					<div data-project="${(idelta+1)}" class="tile tile-${(idelta + 1)}"> 
 							<div class="side front">
@@ -397,10 +418,10 @@ var tileModule = (function() {
 				markup += `</ul></div>`
 			}
 							
-			markup += `<div class="wrapper"><div id="nav">`
+			markup += `<div class="wrapper"><div id="nav" tabindex="0">`
 							
 							for(let i=0; i<vars.filter.all.length; i++){
-								markup += `<button id="${vars.filter.all[i]}" class="${(vars.filter.active == vars.filter.all[i]) ? 'active' : ''}">${vars.filter.all[i]}</button>`
+								markup += `<button tabindex="-1" id="${vars.filter.all[i]}" class="${(vars.filter.active == vars.filter.all[i]) ? 'active' : ''}">${vars.filter.all[i]}</button>`
 								if(viewmode == 'desktop' && i == 1)
 									markup += __tileControls(vars.buttons, viewmode);
 							}
@@ -413,9 +434,9 @@ var tileModule = (function() {
 		function __formatTileTags(tags){
 	
 			let markup = '<ul class="tags">';
-	
+			
 			for(let i = 0; i < tags.length; i++){
-				markup += `<li><button class="${tags[i].slug}">${tags[i].tag}</button></li>`;
+				markup += `<li><button tabindex="-1" class="${tags[i].slug}">${tags[i].tag}</button></li>`;
 			}
 	
 			markup += '</ul>';
@@ -428,7 +449,7 @@ var tileModule = (function() {
 			
 			let markup = `<div class="controls ${mode}"><h1>Portfolio</h1><ul>`;
 			for(button in buttons){
-				markup += `<li><a id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
+				markup += `<li><a tabindex="-1" id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
 			}
 			
 			markup += '</ul></div>';

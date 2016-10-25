@@ -23,7 +23,8 @@ var sliderModule = (function () {
 				$(settings.name).width(val_width).height(val_height);
 			},
 			setStartPosition : function() {
-				let pos = $(settings.el).parent().offset().top;
+				//let pos = $(settings.el).parent().offset().top;
+				let pos = $(settings.el).parent().offset().top || 0;
 				let adjustment = $(settings.el).parent().height() * settings.index;
 								
 				$(settings.el).offset({top : (pos - adjustment)});

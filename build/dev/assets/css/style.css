@@ -29,28 +29,8 @@ li {
   z-index: 1000;
 }
 
-#interface {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: column nowrap;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
-}
 #interface .wrapper {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 1 auto;
-     -moz-box-flex: 0;
-      -ms-flex: 0 1 auto;
-          flex: 0 1 auto;
   text-align: center;
-}
-#interface.mobile {
-  -webkit-flex-flow: column-reverse nowrap;
-      -ms-flex-flow: column-reverse nowrap;
-          flex-flow: column-reverse nowrap;
 }
 
 #tiles {
@@ -58,55 +38,14 @@ li {
   margin: 0 0 1em;
   position: relative;
   list-style: none;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: row nowrap;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-     -moz-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-     -moz-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
 }
 #tiles > li {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 25%;
-     -moz-box-flex: 1;
-      -ms-flex: 1 1 25%;
-          flex: 1 1 25%;
   height: 350px;
-  margin-right: 2em;
   display: none;
-  background: rgba(0, 0, 0, 0.15);
-  -webkit-perspective: 800px;
-          perspective: 800px;
 }
 #tiles > li div.tile {
-  width: 100%;
   height: 100%;
   position: relative;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 750ms;
-  transition: -webkit-transform 750ms;
-  transition: transform 750ms;
-  transition: transform 750ms, -webkit-transform 750ms;
-  -webkit-transform: rotateX(0deg) rotateY(-180deg);
-          transform: rotateX(0deg) rotateY(-180deg);
-  /*
-  				border-top: 1px solid yellow;
-  				border-bottom: 1px solid blue;	
-  				border-left: 1px solid green;
-  */
 }
 #tiles > li div.tile .side {
   position: absolute;
@@ -114,33 +53,16 @@ li {
   top: 0;
   right: 0;
   bottom: 0;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
 }
 #tiles > li div.tile .side .vcenter {
   position: absolute;
   left: 0;
   top: 50%;
   right: 0;
+  /* centering tile content */
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
-}
-#tiles > li div.tile .side.front {
-  -webkit-transform: rotateX(0deg) rotateY(0deg);
-          transform: rotateX(0deg) rotateY(0deg);
-}
-#tiles > li div.tile .side.back {
-  background-color: #4A4A4A;
-  -webkit-transition: background-color 250ms;
-  transition: background-color 250ms;
-  -webkit-transform: rotateX(-180deg) rotateY(0deg);
-          transform: rotateX(-180deg) rotateY(0deg);
-}
-#tiles > li div.tile .side.back .content {
-  -webkit-transition: opacity 750ms;
-  transition: opacity 750ms;
-  opacity: 0;
 }
 #tiles > li div.tile .side.back .content .source {
   display: block;
@@ -158,86 +80,14 @@ li {
 #tiles > li div.tile .side.back .tags li button:hover {
   cursor: pointer;
 }
-#tiles > li div.tile .side.back.flipping {
-  background-color: #FFF;
-}
-#tiles > li div.tile .side.back.flipping .content {
-  opacity: 1;
-}
 #tiles > li div.tile .side.back.flipping .content .source {
   display: none;
 }
 #tiles > li div.tile .side.back.flipping .content .faux {
   display: block;
 }
-#tiles > li div.tile.transform0 {
-  -webkit-transition: -webkit-transform 0s;
-  transition: -webkit-transform 0s;
-  transition: transform 0s;
-  transition: transform 0s, -webkit-transform 0s;
-}
-#tiles > li div.tile.flip-x {
-  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
-          transform: rotateX(-180deg) rotateY(-180deg);
-}
-#tiles > li div.tile.flip-x .front {
-  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
-          transform: rotateX(-180deg) rotateY(-180deg);
-}
-#tiles > li div.tile.flip-x .back {
-  -webkit-transform: rotateX(-180deg) rotateY(0deg);
-          transform: rotateX(-180deg) rotateY(0deg);
-}
-#tiles > li div.tile.flip-y {
-  -webkit-transform: rotateX(-180deg) rotateY(0deg);
-          transform: rotateX(-180deg) rotateY(0deg);
-}
-#tiles > li div.tile.flip-y .back {
-  background: #CCC;
-}
-#tiles > li div.tile.flip-y .back .content {
-  opacity: 1;
-}
-#tiles > li div.tile.flip-x2 {
-  -webkit-transform: rotateX(0deg) rotateY(-180deg);
-          transform: rotateX(0deg) rotateY(-180deg);
-}
-#tiles > li div.tile.flip-x2 .back {
-  -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
-}
-#tiles > li.show {
-  display: block;
-}
-#tiles > li.last {
-  margin-right: 0;
-}
 
-#nav {
-  margin: 1em auto 0;
-  padding: 0 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: row nowrap;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-     -moz-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-     -moz-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 90%;
-}
 #nav button {
-  display: inline !important;
   background: none;
   border: 0;
   cursor: pointer;
@@ -246,10 +96,6 @@ li {
 #nav button.active {
   color: white;
 }
-.mobile #nav {
-  margin: 1em 0;
-  width: 100%;
-}
 
 .controls h1 {
   color: #FFF;
@@ -257,6 +103,11 @@ li {
   letter-spacing: 2px;
   text-align: center;
   margin: 0 auto .25em;
+}
+@media screen and (max-width: 768px) {
+  .controls h1 {
+    margin: 1em auto;
+  }
 }
 .controls ul {
   list-style: none;
@@ -281,8 +132,16 @@ li {
 .controls ul li a.active {
   background-color: #4a8bd8;
 }
-.mobile .controls ul li {
-  padding-right: 10px;
+@media screen and (max-width: 768px) {
+  .controls ul li {
+    padding-right: 10px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .controls {
+    margin: 0;
+    width: 100%;
+  }
 }
 
 #project {
@@ -408,6 +267,321 @@ li {
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+.flexbox {
+  /* flexbox required for flipping effect; slide transition used for non-supporting browsers */
+}
+.flexbox #interface {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+}
+.flexbox #interface .wrapper {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 1 auto;
+      -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+}
+@media screen and (max-width: 768px) {
+  .flexbox #interface {
+    -webkit-flex-flow: column-reverse nowrap;
+        -ms-flex-flow: column-reverse nowrap;
+            flex-flow: column-reverse nowrap;
+  }
+}
+.flexbox #tiles {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+.flexbox #tiles li {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 25%;
+      -ms-flex: 1 1 25%;
+          flex: 1 1 25%;
+  margin-right: 2em;
+  padding-right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  /* confirm this */
+  overflow: visible;
+  /* flip effect */
+  -webkit-perspective: 800px;
+          perspective: 800px;
+}
+.flexbox #tiles li div.tile {
+  width: 100%;
+  /* flip effect */
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 750ms;
+  transition: -webkit-transform 750ms;
+  transition: transform 750ms;
+  transition: transform 750ms, -webkit-transform 750ms;
+  -webkit-transform: rotateX(0deg) rotateY(-180deg);
+          transform: rotateX(0deg) rotateY(-180deg);
+}
+.flexbox #tiles li div.tile .side {
+  /* flip effect */
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+.flexbox #tiles li div.tile .side.front {
+  /* flip effect */
+  -webkit-transform: rotateX(0deg) rotateY(0deg);
+          transform: rotateX(0deg) rotateY(0deg);
+}
+.flexbox #tiles li div.tile .side.back {
+  background: #4A4A4A;
+  -webkit-transition: background-color 350ms;
+  transition: background-color 350ms;
+  /* flip effect */
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
+}
+.flexbox #tiles li div.tile .side.back .content {
+  /* flip effect */
+  -webkit-transition: opacity 350ms;
+  transition: opacity 350ms;
+  opacity: 0;
+}
+.flexbox #tiles li div.tile .side.back.flipping {
+  background-color: #FFF;
+}
+.flexbox #tiles li div.tile .side.back.flipping .content {
+  /* flip effect */
+  opacity: 1;
+}
+.flexbox #tiles li div.tile.transform0 {
+  /* flip effect */
+  -webkit-transition: -webkit-transform 0s;
+  transition: -webkit-transform 0s;
+  transition: transform 0s;
+  transition: transform 0s, -webkit-transform 0s;
+}
+.flexbox #tiles li div.tile.flip-x {
+  /* flip effect */
+  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
+          transform: rotateX(-180deg) rotateY(-180deg);
+}
+.flexbox #tiles li div.tile.flip-x .front {
+  /* flip effect */
+  -webkit-transform: rotateX(-180deg) rotateY(-180deg);
+          transform: rotateX(-180deg) rotateY(-180deg);
+}
+.flexbox #tiles li div.tile.flip-x .back {
+  /* flip effect */
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
+}
+.flexbox #tiles li div.tile.flip-y {
+  /* flip effect */
+  -webkit-transform: rotateX(-180deg) rotateY(0deg);
+          transform: rotateX(-180deg) rotateY(0deg);
+}
+.flexbox #tiles li div.tile.flip-y .back {
+  background: #CCC;
+}
+.flexbox #tiles li div.tile.flip-y .back .content {
+  opacity: 1;
+}
+.flexbox #tiles li div.tile.flip-x2 {
+  /* flip effect */
+  -webkit-transform: rotateX(0deg) rotateY(-180deg);
+          transform: rotateX(0deg) rotateY(-180deg);
+}
+.flexbox #tiles li div.tile.flip-x2 .back {
+  /* flip effect */
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+.flexbox #tiles li.show {
+  display: block;
+}
+.flexbox #tiles li.last {
+  margin-right: 0;
+  padding-right: 0;
+}
+.flexbox #nav {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1em auto;
+  width: 90%;
+}
+.flexbox #nav button {
+  display: block;
+  padding: 0;
+}
+@media screen and (max-width: 768px) {
+  .flexbox #nav {
+    margin: 0 0 1.5em 0;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .flexbox #nav {
+    margin: 1.5em 0;
+  }
+}
+.flexbox .controls {
+  display: block;
+  margin: 0;
+}
+
+.no-flexbox #interface {
+  position: relative;
+  display: block;
+}
+.no-flexbox #interface .wrapper {
+  display: block;
+}
+@media screen and (max-width: 768px) {
+  .no-flexbox #interface {
+    padding-top: 3em;
+  }
+}
+.no-flexbox #tiles {
+  display: table;
+}
+.no-flexbox #tiles > li {
+  overflow: hidden;
+  padding-right: 1em;
+}
+.no-flexbox #tiles > li div.tile {
+  /* slide effect (vertical) */
+  -webkit-transform-style: flat;
+          transform-style: flat;
+  -webkit-transition: -webkit-transform 500ms;
+  transition: -webkit-transform 500ms;
+  transition: transform 500ms;
+  transition: transform 500ms, -webkit-transform 500ms;
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%);
+}
+.no-flexbox #tiles > li div.tile .side.back {
+  background-color: rgba(255, 255, 255, 0.7);
+  /* slide effect (vertical 2) */
+  -webkit-transition: -webkit-transform 500ms;
+  transition: -webkit-transform 500ms;
+  transition: transform 500ms;
+  transition: transform 500ms, -webkit-transform 500ms;
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%);
+}
+.no-flexbox #tiles > li div.tile .side.back.flipping {
+  background-color: white;
+}
+.no-flexbox #tiles > li div.tile.transform0 .back {
+  /* slide effect (vertical 2)*/
+  -webkit-transition: -webkit-transform 0s;
+  transition: -webkit-transform 0s;
+  transition: transform 0s;
+  transition: transform 0s, -webkit-transform 0s;
+}
+.no-flexbox #tiles > li div.tile.flip-x {
+  /* slide effect (vertical 1)*/
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
+}
+.no-flexbox #tiles > li div.tile.flip-y .back {
+  /* slide effect (vertical 2)*/
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
+}
+.no-flexbox #tiles > li div.tile.flip-x2 .back {
+  /* slide effect (vertical 2)*/
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
+}
+.no-flexbox #tiles > li.show {
+  display: table-cell;
+}
+.no-flexbox #tiles > li.last {
+  padding-right: 0;
+}
+.no-flexbox #tiles.cols-4 > li {
+  width: 25%;
+}
+.no-flexbox #tiles.cols-3 > li {
+  width: 33.3333%;
+}
+.no-flexbox #tiles.cols-2 > li {
+  width: 50%;
+}
+.no-flexbox #tiles.cols-1 > li {
+  width: 100%;
+}
+.no-flexbox #nav {
+  padding: 0 0;
+  display: block;
+  width: 100%;
+}
+.no-flexbox #nav button {
+  display: inline-block;
+  padding: 0 1em;
+}
+.no-flexbox #nav button.active {
+  color: white;
+}
+@media screen and (max-width: 768px) {
+  .no-flexbox #nav button {
+    margin: 0 1em;
+    padding: 0 .5em;
+  }
+}
+@media screen and (max-width: 500px) {
+  .no-flexbox #nav button {
+    margin: 0 .5em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .no-flexbox #nav {
+    position: absolute;
+    top: .5em;
+  }
+}
+.no-flexbox .controls {
+  display: inline-block;
+  margin: 0 3em;
+}
+@media screen and (max-width: 768px) {
+  .no-flexbox .controls {
+    margin: 0 0;
+  }
 }
 
 body {

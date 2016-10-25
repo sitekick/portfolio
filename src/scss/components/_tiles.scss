@@ -4,74 +4,40 @@
 }
 
 #interface {
-	display: flex;
-	flex-flow: column nowrap; 
-
+	 
 	.wrapper{
-		flex: 0 1 auto;
 		text-align: center;
 	}
-&.mobile {
-	flex-flow: column-reverse nowrap;
 }
-}
-
 
 #tiles{
 	width: 100%;
 	margin: 0 0 1em;
 	position: relative;
 	list-style: none;
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-between;
-	align-items: flex-start;
 	
 	> li {
-		flex: 1 1 25%;
 		height: 350px;
-		margin-right: 2em;
 		display: none;
-		background: rgba(0,0,0, .15);
-		perspective: 800px;
 
 			div.tile {
-				width: 100%;
 				height: 100%;
 				position: relative;
-				transform-style: preserve-3d;
-				transition: transform 750ms;
-				transform: rotateX( 0deg ) rotateY(-180deg); 
-/*
-				border-top: 1px solid yellow;
-				border-bottom: 1px solid blue;	
-				border-left: 1px solid green;
-*/		
 					
-					.side {
+				.side {
+					position: absolute; 
+					left: 0;top: 0;right: 0;bottom: 0;
+						
+					.vcenter {
 						position: absolute; 
-						left: 0;top: 0;right: 0;bottom: 0;
-						backface-visibility: hidden;
-						
-						.vcenter {
-							position: absolute; 
-							left: 0;top: 50%;right: 0; 
-							transform: translateY(-50%);
-						}
-						
-					&.front {
-						transform: rotateX( 0deg ) rotateY(0deg); 
+						left: 0;top: 50%;right: 0; 
+						/* centering tile content */
+						transform: translateY(-50%);
 					}
 						
 					&.back {
-						background-color: $background;
-						transition: background-color 250ms;
-						transform: rotateX( -180deg ) rotateY(0deg); 
 						
 						.content {
-							transition: opacity 750ms;
-							opacity: 0;
-							
 							.source{display: block;}
 							.faux{display: none;}
 							}
@@ -93,88 +59,23 @@
 						}
 					
 					&.flipping{
-						background-color: $white;
 						
 						.content{
-							opacity: 1;
 							.source{display: none;}
 							.faux{display: block;}
 						}
 					}
-					}// /.back
-					}// /.side
-			
-			&.transform0{
-				transition : transform 0s;
-				}
-			
-			&.flip-x {
-				transform: rotateX( -180deg ) rotateY( -180deg );
-			
-				.front {
-					transform: rotateX( -180deg ) rotateY(-180deg);
-				}
-				
-				.back{
-					transform: rotateX( -180deg ) rotateY(0deg);
-					.content{
-						//opacity: 0;
-					}
-				}
-			}
-			
-			&.flip-y{
-				transform: rotateX( -180deg ) rotateY( 0deg );
-			
-				.back {
-					background: $grey;
-				
-					.content{
-						opacity: 1;
-					}
-				
-				}
-			
-			}
-			
-			&.flip-x2 {
-				transform: rotateX( 0deg ) rotateY( -180deg );
-				
-				.front {
-					//transform: rotateY( 0deg );
-				}
-				
-				.back {
-					transform: rotateY( 180deg );
-				}
-
-			}
+					}// .back
+					}// .side
 			}// .tile
 	
-	
-	
-	&.show{
-		display: block;
-	}
-	&.last{
-		margin-right: 0;
-	}
 	}// li
 
 }//#tiles
 
 #nav {
-	margin: 1em auto 0;
-	padding: 0 0;
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-between;
-	align-items: center;
-	width: 90%;
-	
-	
+
 	button{
-		display: inline !important;
 		background: none;
 		border: 0;
 		cursor:pointer;
@@ -185,12 +86,7 @@
 	}	
 	}
 		
-.mobile &{
-	margin: 1em 0;
-	width: 100%;
 }
-}
-
 
 .controls {
 		
@@ -200,6 +96,10 @@
 			letter-spacing: 2px;
 			text-align: center;
 			margin: 0 auto .25em;
+		
+		@include screen-medium{
+			margin: 1em auto;
+		}
 		}
 		
 		
@@ -228,10 +128,16 @@
 				}
 				}
 			
-			.mobile &{
+			@include screen-medium {
 				padding-right: 10px;
 			}
 			
 			}
 		}
+
+@include screen-medium {
+	margin: 0;
+	width: 100%;
+}
+
 }//controls
