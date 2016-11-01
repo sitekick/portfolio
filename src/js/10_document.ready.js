@@ -15,7 +15,10 @@ $(function () {
 	} else {
 		$('html').removeClass('no-js').addClass('js').addClass('no-flexbox');
 	}
-// 	$('html').removeClass('no-js').addClass('js').addClass('no-flexbox')
+	
+	//$('html').removeClass('no-js').addClass('js').addClass('no-flexbox')
+
+	
 	
 });
 

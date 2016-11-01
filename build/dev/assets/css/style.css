@@ -10,13 +10,28 @@ li {
   padding: 0;
 }
 
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
 #container {
-  margin: 2em;
-  vertical-align: top;
+  position: fixed;
+  top: 2em;
+  right: 2em;
+  bottom: 2em;
+  left: 2em;
 }
 @media screen and (max-width: 500px) {
   #container {
-    margin: .5em;
+    top: .5em;
+    right: .5em;
+    bottom: .5em;
+    left: .5em;
   }
 }
 
@@ -29,6 +44,15 @@ li {
   z-index: 1000;
 }
 
+#interface {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
 #interface .wrapper {
   text-align: center;
 }
@@ -40,7 +64,7 @@ li {
   list-style: none;
 }
 #tiles > li {
-  height: 350px;
+  height: 300px;
   display: none;
 }
 #tiles > li div.tile {
@@ -49,6 +73,7 @@ li {
 }
 #tiles > li div.tile .side {
   position: absolute;
+  border-radius: 8px;
   left: 0;
   top: 0;
   right: 0;
@@ -87,13 +112,17 @@ li {
   display: block;
 }
 
-#nav button {
-  background: none;
+#nav {
+  width: 100%;
+  list-style: none;
+}
+#nav > li a {
+  text-shadow: 2px 2px 2px #333;
   border: 0;
   cursor: pointer;
   color: #CCC;
 }
-#nav button.active {
+#nav > li a.active {
   color: white;
 }
 
@@ -109,31 +138,33 @@ li {
     margin: 1em auto;
   }
 }
-.controls ul {
+.controls > ul {
   list-style: none;
   margin: 0 0 .5em;
   display: table;
   width: 100%;
 }
-.controls ul li {
+.controls > ul li {
   display: table-cell;
+  height: 10px;
   padding-right: 2px;
 }
-.controls ul li a {
+.controls > ul li a {
   display: block;
   padding: .25em;
   background-color: rgba(74, 139, 216, 0.5);
   -webkit-transition: background-color 750ms;
   transition: background-color 750ms;
+  box-shadow: 2px 2px 2px #333;
 }
-.controls ul li a span {
+.controls > ul li a span {
   display: none;
 }
-.controls ul li a.active {
+.controls > ul li a.active {
   background-color: #4a8bd8;
 }
 @media screen and (max-width: 768px) {
-  .controls ul li {
+  .controls > ul li {
     padding-right: 10px;
   }
 }
@@ -149,6 +180,7 @@ li {
   opacity: .3;
   position: absolute;
   z-index: 100;
+  border-radius: 8px;
   overflow: hidden;
 }
 #project .info {
@@ -269,6 +301,117 @@ li {
           transform: translate(-50%, -50%);
 }
 
+#profile {
+  position: absolute;
+  bottom: 1em;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+  text-align: center;
+  -webkit-perspective: 800px;
+          perspective: 800px;
+}
+#profile .wrapper {
+  border-radius: 100%;
+}
+#profile .wrapper .photo {
+  width: 125px;
+  height: 125px;
+  position: relative;
+  margin-bottom: .5em;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform: scaleX(100%) scaleY(100%);
+      -ms-transform: scaleX(100%) scaleY(100%);
+          transform: scaleX(100%) scaleY(100%);
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-transition: -webkit-transform 350ms;
+  transition: -webkit-transform 350ms;
+  transition: transform 350ms;
+  transition: transform 350ms, -webkit-transform 350ms;
+}
+#profile .wrapper .photo .side {
+  border-radius: 100%;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: red;
+}
+#profile .wrapper .photo .side .content {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+#profile .wrapper .photo .side.front {
+  background-image: url(../img/bhw.jpg);
+  background-repeat: no-repeat;
+  background-size: 125px 125px;
+  border: 2px solid #FFF;
+}
+#profile .wrapper .photo .side.back {
+  background-color: #CCC;
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+#profile .wrapper .photo.hide {
+  -webkit-transform: scaleX(0) scaleY(0);
+      -ms-transform: scaleX(0) scaleY(0);
+          transform: scaleX(0) scaleY(0);
+}
+#profile .wrapper .photo.flip {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+#profile button {
+  border: 0;
+  background: none;
+  color: #CCC;
+  font-size: 1em;
+  font-weight: normal;
+}
+#profile button:hover {
+  color: #FFF;
+  cursor: pointer;
+}
+#profile .preload {
+  display: none;
+}
+
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -10;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  -webkit-filter: blur(10px);
+          filter: blur(10px);
+  -webkit-transition: opacity 4000ms;
+  transition: opacity 4000ms;
+}
+#background.loaded {
+  opacity: .25;
+}
+#background.focus {
+  -webkit-filter: blur(0);
+          filter: blur(0);
+}
+
 .flexbox {
   /* flexbox required for flipping effect; slide transition used for non-supporting browsers */
 }
@@ -282,10 +425,10 @@ li {
           flex-flow: column nowrap;
 }
 .flexbox #interface .wrapper {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 1 auto;
-      -ms-flex: 0 1 auto;
-          flex: 0 1 auto;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
 }
 @media screen and (max-width: 768px) {
   .flexbox #interface {
@@ -319,8 +462,8 @@ li {
   margin-right: 2em;
   padding-right: 0;
   background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
   /* confirm this */
-  overflow: visible;
   /* flip effect */
   -webkit-perspective: 800px;
           perspective: 800px;
@@ -434,17 +577,14 @@ li {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 1em auto;
-  width: 90%;
+  margin: 1em 0;
 }
-.flexbox #nav button {
+.flexbox #nav > li a {
   display: block;
-  padding: 0;
 }
 @media screen and (max-width: 768px) {
   .flexbox #nav {
     margin: 0 0 1.5em 0;
-    width: 100%;
   }
 }
 @media screen and (max-width: 500px) {
@@ -452,13 +592,8 @@ li {
     margin: 1.5em 0;
   }
 }
-.flexbox .controls {
-  display: block;
-  margin: 0;
-}
 
 .no-flexbox #interface {
-  position: relative;
   display: block;
 }
 .no-flexbox #interface .wrapper {
@@ -533,6 +668,9 @@ li {
 .no-flexbox #tiles > li.last {
   padding-right: 0;
 }
+.no-flexbox #tiles.cols-5 > li {
+  width: 20%;
+}
 .no-flexbox #tiles.cols-4 > li {
   width: 25%;
 }
@@ -546,41 +684,21 @@ li {
   width: 100%;
 }
 .no-flexbox #nav {
-  padding: 0 0;
-  display: block;
-  width: 100%;
+  display: table;
 }
-.no-flexbox #nav button {
-  display: inline-block;
-  padding: 0 1em;
-}
-.no-flexbox #nav button.active {
-  color: white;
+.no-flexbox #nav > li {
+  display: table-cell;
+  width: 20%;
 }
 @media screen and (max-width: 768px) {
-  .no-flexbox #nav button {
-    margin: 0 1em;
-    padding: 0 .5em;
-  }
-}
-@media screen and (max-width: 500px) {
-  .no-flexbox #nav button {
-    margin: 0 .5em;
+  .no-flexbox #nav > li {
+    width: 25%;
   }
 }
 @media screen and (max-width: 768px) {
   .no-flexbox #nav {
     position: absolute;
     top: .5em;
-  }
-}
-.no-flexbox .controls {
-  display: inline-block;
-  margin: 0 3em;
-}
-@media screen and (max-width: 768px) {
-  .no-flexbox .controls {
-    margin: 0 0;
   }
 }
 

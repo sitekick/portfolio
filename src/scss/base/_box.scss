@@ -1,7 +1,15 @@
+html,
+body {
+	height: 100%;
+};
+
+body {
+	overflow: hidden;
+}
+
 #container {
-	margin: 2em;
-	vertical-align: top;
-	
+	position: fixed; top: 2em; right: 2em; bottom: 2em; left: 2em;
+// 	background: rgba(255,0,0, .5);
 	
 	@include screen-full {
 // 		border: 1px solid yellow;
@@ -17,6 +25,7 @@
 	
 	@include screen-small {
 // 		border: 1px solid orange;
-		margin: .5em;
+		top: .5em; right: .5em; bottom: .5em; left: .5em;
 	}
 }
+

@@ -4,9 +4,14 @@
 	}
 }
 
+@mixin screen-xlarge {
+	@media screen and (max-width: #{$screen-full} ){
+		@content;
+	}
+}
+
 @mixin screen-large {
-// 	@media screen and (min-width: #{$screen-large}) and (max-width: #{$screen-full} ){
-@media screen and (max-width: #{$screen-large} ){
+	@media screen and (max-width: #{$screen-large} ){
 		@content;
 	}
 }

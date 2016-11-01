@@ -12,14 +12,11 @@ function showProject(tile_class, tag, data){
 		width : parent.width(),
 		height : parent.height()
 	}
+	
 	/* the project pane */
 	let container_specs = {
-		offset : $('#container').offset(),
 		width : $('#container').width(),
-		get height(){
-			return Math.round( $(window).height() - (this.offset.top * 2) );
-		}
-				
+		height : $('#container').height()
 	}
 	
 	var markup = `
@@ -43,8 +40,8 @@ function showProject(tile_class, tag, data){
 			.height(parent_specs.height);
 	
 	$('#project').animate({
-			top : Math.round(container_specs.offset.top),
-			left : Math.round(container_specs.offset.left),
+			top : 0,
+			left : 0,
 			width : container_specs.width,
 			height :container_specs.height,
 			opacity : 1
@@ -134,18 +131,15 @@ function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 function _resizeProject(active_tag){
 	
 	let container_specs = {
-		offset : $('#container').offset(),
 		width : $('#container').width(),
-		get height(){
-			return  $(window).height() - (this.offset.top * 2) ;
-		} 
+		height : $('#container').height()
 	}
 	
 	$('#project').css({
-			top : Math.round(container_specs.offset.top),
-			left : Math.round(container_specs.offset.left),
+			top : 0,
+			left : 0,
 			width : container_specs.width,
-			height : Math.round(container_specs.height)
+			height : container_specs.height
 		}); 
 }	
 

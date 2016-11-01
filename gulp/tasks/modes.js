@@ -10,7 +10,7 @@ var gulp 			= require('gulp'),
 gulp.task('build', function() {
   runSequence(
   	'delete-D',
-  	['data-D','images-D'],
+  	['data-D','images-D','libraries-D'],
   	['scripts-D','sass-D'],
   	'html-D',
   	'inject-D',
@@ -22,7 +22,7 @@ gulp.task('build', function() {
  gulp.task('qa', function() {
   runSequence(
   	'delete-D',
-  	['data-D','images-D','transpile-D'],
+  	['data-D','images-D','libraries-D','transpile-D'],
   	['scripts-D--transpiled','sass-D'],
   	'html-D',
   	'inject-D',
@@ -33,7 +33,7 @@ gulp.task('build', function() {
   gulp.task('publish', function() {
   runSequence(
   	'delete-P',
-  	['data-P','images-P','transpile-P'],
+  	['data-P','images-P','libraries-P','transpile-P'],
   	['scripts-P','sass-P'],
   	'html-P',
   	'inject-P',

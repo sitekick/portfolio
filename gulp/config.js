@@ -57,6 +57,13 @@ module.exports = {
 			prod : './build/prod/assets/data'
 		}
 	},
+	lib: {
+		src:  './src/lib/**/*',
+		dest: {
+			dev : './build/dev/assets/lib',
+			prod : './build/prod/assets/lib'
+		}
+	},
 	sass: {
 		src:  './src/scss/**/*.scss',
 		dest: { 

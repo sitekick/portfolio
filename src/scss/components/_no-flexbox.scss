@@ -1,7 +1,7 @@
 .no-flexbox {
 
 	#interface {
-	position: relative;
+// 	position: relative;
 		
 		display: block;
 		 
@@ -75,6 +75,7 @@
 		}	
 		}// li
 	
+	&.cols-5 > li{width: 20%;}
 	&.cols-4 > li{width: 25%;}
 	&.cols-3 > li{width: 33.3333%;}
 	&.cols-2 > li{width: 50%;}
@@ -82,24 +83,15 @@
 	}// #tiles
 	
 	#nav {
-		padding: 0 0;
-		display: block;
-		width: 100%;
+		display: table;
 		
-		button{
-			display: inline-block;
-			padding: 0 1em;	
+		> li{
+			display: table-cell;	
+			width: 20%;
 		
-		&.active{
-			color: white;
-		}
 		@include screen-medium{
-			margin: 0 1em;
-			padding: 0 .5em;	
+			width: 25%;
 		}
-		@include screen-small{
-			margin: 0 .5em;
-		}	
 		}
 	
 	@include screen-medium{
@@ -107,16 +99,6 @@
 		top: .5em;
 	}		
 	}	
-
-	.controls {
-		display: inline-block;
-		margin: 0 3em;
-	
-	@include screen-medium{
-		margin: 0 0;
-	}
-
-	}
 
 
 }// no-flexbox

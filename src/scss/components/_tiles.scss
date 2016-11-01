@@ -4,6 +4,9 @@
 }
 
 #interface {
+	position: absolute; top: 40%; left: 0; right: 0;
+	transform: translateY(-50%);
+// 	background: rgba(0,255,0, .5); 
 	 
 	.wrapper{
 		text-align: center;
@@ -16,8 +19,9 @@
 	position: relative;
 	list-style: none;
 	
+	
 	> li {
-		height: 350px;
+		height: 300px;
 		display: none;
 
 			div.tile {
@@ -26,6 +30,7 @@
 					
 				.side {
 					position: absolute; 
+					border-radius: 8px;
 					left: 0;top: 0;right: 0;bottom: 0;
 						
 					.vcenter {
@@ -74,18 +79,23 @@
 }//#tiles
 
 #nav {
+	width: 100%;
+	list-style: none;
+	
+	> li{
 
-	button{
-		background: none;
-		border: 0;
-		cursor:pointer;
-		color: $grey;
+		a{
+			text-shadow: 2px 2px 2px #333;
 			
-	&.active{
-		color: white;
-	}	
+			border: 0;
+			cursor:pointer;
+			color: $grey;
+				
+		&.active{
+			color: white;
+		}		
+		}	
 	}
-		
 }
 
 .controls {
@@ -103,14 +113,15 @@
 		}
 		
 		
-		ul {
+		> ul {
 			list-style: none;
 			margin: 0 0 .5em;
 			display: table;
 			width: 100%;
-		
+					
 			li{
 				display: table-cell;
+				height: 10px;
 				padding-right: 2px;
 			
 				a{
@@ -118,6 +129,7 @@
 					padding: .25em;
 					background-color: rgba(74,139,216, .5);
 					transition: background-color 750ms;
+					box-shadow: 2px 2px 2px #333;
 					
 					span{
 						display: none;

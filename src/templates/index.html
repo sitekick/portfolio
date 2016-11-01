@@ -11,10 +11,26 @@
 	<!--endinject-->
 </head>
 <body>
-	<div id="container"></div>
-		
+<div id="background"></div>
+<div id="container">
+		<div id="profile" tabindex="0">
+			<div tabindex="-1" class="wrapper">
+				<div class="photo hide">
+					<div class="side front">&nbsp;</div>
+					<div class="side back"><div class="content">back</div></div>
+				</div>
+			</div>
+			<button tabindex="-1">hunter</button>
+		</div>
+</div>
 	<!--bower:js -->
 	<!--endbower-->
+	<script>  
+   	 var polyfilter_scriptpath = 'assets/lib/css-filters-polyfill/';  
+   	 //var polyfilter_skip_stylesheets = true;  
+	</script>
+	<script src="assets/lib/css-filters-polyfill/cssParser.js"></script>
+	<script src="assets/lib/css-filters-polyfill/css-filters-polyfill.js"></script>
 	<!--inject:js -->
 	<!--endinject-->
 </body>

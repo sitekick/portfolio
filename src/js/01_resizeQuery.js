@@ -1,6 +1,6 @@
 var resizeQuery = (function () {
 	
-		var mQueries = ['(max-width: 500px)','(max-width: 768px)','(max-width: 1024px)', '(min-width: 1024px)'];
+		var mQueries = ['(max-width: 500px)','(max-width: 768px)','(max-width: 1024px)', '(max-width: 1324px)', '(min-width: 1324px)'];
 		var currentMQ = idQuery();
 	
 		var monitorMQ = function (eventsobj, init) {

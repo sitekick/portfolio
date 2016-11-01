@@ -2,6 +2,8 @@
 
 var tileModule = function () {
 
+	/* @todo : polyfill or handle ie9 lack of csstransition support */
+
 	var active = void 0,
 	    //slug of desired tile projects to show
 	viewport = void 0,
@@ -405,11 +407,11 @@ var tileModule = function () {
 				markup += '</ul></div>';
 			}
 
-			markup += '<div class="wrapper"><div id="nav" tabindex="0">';
+			markup += '<div class="wrapper"><div id="nav" tabindex="0"><tr>';
 
 			for (var _i6 = 0; _i6 < vars.filter.all.length; _i6++) {
 				markup += '<button tabindex="-1" id="' + vars.filter.all[_i6] + '" class="' + (vars.filter.active == vars.filter.all[_i6] ? 'active' : '') + '">' + vars.filter.all[_i6] + '</button>';
-				if (viewmode == 'desktop' && _i6 == 1) markup += __tileControls(vars.buttons, viewmode);
+				if (viewmode == 'desktop' && _i6 == 1) markup += '' + __tileControls(vars.buttons, viewmode);
 			}
 
 			markup += '</div></div></div>';

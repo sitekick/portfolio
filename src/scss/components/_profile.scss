@@ -1,0 +1,94 @@
+#profile {
+	position: absolute; bottom: 1em; left: 50%; 
+// 	background: red;
+	transform: translateX(-50%);
+	text-align: center;
+	perspective: 800px;
+		
+	.wrapper{
+		border-radius: 100%;
+	
+		.photo {
+			width: 125px;
+			height: 125px;
+			position: relative;
+			margin-bottom: .5em;
+			transform-style: preserve-3d;
+			transform: scaleX(100%) scaleY(100%);
+			transform-origin: center center;
+			transition: transform 350ms;
+
+			.side {
+				border-radius: 100%;
+				backface-visibility: hidden;
+				position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+				background: red;
+			
+				.content {
+					position: absolute; top: 50%; left: 0; right: 0;
+					transform: translateY(-50%);
+				}
+			
+			
+			&.front{
+				background-image: url(../img/bhw.jpg);
+				background-repeat: no-repeat;
+				background-size: 125px 125px;
+// 				background-position: center center;
+// 				border-radius: 100%;
+				border: 2px solid $white;
+			}
+			&.back {
+				background-color: $grey;
+				transform: rotateY(-180deg);
+			}
+			}
+		
+		&.hide{
+			//display: none;
+			transform: scaleX(0) scaleY(0);
+		}
+			
+		&.flip{
+			//display: none;
+			transform: rotateY(-180deg);
+		}
+		}
+	}//.wrapper
+	
+	
+	button {
+		border: 0;
+		background: none;
+		color: $grey;
+		font-size: 1em;
+		font-weight: normal;
+	
+	&:hover{
+		color: $white;
+		cursor: pointer;
+	}
+	}
+	
+.preload {
+	display: none;
+}
+
+}//#profile
+
+#background {
+	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -10;
+	background-size: cover;
+	background-position: center center;
+	background-repeat : no-repeat;
+	opacity: 0;
+	filter: blur(10px);
+	transition: opacity 4000ms;
+
+&.loaded{
+	opacity: .25;
+}
+&.focus{
+	filter: blur(0);
+}
+}

@@ -20,7 +20,11 @@ var tileModule = (function() {
 					viewport = 'screen-large';
 					viewmode = 'desktop';
 			},
-			'(min-width: 1024px)' : function() { 
+			'(max-width: 1324px)' : function() { 
+					viewport = 'screen-xlarge';
+					viewmode = 'desktop';
+			},
+			'(min-width: 1324px)' : function() { 
 					viewport = 'screen-full';
 					viewmode = 'desktop';
 			},
@@ -46,9 +50,9 @@ var tileModule = (function() {
 			tiles : projects.slice(),
 			filter : {
 				active : active || 'fav',
-				all : ['fav','logo-design','web-design','html-js']
+				all : ['fav','logo-design','web-design','html-js'],
+				count : 0 //counter for filtered rows
 			},
-			continued : 0,  //counter for filtered rows
 			get cap() {
 				let val;  //number of tiles per row
 				switch(viewport){
@@ -61,8 +65,11 @@ var tileModule = (function() {
 					case 'screen-large' : 
 						val = 3;
 					break;
-					case 'screen-full' :
+					case 'screen-xlarge' : 
 						val = 4;
+					break;
+					case 'screen-full' :
+						val = 5;
 					break; 
 					default :
 						val = 1;
@@ -80,7 +87,7 @@ var tileModule = (function() {
 			}
 			
 		}
- 		
+		
 		$('#container').append( _tileMarkup() );
 		
 		/* if resized while project overlay displayed */
@@ -103,7 +110,6 @@ var tileModule = (function() {
 				lengthen : 200
 			};
 			
-			//console.log( vars.timerCalc(timer.time, timer.lengthen) );
 			setTimeout(function() {
 				$('#mask').remove();
 				_addEvents();
@@ -166,20 +172,20 @@ var tileModule = (function() {
 						let tile_id = tile.attr('data-project');
 						let tile_classes = tile.attr('class');
 						let tile_class = __findTileClass(tile_classes, true)
-												
-						showProject(tile_class, focus_clicked, vars.tiles[tile_id-1] );
+						
+						showProject(tile_class, focus_clicked, vars.tiles[tile_id] );
 					}, false);
 				}
 				
 			/* Main Nav */
-			$('#nav > button').on('click', function(){
+			$('#nav > li > a').on('click', function(){
 				let clicked = $(this).attr('id');
 				active = clicked;
 				layoutTiles();
 			});
 
-			/* Tile Nav */
-			$('.controls .button').on('click', function(){
+			/* Main Subnav */
+			$('.controls a').on('click', function(){
 				
 				if( $(this).hasClass('active') )
 						return;
@@ -226,6 +232,7 @@ var tileModule = (function() {
 				/* need to put these in variables before removing .active class */
 				let next_start = startIndex.next;
 				let current_start = startIndex.current;
+				
 				$('.controls .button').removeClass('active');
 				
 				let timer = {
@@ -278,7 +285,6 @@ var tileModule = (function() {
 					a11y.tiles.resetListeners();
 					
 				},vars.timerCalc(timer.time, timer.lengthen));
-				
 				
 				/* manipulate the CURRENT tiles to show flip effect */
 				for(let i=0; i < vars.cap; i++){
@@ -337,80 +343,77 @@ var tileModule = (function() {
 			
 			markup += `<ul id="tiles" tabindex="0" class="${vars.filter.active} cols-${vars.cap}"><div id="mask"></div>`;
 			
-			tiles: 
+			tilesloop: 
 			for(let i = 0; i < vars.tiles.length; i++){
 				
 				let tile_foci = vars.tiles[i].foci;
-				let idelta = i - vars.continued; //track index when rows are continued
+				let idelta = i - vars.filter.count; //track index when rows are filtered
 				
-				//mode: 
-				switch(vars.filter.active){
-					case 'fav' :
-						let not_favs = [];
-						
-						for(tile_focus in tile_foci){
-							if (tile_foci[tile_focus].favorite === false) {
-								not_favs.push(Number(tile_focus));
-							}
-						}
-						
-						if(not_favs.length == tile_foci.length){
-							vars.continued++;
-							continue tiles;
-						}
-							
-						
-						tile_foci = $.grep(tile_foci, function(n, i) {
-							return $.inArray(i, not_favs) ==-1;
-						});
-						
-					//break mode;
-					break;
+				if(vars.filter.active == 'fav'){
 					
-					default : 
-						let found = false;
-						filter:
-						/* filter out non-matching tiles */
-						for(tile_focus in tile_foci){
-							if (tile_foci[tile_focus].slug == vars.filter.active) {
-								found = true;
-								break filter;
-							}
+					let not_favs = [];
+						
+					for(tile_focus in tile_foci){
+						if (tile_foci[tile_focus].favorite === false) {
+							not_favs.push(Number(tile_focus));
 						}
-						if(found === false) {
-							vars.continued++;
-							continue tiles; 
-						}
+					}
+						
+					if(not_favs.length == tile_foci.length){
+						vars.filter.count++;
+						continue tilesloop;
+					}
 							
-				}//switch
-			
+					tile_foci = $.grep(tile_foci, function(n, i) {
+						return $.inArray(i, not_favs) ==-1;
+					});
+						
+				} else {
+				
+					let found = false;
+						
+					/* filter out non-matching tiles */
+					filter:
+					for(tile_focus in tile_foci){
+						if (tile_foci[tile_focus].slug == vars.filter.active) {
+							found = true;
+							break filter;
+						}
+					}
+						
+					if(found === false) {
+						vars.filter.count++;
+						continue tilesloop; 
+					}
+				};	
+					
 			/* markup for matching tiles */
 			markup += `<li ${(idelta < vars.cap) ? 'tabindex="-1"' : ''} class="${(idelta < vars.cap) ? ((idelta+1) == vars.cap) ? 'show last' : 'show' : ''}">
-					
-					<div data-project="${(idelta+1)}" class="tile tile-${(idelta + 1)}"> 
-							<div class="side front">
-								<div class="content vcenter">
-									<img src="assets/img/${vars.tiles[i].foci[0].slug}/${vars.tiles[i].foci[0].highlight.content}" alt="" />
-								</div>	
-							</div>
-							<div class="side back">
-								<div class="content vcenter">
-									<div class="source">
-										<h1>${vars.tiles[i].name}</h1>
-										<p>${vars.tiles[i].description}</p>
-										 ${__formatTileTags(tile_foci)} 
-										</div>
-									<div class="faux"></div>
+				 <div data-project="${i}" class="tile tile-${(idelta + 1)}">  
+						<div class="side front">
+							<div class="content vcenter">
+								<img src="assets/img/${vars.tiles[i].foci[0].slug}/${vars.tiles[i].foci[0].highlight.content}" alt="" />
+							</div>	
+						</div>
+						<div class="side back">
+							<div class="content vcenter">
+								<div class="source">
+									<h1>${vars.tiles[i].name}</h1>
+									<p>${vars.tiles[i].description}</p>
+									${__formatTileTags(tile_foci)} 
 								</div>
+								<div class="faux"></div>
 							</div>
-					</div>
-					</li>`;
+						</div>
+				</div>
+			</li>`;
 			
 			vars.buttons.push({
 				tile : (idelta + 1), 
 				state : (idelta < vars.cap) ? 'show' : 'hide'
 			});
-			}
+			
+			}// tiles:
 			
 			if(viewmode == 'mobile') {
 				markup += `</ul>${__tileControls(vars.buttons, viewmode)}</div>`;
@@ -418,16 +421,16 @@ var tileModule = (function() {
 				markup += `</ul></div>`
 			}
 							
-			markup += `<div class="wrapper"><div id="nav" tabindex="0">`
+			markup += `<div class="wrapper"><ul id="nav" tabindex="0">`
 							
-							for(let i=0; i<vars.filter.all.length; i++){
-								markup += `<button tabindex="-1" id="${vars.filter.all[i]}" class="${(vars.filter.active == vars.filter.all[i]) ? 'active' : ''}">${vars.filter.all[i]}</button>`
-								if(viewmode == 'desktop' && i == 1)
-									markup += __tileControls(vars.buttons, viewmode);
-							}
+				for(let i=0; i<vars.filter.all.length; i++){
+					markup += `<li><a tabindex="-1" id="${vars.filter.all[i]}" class="button ${(vars.filter.active == vars.filter.all[i]) ? 'active' : ''}">${vars.filter.all[i]}</a></li>`
+					
+					if(viewmode == 'desktop' && i == 1)
+						markup += `<li>${__tileControls(vars.buttons, viewmode)}</li>`;
+					}
 							
 			markup += `</div></div></div>`;
-		
 		
 		return markup;
 		
@@ -447,7 +450,9 @@ var tileModule = (function() {
 		
 		function __tileControls(buttons, mode){
 			
+			
 			let markup = `<div class="controls ${mode}"><h1>Portfolio</h1><ul>`;
+			
 			for(button in buttons){
 				markup += `<li><a tabindex="-1" id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
 			}
