@@ -1,9 +1,12 @@
 (function profileEffects() {
 	
+	let contact = false;
 	
-	$('#profile button').on('click', function(){
+	$('#profile a.me').on('click', function(){
 		
 		$('#profile .photo').toggleClass('hide');
+		
+		$(this).toggleClass('active');
 		
 		if( $('#profile .photo').hasClass('hide') ){
 			//inactive
@@ -17,17 +20,69 @@
 
 	});
 	
+	$('#profile a.contact').on('click', function(){
+		
+		contact = (contact === true) ? false : true;
+		
+		if(contact === true) showContact();
+	
+	});
+	
+	function showContact(){
+		
+		let panel = growPanel({
+			source : '#profile .back',
+		 	target : '#container',
+		 	id : 'contact',
+		 	markup : _markup(),
+		 	events : {
+			 	afterload : function(){
+				 	console.log('open');
+			 	},
+			 	afterclose : function(){
+				 	contact = false;
+				 	console.log('open');
+				 	$('#profile .photo').removeClass('flip');
+			 	}
+		 	}
+		});
+		 	
+		function _markup(){
+			return {
+				primary : `<h1>Hunter Williams</h1><h2>designer • developer</h2>
+				<p>Lorem ipsum</p>
+				<a class="linkedin" href="https://www.linkedin.com/in/bhunterwilliams" target="_blank"><img width="125px" src="assets/img/linkedin/logo@1x.png" alt="linked in profile hunter williams" /></a>`,
+				secondary : `<form action="#" method="post"><div>
+				<p><label for="name">Name</label> 
+				<input type="text" id="name" placeholder="Name" maxlength="100">
+				</p>
+				<p><label for="email">Email</label> 
+				<input type="email" id="email" placeholder="Email address" maxlength="100">
+				</p>
+				<p><label for="comment">Comment</label> 
+				<textarea id="comment" rows="8" columns="5" placeholder="Comment"></textarea>
+				</p></div>
+				<input id="submit" type="submit" value="Send"></form>`
+			}
+		}
+	
+	
+	}
+	
 	let profile_events = {
 		flip : function(el) {
 			$(el).find('.photo').not('.hide').addClass('flip');
 		},
 		unflip : function(el) {
+			
+			if(contact === false)
 			$(el).find('.photo').removeClass('flip');
 		}
 	};
 	
 	$('#profile .wrapper').on({
 		focusin : function(){
+			
 			profile_events.flip(this);
 			
 				if( $(this).find('.photo').hasClass('hide') === true) {
@@ -57,7 +112,7 @@
 				fade : 0,
 				reset : 0
 				},
-			items : ['dexter@1x.jpg', 'groomsmen@1x.jpg', 'commodore@1x.jpg', 'redskins@1x.jpg'],
+			items : ['dexter@1x.jpg', 'groomsmen@1x.jpg', 'firstdance@1x.jpg', 'commodore@1x.jpg', 'redskins@1x.jpg'],
 			mode : 'preload',
 			blur : true,
 			storage : {

@@ -4,145 +4,61 @@ function showProject(tile_class, tag, data){
 	
 	let parent = $(tile_class, '#tiles ').parent();
 	
-	$('#container').addClass('project');
-	
-	/* the selected tile */
-	let parent_specs = {
-		offset : parent.offset(),
-		width : parent.width(),
-		height : parent.height()
-	}
-	
-	/* the project pane */
-	let container_specs = {
-		width : $('#container').width(),
-		height : $('#container').height()
-	}
-	
-	var markup = `
-	<div id="project">
-		<div class="imagery">
-	 		<div class="close" tabindex="0"><img tabindex="-1" src="assets/img/button.close.png" alt="close button"/></div>
-	 		<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>
-	 	</div>
-	 	<div class="info">
-	 		<h1>${data.name}</h1><p>${data.description}</p>
-	 		${_formatTabTags(data,tag)}
-		</div>
-	</div>`;
-	
-	$(markup).prependTo('#container')
-		.offset({
-			top: parent_specs.offset.top, 
-			left: parent_specs.offset.left
-			})
-			.width(parent_specs.width)
-			.height(parent_specs.height);
-	
-	$('#project').animate({
-			top : 0,
-			left : 0,
-			width : container_specs.width,
-			height :container_specs.height,
-			opacity : 1
-		}, 
-		150,
-		function () {
-			$(this).find('.imagery').addClass('loaded');
-			$('#interface').hide();
-			_projectEvents(tile_class, tag, parent_specs, viewport);
+	let panel = growPanel({
+			source : parent,
+		 	target : '#container',
+		 	id : 'project',
+		 	markup : {
+			 	primary : `<h1>${data.name}</h1><p>${data.description}</p>
+			 				${_formatTabTags(data,tag)}`,
+			 	secondary : `<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>`
+		 	},
+		 	events : {
+			 	afterload : function(){
+				 	_projectEvents(tile_class, tag, viewport);
+			 	},
+			 	afterclose : function(){
+				 	$(tile_class, '#tiles ').removeClass('active').removeClass('flip-y');
+			 	}
+		 	}
 		});
-}
-
-function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 	
-	var resizeid;
+	
+
+} // showProject
+
+function _projectEvents(tile_class, active_tag, mode) {	
+	
 	/* initialize slider */
+	let slider = sliderModule({
+		element : '#slider',
+		slide : '.item',
+		index : $('.tabs .' + active_tag).attr('data-index'),
+		nav : '.tabs ul',		
+		mode : mode
+	});
 	
 	/* a11y */
-	
 	let ally = {
 		'tags' : keyFocus('#project .tabs'),
 		'close' : keyFocus('#project .close')
 	};
 	
-	sliderModule({
-		element : '#slider',
-		slide : '.item',
-		index : Number($('.tabs .' + active_tag).attr('data-index')),
-		nav : '.tabs ul',		
-		mode : mode
-		});
-
-	let control = document.querySelector('.close');
-	
-	control.addEventListener('click', function(e){
-		
-		$('#interface').show();
-		
-		$('#project').animate({
-			left : parent_specs.offset.left,
-			top : parent_specs.offset.top,
-			width : parent_specs.width,
-			height : parent_specs.height,
-			opacity : .3
-		}, 
-		200,
-		function () {
-			$(this).remove();
-			$(tile_class, '#tiles ').removeClass('active').removeClass('flip-y');
-			$('#container').removeClass('project');
-		});
-		
-	}, false);
-	
 	/* tabs nav */
 	
-	let tags = document.querySelectorAll('.tabs li');
-	
-	for(let i=0; i < tags.length; i++){
-		tags[i].addEventListener('click', function(e){
-			/* menu */
-			$(tags).find('a').removeClass('active');
-			$(this).find('a').addClass('active');
-			/* content */
-			$('.copy.active').removeClass('active');
-			let content = '.' + $(this).attr('class');
-			$(content, '.tabs .content').addClass('active');
-		})
-	}
-	
-	/* resize */
-	
-	window.addEventListener('resize', resizeThrottle, false);
-	
-	function resizeThrottle() {
-		if ( !resizeid ) {
-		 	resizeid = setTimeout(function() {
-		 		resizeid = null;
-		 		_resizeProject(active_tag);
-       		}, 100);
-    	}
-	}
-	
-	
+	$('#project .tabs a').on('click', function() {
+		// menu 
+		$('#project .tabs a.active').removeClass('active');
+		$(this).addClass('active');
+		// content
+		$('#project .copy.active').removeClass('active');
+		let content = '.' + $(this).parents('li').attr('class');
+		$(content, '#project .tabs .content').addClass('active');
+		
+	});
+		
 }// _projectEvents
 	
-function _resizeProject(active_tag){
-	
-	let container_specs = {
-		width : $('#container').width(),
-		height : $('#container').height()
-	}
-	
-	$('#project').css({
-			top : 0,
-			left : 0,
-			width : container_specs.width,
-			height : container_specs.height
-		}); 
-}	
-
 
 function _formatTabTags(data, active){
 	

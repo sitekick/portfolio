@@ -1,7 +1,5 @@
 var tileModule = (function() {
 	
-	/* @todo : polyfill or handle ie9 lack of csstransition support */
-	
 	let active, //slug of desired tile projects to show
 		viewport, //active media query
 		viewmode, //desktop layout or mobile
@@ -91,7 +89,7 @@ var tileModule = (function() {
 		$('#container').append( _tileMarkup() );
 		
 		/* if resized while project overlay displayed */
-		if( $('#container').hasClass('project') )
+		if( $('#container').hasClass('project') || $('#container').hasClass('contact') )
 			$('#interface').hide();
 			
 		/* accesibility controls*/
@@ -111,7 +109,6 @@ var tileModule = (function() {
 			};
 			
 			setTimeout(function() {
-				$('#mask').remove();
 				_addEvents();
 			},vars.timerCalc(timer.time, timer.lengthen));
 	
@@ -146,7 +143,9 @@ var tileModule = (function() {
 				}
 			};
 			
-			$('#tiles li').on({
+			function tileEvents(){
+				
+				$('#tiles li').on({
 					focusin : function(){
 						tile_events.flip(this);
 					},
@@ -159,24 +158,24 @@ var tileModule = (function() {
 					mouseout : function(){
 						tile_events.unflip(this);
 					}
-			});
-
+				});
+			}
+			
+			tileEvents();
+			
 			/* Tags */
-			let tags = document.querySelectorAll('.tile .tags button');
-				
-				for(let i=0; i < tags.length; i++) {
-					tags[i].addEventListener('click', function(e){
-						let focus_clicked = $(this).attr('class');
-						let tile = $(this).parents('.tile');
-						tile.addClass('active');
-						let tile_id = tile.attr('data-project');
-						let tile_classes = tile.attr('class');
-						let tile_class = __findTileClass(tile_classes, true)
+			
+			$('#tiles .tags button').off().on('click', function() {
+				let focus_clicked = $(this).attr('class');
+				let tile = $(this).parents('.tile');
+				tile.addClass('active');
+				let tile_id = tile.attr('data-project');
+				let tile_classes = tile.attr('class');
+				let tile_class = __findTileClass(tile_classes, true)
 						
-						showProject(tile_class, focus_clicked, vars.tiles[tile_id] );
-					}, false);
-				}
-				
+				showProject(tile_class, focus_clicked, vars.tiles[tile_id] );
+			});
+			
 			/* Main Nav */
 			$('#nav > li > a').on('click', function(){
 				let clicked = $(this).attr('id');
@@ -200,7 +199,10 @@ var tileModule = (function() {
 			function __cycleTiles(id) {
 		
 				disabled = true;
-					
+				
+				// disable hover effect until cycle complete 	
+				$('#tiles li').off();
+				
 				let clicked = {
 					get val() {
 						let val = id.substring(7,id.length+1);
@@ -209,24 +211,23 @@ var tileModule = (function() {
 				}
 				
 				let startIndex = {
-						get current() {
-							let start_str = $('.controls .active').first().attr('id');
-							let start_num = start_str .substring(7,start_str .length+1)
-							return  Number(start_num);
-						},
-						get next() {
-							let include = vars.cap - 1;
-							let start;
-							/* which dir */
-								if(clicked.val > this.current) {
-									start = ((clicked.val - include) > 1) ? clicked.val - include : 1; 
-								} else {
-									start = clicked.val;
-								}
+					get current() {
+						let start_str = $('.controls .active').first().attr('id');
+						let start_num = start_str .substring(7,start_str .length+1)
+						return  Number(start_num);
+					},
+					get next() {
+						let include = vars.cap - 1;
+						let start;
+						/* which dir */
+							if(clicked.val > this.current) {
+								start = ((clicked.val - include) > 1) ? clicked.val - include : 1; 
+							} else {
+								start = clicked.val;
+							}
 							
-							return start;
-						}
-						
+						return start;
+					}
 				};
 				
 				/* need to put these in variables before removing .active class */
@@ -283,6 +284,9 @@ var tileModule = (function() {
 					disabled = false;
 					/* reset key focus for tiles */
 					a11y.tiles.resetListeners();
+					/* re-enable hover effects */
+					tileEvents();
+				
 					
 				},vars.timerCalc(timer.time, timer.lengthen));
 				
@@ -338,10 +342,10 @@ var tileModule = (function() {
 		}
 
 		function _tileMarkup(){
-			
+
 			let markup = `<div id="interface" class="${viewmode}"><div class="wrapper">`
 			
-			markup += `<ul id="tiles" tabindex="0" class="${vars.filter.active} cols-${vars.cap}"><div id="mask"></div>`;
+			markup += `<ul id="tiles" tabindex="0" class="${vars.filter.active} cols-${vars.cap}">`;
 			
 			tilesloop: 
 			for(let i = 0; i < vars.tiles.length; i++){

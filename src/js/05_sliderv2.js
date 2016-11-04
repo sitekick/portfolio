@@ -10,7 +10,7 @@ var sliderModule = (function () {
 			get name() {
 				return `${this.el} ${this.item}`;
 			},
-			index : options.index,
+			index : Number(options.index),
 			nav : options.nav,
 			mode : options.mode
 		};
@@ -76,7 +76,6 @@ var sliderModule = (function () {
 			/* controls */
 			let buttons = $(settings.nav).children();
 			
-			
 			for(let i= 0; i < buttons.length; i++){
 				
 				buttons[i].addEventListener('click', function(e){
@@ -87,22 +86,19 @@ var sliderModule = (function () {
 					if(settings.index === to_index)
 						return;
 					
-					
 					if(clicked === false){
 						slider.animateSlide(to_index);
 						clicked = true;
 					}
 					
-					
-					}, false);
-				}
+				}, false);
+			}
 				
 			_rebuild(true);
 				
 		}();
 		
 	};// module
-	
 	
 	return module;
 		

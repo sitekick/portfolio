@@ -1,75 +1,62 @@
 #profile {
-	position: absolute; bottom: 1em; left: 50%; 
-// 	background: red;
+	position: absolute; bottom: 1em; left: 50%; z-index: 200; 
 	transform: translateX(-50%);
 	text-align: center;
 	perspective: 800px;
 		
 	.wrapper{
 		border-radius: 100%;
-	
+			
 		.photo {
-			width: 125px;
-			height: 125px;
+			width: 115px;
+			height: 115px;
 			position: relative;
-			margin-bottom: .5em;
+			margin-bottom: 2em;
 			transform-style: preserve-3d;
 			transform: scaleX(100%) scaleY(100%);
 			transform-origin: center center;
-			transition: transform 350ms;
-
+			transition: transform 350ms, opacity 350ms;
+			opacity: 1;
+			
 			.side {
 				border-radius: 100%;
 				backface-visibility: hidden;
 				position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-				background: red;
-			
+				width: auto;
+				
 				.content {
 					position: absolute; top: 50%; left: 0; right: 0;
 					transform: translateY(-50%);
 				}
 			
-			
 			&.front{
 				background-image: url(../img/bhw.jpg);
 				background-repeat: no-repeat;
-				background-size: 125px 125px;
-// 				background-position: center center;
-// 				border-radius: 100%;
+				box-shadow: 2px 2px 2px #333;
+				background-size: 115px 115px;
 				border: 2px solid $white;
 			}
 			&.back {
-				background-color: $grey;
 				transform: rotateY(-180deg);
+			}
+			&.active{
+				
 			}
 			}
 		
+		
 		&.hide{
-			//display: none;
+			opacity: 0;
 			transform: scaleX(0) scaleY(0);
 		}
 			
 		&.flip{
-			//display: none;
 			transform: rotateY(-180deg);
 		}
 		}
 	}//.wrapper
 	
-	
-	button {
-		border: 0;
-		background: none;
-		color: $grey;
-		font-size: 1em;
-		font-weight: normal;
-	
-	&:hover{
-		color: $white;
-		cursor: pointer;
-	}
-	}
-	
+
 .preload {
 	display: none;
 }
@@ -83,7 +70,7 @@
 	background-repeat : no-repeat;
 	opacity: 0;
 	filter: blur(10px);
-	transition: opacity 4000ms;
+	transition: opacity 3000ms;
 
 &.loaded{
 	opacity: .25;
@@ -91,4 +78,55 @@
 &.focus{
 	filter: blur(0);
 }
+}
+
+//#contact
+
+#contact {
+	
+	.primary {
+		
+		a{
+
+
+		&.linkedin{
+			display: inline-block;
+			padding: .25em;
+			background: #fff;
+		}
+			
+		}
+	}
+	
+	
+	.secondary {
+		text-align: left;
+		
+		form {
+			margin: 4em 2em 0 2em;	
+			
+			div{
+	
+				p {
+
+					label{
+						display: none;
+						margin-bottom: 5px;
+					}
+					input,
+					textarea {
+						font-size: 1.25;
+						padding: .5em;
+						width: 90%;
+					}
+				}
+			}
+		
+		input[type="submit"] {
+			padding: .75em 1.5em;
+			cursor: pointer;
+		}
+		
+		}// form
+	}
 }

@@ -1,6 +1,92 @@
 /*! modernizr 3.3.1 (Custom Build) | MIT *
  * https://modernizr.com/download/?-flexbox-preserve3d-mq !*/
 !function(e,t,n){function r(e,t){return typeof e===t}function o(){var e,t,n,o,i,s,a;for(var l in y)if(y.hasOwnProperty(l)){if(e=[],t=y[l],t.name&&(e.push(t.name.toLowerCase()),t.options&&t.options.aliases&&t.options.aliases.length))for(n=0;n<t.options.aliases.length;n++)e.push(t.options.aliases[n].toLowerCase());for(o=r(t.fn,"function")?t.fn():t.fn,i=0;i<e.length;i++)s=e[i],a=s.split("."),1===a.length?Modernizr[a[0]]=o:(!Modernizr[a[0]]||Modernizr[a[0]]instanceof Boolean||(Modernizr[a[0]]=new Boolean(Modernizr[a[0]])),Modernizr[a[0]][a[1]]=o),C.push((o?"":"no-")+a.join("-"))}}function i(){return"function"!=typeof t.createElement?t.createElement(arguments[0]):x?t.createElementNS.call(t,"http://www.w3.org/2000/svg",arguments[0]):t.createElement.apply(t,arguments)}function s(){var e=t.body;return e||(e=i(x?"svg":"body"),e.fake=!0),e}function a(e,n,r,o){var a,l,u,f,d="modernizr",p=i("div"),c=s();if(parseInt(r,10))for(;r--;)u=i("div"),u.id=o?o[r]:d+(r+1),p.appendChild(u);return a=i("style"),a.type="text/css",a.id="s"+d,(c.fake?c:p).appendChild(a),c.appendChild(p),a.styleSheet?a.styleSheet.cssText=e:a.appendChild(t.createTextNode(e)),p.id=d,c.fake&&(c.style.background="",c.style.overflow="hidden",f=w.style.overflow,w.style.overflow="hidden",w.appendChild(c)),l=n(p,e),c.fake?(c.parentNode.removeChild(c),w.style.overflow=f,w.offsetHeight):p.parentNode.removeChild(p),!!l}function l(e,t){return!!~(""+e).indexOf(t)}function u(e){return e.replace(/([a-z])-([a-z])/g,function(e,t,n){return t+n.toUpperCase()}).replace(/^-/,"")}function f(e,t){return function(){return e.apply(t,arguments)}}function d(e,t,n){var o;for(var i in e)if(e[i]in t)return n===!1?e[i]:(o=t[e[i]],r(o,"function")?f(o,n||t):o);return!1}function p(e){return e.replace(/([A-Z])/g,function(e,t){return"-"+t.toLowerCase()}).replace(/^ms-/,"-ms-")}function c(t,r){var o=t.length;if("CSS"in e&&"supports"in e.CSS){for(;o--;)if(e.CSS.supports(p(t[o]),r))return!0;return!1}if("CSSSupportsRule"in e){for(var i=[];o--;)i.push("("+p(t[o])+":"+r+")");return i=i.join(" or "),a("@supports ("+i+") { #modernizr { position: absolute; } }",function(e){return"absolute"==getComputedStyle(e,null).position})}return n}function m(e,t,o,s){function a(){d&&(delete k.style,delete k.modElem)}if(s=r(s,"undefined")?!1:s,!r(o,"undefined")){var f=c(e,o);if(!r(f,"undefined"))return f}for(var d,p,m,h,v,y=["modernizr","tspan","samp"];!k.style&&y.length;)d=!0,k.modElem=i(y.shift()),k.style=k.modElem.style;for(m=e.length,p=0;m>p;p++)if(h=e[p],v=k.style[h],l(h,"-")&&(h=u(h)),k.style[h]!==n){if(s||r(o,"undefined"))return a(),"pfx"==t?h:!0;try{k.style[h]=o}catch(g){}if(k.style[h]!=v)return a(),"pfx"==t?h:!0}return a(),!1}function h(e,t,n,o,i){var s=e.charAt(0).toUpperCase()+e.slice(1),a=(e+" "+b.join(s+" ")+s).split(" ");return r(t,"string")||r(t,"undefined")?m(a,t,o,i):(a=(e+" "+T.join(s+" ")+s).split(" "),d(a,t,n))}function v(e,t,r){return h(e,n,n,t,r)}var y=[],g={_version:"3.3.1",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,t){var n=this;setTimeout(function(){t(n[e])},0)},addTest:function(e,t,n){y.push({name:e,fn:t,options:n})},addAsyncTest:function(e){y.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=g,Modernizr=new Modernizr;var C=[],w=t.documentElement,x="svg"===w.nodeName.toLowerCase();Modernizr.addTest("preserve3d",function(){var e=i("a"),t=i("a");e.style.cssText="display: block; transform-style: preserve-3d; transform-origin: right; transform: rotateY(40deg);",t.style.cssText="display: block; width: 9px; height: 1px; background: #000; transform-origin: right; transform: rotateY(40deg);",e.appendChild(t),w.appendChild(e);var n=t.getBoundingClientRect();return w.removeChild(e),n.width&&n.width<4});var S=function(){var t=e.matchMedia||e.msMatchMedia;return t?function(e){var n=t(e);return n&&n.matches||!1}:function(t){var n=!1;return a("@media "+t+" { #modernizr { position: absolute; } }",function(t){n="absolute"==(e.getComputedStyle?e.getComputedStyle(t,null):t.currentStyle).position}),n}}();g.mq=S;var _="Moz O ms Webkit",b=g._config.usePrefixes?_.split(" "):[];g._cssomPrefixes=b;var T=g._config.usePrefixes?_.toLowerCase().split(" "):[];g._domPrefixes=T;var z={elem:i("modernizr")};Modernizr._q.push(function(){delete z.elem});var k={style:z.elem.style};Modernizr._q.unshift(function(){delete k.style}),g.testAllProps=h,g.testAllProps=v,Modernizr.addTest("flexbox",v("flexBasis","1px",!0)),o(),delete g.addTest,delete g.addAsyncTest;for(var E=0;E<Modernizr._q.length;E++)Modernizr._q[E]();e.Modernizr=Modernizr}(window,document);
+var growPanel = (function () {
+
+	var module = function(settings) {
+		
+		let markup = `<div id="${settings.id}" class="growpanel">
+				<div class="secondary">
+					<div class="close" tabindex="0"><img tabindex="-1" src="assets/img/button.close.png" alt="close button"/></div>
+					${settings.markup.secondary}
+					</div>
+				<div class="primary">
+					${settings.markup.primary}
+				</div>
+			</div>`;
+
+		
+		let values = {
+			source : {
+				offset : $(settings.source).offset(),
+				width : $(settings.source).width(),
+				height : $(settings.source).height()
+			},
+			target : {
+				selector : '#' + settings.id,
+				offset : $(settings.target).offset(),
+				width : $(settings.target).width(),
+				height : $(settings.target).height()
+			}
+		}
+		
+		$(markup).prependTo(settings.target).css({
+				top: values.source.offset.top - values.target.offset.top,
+				left: values.source.offset.left - values.target.offset.left,
+				width:  values.source.width,
+				height:  values.source.height
+				});
+			
+
+		$(values.target.selector).animate({
+			top : 0,
+			left : 0,
+			width : values.target.width,
+			height: values.target.height,
+			opacity : 1
+		},250,function () {
+			//reset css to allow resizing
+			$(this).css({
+				right: 0,
+				bottom: 0,
+				width: 'auto',
+				height: 'auto'
+			}).find('.secondary').addClass('loaded');
+			$('#container').addClass(settings.id);
+			$('#interface').hide();
+			_events();
+			return settings.events.afterload();
+		});	
+	
+	
+	function _events(){
+		
+		$('.close', values.target.selector).on('click', function(){
+			
+			$('#interface').show();
+		
+			$(values.target.selector).animate({
+				top: values.source.offset.top - values.target.offset.top, 
+				left: values.source.offset.left - values.target.offset.left,
+				width : values.source.width,
+				height : values.source.height,
+				opacity : .3
+			}, 
+			200,
+			function () {
+				$('#container').removeClass(settings.id);
+				$(this).remove();
+				return settings.events.afterclose();
+			});
+		});
+	}
+	
+	
+	}	
+	
+	return module;
+
+})();
 function getParameterByName(name, url) {
     /* http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript */
     
@@ -263,10 +349,13 @@ var resizeQuery = (function () {
 })();
 (function profileEffects() {
 	
+	let contact = false;
 	
-	$('#profile button').on('click', function(){
+	$('#profile a.me').on('click', function(){
 		
 		$('#profile .photo').toggleClass('hide');
+		
+		$(this).toggleClass('active');
 		
 		if( $('#profile .photo').hasClass('hide') ){
 			//inactive
@@ -280,17 +369,69 @@ var resizeQuery = (function () {
 
 	});
 	
+	$('#profile a.contact').on('click', function(){
+		
+		contact = (contact === true) ? false : true;
+		
+		if(contact === true) showContact();
+	
+	});
+	
+	function showContact(){
+		
+		let panel = growPanel({
+			source : '#profile .back',
+		 	target : '#container',
+		 	id : 'contact',
+		 	markup : _markup(),
+		 	events : {
+			 	afterload : function(){
+				 	console.log('open');
+			 	},
+			 	afterclose : function(){
+				 	contact = false;
+				 	console.log('open');
+				 	$('#profile .photo').removeClass('flip');
+			 	}
+		 	}
+		});
+		 	
+		function _markup(){
+			return {
+				primary : `<h1>Hunter Williams</h1><h2>designer • developer</h2>
+				<p>Lorem ipsum</p>
+				<a class="linkedin" href="https://www.linkedin.com/in/bhunterwilliams" target="_blank"><img width="125px" src="assets/img/linkedin/logo@1x.png" alt="linked in profile hunter williams" /></a>`,
+				secondary : `<form action="#" method="post"><div>
+				<p><label for="name">Name</label> 
+				<input type="text" id="name" placeholder="Name" maxlength="100">
+				</p>
+				<p><label for="email">Email</label> 
+				<input type="email" id="email" placeholder="Email address" maxlength="100">
+				</p>
+				<p><label for="comment">Comment</label> 
+				<textarea id="comment" rows="8" columns="5" placeholder="Comment"></textarea>
+				</p></div>
+				<input id="submit" type="submit" value="Send"></form>`
+			}
+		}
+	
+	
+	}
+	
 	let profile_events = {
 		flip : function(el) {
 			$(el).find('.photo').not('.hide').addClass('flip');
 		},
 		unflip : function(el) {
+			
+			if(contact === false)
 			$(el).find('.photo').removeClass('flip');
 		}
 	};
 	
 	$('#profile .wrapper').on({
 		focusin : function(){
+			
 			profile_events.flip(this);
 			
 				if( $(this).find('.photo').hasClass('hide') === true) {
@@ -320,7 +461,7 @@ var resizeQuery = (function () {
 				fade : 0,
 				reset : 0
 				},
-			items : ['dexter@1x.jpg', 'groomsmen@1x.jpg', 'commodore@1x.jpg', 'redskins@1x.jpg'],
+			items : ['dexter@1x.jpg', 'groomsmen@1x.jpg', 'firstdance@1x.jpg', 'commodore@1x.jpg', 'redskins@1x.jpg'],
 			mode : 'preload',
 			blur : true,
 			storage : {
@@ -455,145 +596,61 @@ function showProject(tile_class, tag, data){
 	
 	let parent = $(tile_class, '#tiles ').parent();
 	
-	$('#container').addClass('project');
-	
-	/* the selected tile */
-	let parent_specs = {
-		offset : parent.offset(),
-		width : parent.width(),
-		height : parent.height()
-	}
-	
-	/* the project pane */
-	let container_specs = {
-		width : $('#container').width(),
-		height : $('#container').height()
-	}
-	
-	var markup = `
-	<div id="project">
-		<div class="imagery">
-	 		<div class="close" tabindex="0"><img tabindex="-1" src="assets/img/button.close.png" alt="close button"/></div>
-	 		<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>
-	 	</div>
-	 	<div class="info">
-	 		<h1>${data.name}</h1><p>${data.description}</p>
-	 		${_formatTabTags(data,tag)}
-		</div>
-	</div>`;
-	
-	$(markup).prependTo('#container')
-		.offset({
-			top: parent_specs.offset.top, 
-			left: parent_specs.offset.left
-			})
-			.width(parent_specs.width)
-			.height(parent_specs.height);
-	
-	$('#project').animate({
-			top : 0,
-			left : 0,
-			width : container_specs.width,
-			height :container_specs.height,
-			opacity : 1
-		}, 
-		150,
-		function () {
-			$(this).find('.imagery').addClass('loaded');
-			$('#interface').hide();
-			_projectEvents(tile_class, tag, parent_specs, viewport);
+	let panel = growPanel({
+			source : parent,
+		 	target : '#container',
+		 	id : 'project',
+		 	markup : {
+			 	primary : `<h1>${data.name}</h1><p>${data.description}</p>
+			 				${_formatTabTags(data,tag)}`,
+			 	secondary : `<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>`
+		 	},
+		 	events : {
+			 	afterload : function(){
+				 	_projectEvents(tile_class, tag, viewport);
+			 	},
+			 	afterclose : function(){
+				 	$(tile_class, '#tiles ').removeClass('active').removeClass('flip-y');
+			 	}
+		 	}
 		});
-}
-
-function _projectEvents(tile_class, active_tag, parent_specs, mode) {
 	
-	var resizeid;
+	
+
+} // showProject
+
+function _projectEvents(tile_class, active_tag, mode) {	
+	
 	/* initialize slider */
+	let slider = sliderModule({
+		element : '#slider',
+		slide : '.item',
+		index : $('.tabs .' + active_tag).attr('data-index'),
+		nav : '.tabs ul',		
+		mode : mode
+	});
 	
 	/* a11y */
-	
 	let ally = {
 		'tags' : keyFocus('#project .tabs'),
 		'close' : keyFocus('#project .close')
 	};
 	
-	sliderModule({
-		element : '#slider',
-		slide : '.item',
-		index : Number($('.tabs .' + active_tag).attr('data-index')),
-		nav : '.tabs ul',		
-		mode : mode
-		});
-
-	let control = document.querySelector('.close');
-	
-	control.addEventListener('click', function(e){
-		
-		$('#interface').show();
-		
-		$('#project').animate({
-			left : parent_specs.offset.left,
-			top : parent_specs.offset.top,
-			width : parent_specs.width,
-			height : parent_specs.height,
-			opacity : .3
-		}, 
-		200,
-		function () {
-			$(this).remove();
-			$(tile_class, '#tiles ').removeClass('active').removeClass('flip-y');
-			$('#container').removeClass('project');
-		});
-		
-	}, false);
-	
 	/* tabs nav */
 	
-	let tags = document.querySelectorAll('.tabs li');
-	
-	for(let i=0; i < tags.length; i++){
-		tags[i].addEventListener('click', function(e){
-			/* menu */
-			$(tags).find('a').removeClass('active');
-			$(this).find('a').addClass('active');
-			/* content */
-			$('.copy.active').removeClass('active');
-			let content = '.' + $(this).attr('class');
-			$(content, '.tabs .content').addClass('active');
-		})
-	}
-	
-	/* resize */
-	
-	window.addEventListener('resize', resizeThrottle, false);
-	
-	function resizeThrottle() {
-		if ( !resizeid ) {
-		 	resizeid = setTimeout(function() {
-		 		resizeid = null;
-		 		_resizeProject(active_tag);
-       		}, 100);
-    	}
-	}
-	
-	
+	$('#project .tabs a').on('click', function() {
+		// menu 
+		$('#project .tabs a.active').removeClass('active');
+		$(this).addClass('active');
+		// content
+		$('#project .copy.active').removeClass('active');
+		let content = '.' + $(this).parents('li').attr('class');
+		$(content, '#project .tabs .content').addClass('active');
+		
+	});
+		
 }// _projectEvents
 	
-function _resizeProject(active_tag){
-	
-	let container_specs = {
-		width : $('#container').width(),
-		height : $('#container').height()
-	}
-	
-	$('#project').css({
-			top : 0,
-			left : 0,
-			width : container_specs.width,
-			height : container_specs.height
-		}); 
-}	
-
 
 function _formatTabTags(data, active){
 	
@@ -655,7 +712,7 @@ var sliderModule = (function () {
 			get name() {
 				return `${this.el} ${this.item}`;
 			},
-			index : options.index,
+			index : Number(options.index),
 			nav : options.nav,
 			mode : options.mode
 		};
@@ -721,7 +778,6 @@ var sliderModule = (function () {
 			/* controls */
 			let buttons = $(settings.nav).children();
 			
-			
 			for(let i= 0; i < buttons.length; i++){
 				
 				buttons[i].addEventListener('click', function(e){
@@ -732,15 +788,13 @@ var sliderModule = (function () {
 					if(settings.index === to_index)
 						return;
 					
-					
 					if(clicked === false){
 						slider.animateSlide(to_index);
 						clicked = true;
 					}
 					
-					
-					}, false);
-				}
+				}, false);
+			}
 				
 			_rebuild(true);
 				
@@ -748,13 +802,10 @@ var sliderModule = (function () {
 		
 	};// module
 	
-	
 	return module;
 		
 })();
 var tileModule = (function() {
-	
-	/* @todo : polyfill or handle ie9 lack of csstransition support */
 	
 	let active, //slug of desired tile projects to show
 		viewport, //active media query
@@ -845,7 +896,7 @@ var tileModule = (function() {
 		$('#container').append( _tileMarkup() );
 		
 		/* if resized while project overlay displayed */
-		if( $('#container').hasClass('project') )
+		if( $('#container').hasClass('project') || $('#container').hasClass('contact') )
 			$('#interface').hide();
 			
 		/* accesibility controls*/
@@ -865,7 +916,6 @@ var tileModule = (function() {
 			};
 			
 			setTimeout(function() {
-				$('#mask').remove();
 				_addEvents();
 			},vars.timerCalc(timer.time, timer.lengthen));
 	
@@ -900,7 +950,9 @@ var tileModule = (function() {
 				}
 			};
 			
-			$('#tiles li').on({
+			function tileEvents(){
+				
+				$('#tiles li').on({
 					focusin : function(){
 						tile_events.flip(this);
 					},
@@ -913,24 +965,24 @@ var tileModule = (function() {
 					mouseout : function(){
 						tile_events.unflip(this);
 					}
-			});
-
+				});
+			}
+			
+			tileEvents();
+			
 			/* Tags */
-			let tags = document.querySelectorAll('.tile .tags button');
-				
-				for(let i=0; i < tags.length; i++) {
-					tags[i].addEventListener('click', function(e){
-						let focus_clicked = $(this).attr('class');
-						let tile = $(this).parents('.tile');
-						tile.addClass('active');
-						let tile_id = tile.attr('data-project');
-						let tile_classes = tile.attr('class');
-						let tile_class = __findTileClass(tile_classes, true)
+			
+			$('#tiles .tags button').off().on('click', function() {
+				let focus_clicked = $(this).attr('class');
+				let tile = $(this).parents('.tile');
+				tile.addClass('active');
+				let tile_id = tile.attr('data-project');
+				let tile_classes = tile.attr('class');
+				let tile_class = __findTileClass(tile_classes, true)
 						
-						showProject(tile_class, focus_clicked, vars.tiles[tile_id] );
-					}, false);
-				}
-				
+				showProject(tile_class, focus_clicked, vars.tiles[tile_id] );
+			});
+			
 			/* Main Nav */
 			$('#nav > li > a').on('click', function(){
 				let clicked = $(this).attr('id');
@@ -954,7 +1006,10 @@ var tileModule = (function() {
 			function __cycleTiles(id) {
 		
 				disabled = true;
-					
+				
+				// disable hover effect until cycle complete 	
+				$('#tiles li').off();
+				
 				let clicked = {
 					get val() {
 						let val = id.substring(7,id.length+1);
@@ -963,24 +1018,23 @@ var tileModule = (function() {
 				}
 				
 				let startIndex = {
-						get current() {
-							let start_str = $('.controls .active').first().attr('id');
-							let start_num = start_str .substring(7,start_str .length+1)
-							return  Number(start_num);
-						},
-						get next() {
-							let include = vars.cap - 1;
-							let start;
-							/* which dir */
-								if(clicked.val > this.current) {
-									start = ((clicked.val - include) > 1) ? clicked.val - include : 1; 
-								} else {
-									start = clicked.val;
-								}
+					get current() {
+						let start_str = $('.controls .active').first().attr('id');
+						let start_num = start_str .substring(7,start_str .length+1)
+						return  Number(start_num);
+					},
+					get next() {
+						let include = vars.cap - 1;
+						let start;
+						/* which dir */
+							if(clicked.val > this.current) {
+								start = ((clicked.val - include) > 1) ? clicked.val - include : 1; 
+							} else {
+								start = clicked.val;
+							}
 							
-							return start;
-						}
-						
+						return start;
+					}
 				};
 				
 				/* need to put these in variables before removing .active class */
@@ -1037,6 +1091,9 @@ var tileModule = (function() {
 					disabled = false;
 					/* reset key focus for tiles */
 					a11y.tiles.resetListeners();
+					/* re-enable hover effects */
+					tileEvents();
+				
 					
 				},vars.timerCalc(timer.time, timer.lengthen));
 				
@@ -1092,10 +1149,10 @@ var tileModule = (function() {
 		}
 
 		function _tileMarkup(){
-			
+
 			let markup = `<div id="interface" class="${viewmode}"><div class="wrapper">`
 			
-			markup += `<ul id="tiles" tabindex="0" class="${vars.filter.active} cols-${vars.cap}"><div id="mask"></div>`;
+			markup += `<ul id="tiles" tabindex="0" class="${vars.filter.active} cols-${vars.cap}">`;
 			
 			tilesloop: 
 			for(let i = 0; i < vars.tiles.length; i++){

@@ -1,0 +1,57 @@
+.growpanel {
+	position: absolute;
+	z-index: 1000;
+	border-radius: 8px;
+	opacity: .25;
+	overflow: hidden;
+	background: $grey;
+		
+	.primary {
+		width: 46.25%;
+		margin: 2.5% 0 5% 2.5%;
+		height: 95%;
+		overflow-y: auto;
+		
+	@include screen-medium{
+		margin: 2.5%;
+		width: 95%;
+		height: 47.5%;
+	}
+	}
+	
+	.secondary {
+		float: right;
+		background: white;
+		width: 50%;
+		height: 100%;
+		overflow: hidden;
+		text-align: center;
+		transition: opacity 500ms;
+		opacity: 0;
+		position: relative;
+		
+		.close {
+			position: absolute; top:0; right: 0; z-index: 100;
+			background-color: $black;
+			transition: background-color 300ms;
+		
+			img{
+				display: block;
+			}
+		&:hover{
+			cursor: pointer;
+			background-color: $comp1;
+		}
+		}
+	
+
+	&.loaded{
+		opacity: 1;
+	}	
+	@include screen-medium {
+		float: none;
+		width: 100%;
+		height: auto;
+	}
+	}//secondary	
+}

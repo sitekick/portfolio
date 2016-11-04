@@ -1,16 +1,24 @@
 // Fonts
-/*
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:400,400i,600);	
-$raleway: 'Raleway', sans-serif;
-$montserrat: 'Montserrat', sans-serif;
-*/
+@import url(https://fonts.googleapis.com/css?family=Oxygen:400,700|Roboto:300,400,500,400i,700);	
+$oxygen: 'Oxygen', sans-serif;
+$roboto: 'Roboto', sans-serif;
 
 // Colors 
-$orange	:	#EF4136;
-$grey	:	#CCC;
-$white	: 	#FFF;
-$black	: 	#333;
-$background: #4A4A4A;
+$white	: #FFF;
+
+$grey	: #E7E8EE;
+$coolgrey	: #B4C5E4;
+$black	: #3C3744;
+$comp1	: #4A8BD8;
+$comp2	: #D62839;
+
+/*
+$grey : rgba(231, 232, 238, 1);
+$coolgrey : rgba(180, 197, 228, 1);
+$black : rgba(60, 55, 68, 1);
+$comp1 : rgba(74, 139, 216, 1);
+$comp2 : rgba(214, 40, 57, 1);
+*/
 
 // Viewport sizes 
 $screen-full : 1324px;

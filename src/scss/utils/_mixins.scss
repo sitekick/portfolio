@@ -27,3 +27,33 @@
 		@content;
 	}
 }
+
+@mixin line-link {
+	
+	font-size: 1.0625em;
+	font-weight: 300;
+	padding: .25em 0;
+	border: 1px solid transparent;
+	text-shadow: 2px 2px 2px $black;
+	color: $grey;
+	cursor: pointer;
+	
+	&:hover{
+		border-top-color: $grey;
+		border-bottom-color: $grey;
+	}
+	&.active{
+		border-top-color: $white;
+		border-bottom-color: $white;
+		color: $white;
+	}
+}
+
+@mixin tile-border {
+	border-width: 1px;
+	border-style: solid;
+	border-top-color: #CCC;
+	border-left-color: #CCC;
+	border-right-color: $white;
+	border-bottom-color: $white;
+}

@@ -1,6 +1,7 @@
 body {
-	background: $background;
-
+	background: $black;
+	font-family: $roboto;
+	color: $black;		
 }
 
 img {
@@ -10,12 +11,40 @@ img {
 
 /* =========== NAV =========== */
 
+#nav {
+	
+	> li > a {
+		
+		@include line-link;
+
+	}
+	
+}
+
+.controls {
+		
+	h1 {
+		letter-spacing: 2px;
+		font-size: 2em;
+		font-weight: 400;
+		padding: 0 1em;
+		text-shadow: 1px 1px 4px $black;
+	
+	}
+		
+	a {
+		background-color: rgba(255,255,255, .25);
+	&.active{
+		background-color: $comp1;
+	}	
+	}
+}
+
 
 /* =========== UL ============ */
 
-
 div.tile {
-				
+	
 	.side {
 		background: #FFF;
 					
@@ -24,7 +53,8 @@ div.tile {
 			text-align: center;
 			
 			h1 {
-				font-size: 1.875em;
+				font-size: 1.625em;
+				color: $black;
 			}
 						
 			p {
@@ -33,44 +63,154 @@ div.tile {
 				text-align: left;
 				margin-bottom: 1em;
 			}
+			
+			.tags{
+				font-size: .9375em;
+
+				button {
+					background: rgba(255,255,255, .9);
+					border-radius: 0;
+					border:1px solid white;
+					padding: .35em .5em;
+					font-family: 'Roboto', sans-serif;
+					font-weight: 400;
+					color: $black;
+					text-shadow: 1px 1px 0px white;
+					
+					&:hover{
+						color: $comp1;
+					}
+				}
+			}// .tags
 		}
-	
-	&.back {
-		background: #E4E4E4;
-	}
+	&.back{
+		background: $grey;
+	}	
 	}// /.side
-}
+}//.tile
 
 #project {
 	
-	.tabs {
-		font-size: .9em;
+	.tabs  {
 		
 		ul {
-			
+		
 			li {
 			
 				a{
-					background: #999;
+					font-size: 1.0625em;
+					background: $coolgrey;
+					padding: .35em .5em;
 					color: #FFF;
-					margin-right: 1px;
-					
-				&:hover{
-					background: #777;
-				}
+					font-weight: 300;
+	
 				&.active{
-					background: #333;
+					background: rgba(255,255,255, .7);
+					color: $coolgrey;
+					font-weight: 400;
+				}
+				&:hover{
+					//background: #777;
 				}
 				}
 			}
 		}
-	}
+		
+		.content {
+			
+			background: rgba(255,255,255, .7);
+			
+			a {
+				color: $comp2;
+			}
+			
+		}
+	}// .tabs
+	
+	
 }
 
 /* =========== HEADERS ============ */
 
-#container > h1 {
-	display:inline-block;
-	vertical-align: top;
-	margin: 0 1em .5em 0;
+h1 {
+	font-family: $oxygen;
+	font-weight: 700;
+	margin: 0 0 .5em;
+}
+
+h2 {
+	font-weight: 500;
+	margin: 0 0 .75em;
+// 	color: $comp1;
+}
+
+p {
+	font-weight: 300;
+	margin-bottom: 1.5em;
+	line-height: 1.6em;
+}
+
+
+#profile {
+	.wrapper {
+		.photo {
+			.side{
+				background: $grey;			
+			}
+		}
+	}
+	
+	a.contact {
+		cursor: pointer;
+		font-size: .9375em;
+		color: $black;
+		text-shadow: 1px 1px 0px $white;
+	
+	&:hover{
+		color: $comp1;
+	}
+	}
+	
+	a.me {
+
+		@include line-link;
+		
+	}
+	
+}
+
+
+#contact {
+	
+	.secondary {
+	
+		form {
+		
+					
+			input[type="text"],
+			input[type="email"],
+			textarea {
+				color: $comp1;
+				font-weight: 400;
+				border: 1px solid $grey;
+				border-right-width: 4px;
+			}
+			
+			textarea{
+				resize: none;
+			}
+		
+			input[type="submit"] {
+				margin: 2em 0 1em;
+				border: 0;
+				color: white;
+				background: $comp1;
+			
+			&:hover{
+				background: $comp1;
+			}	
+			}
+		}	
+	}	
+		
 }

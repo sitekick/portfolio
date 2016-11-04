@@ -9,22 +9,8 @@ body {
 
 #container {
 	position: fixed; top: 2em; right: 2em; bottom: 2em; left: 2em;
-// 	background: rgba(255,0,0, .5);
-	
-	@include screen-full {
-// 		border: 1px solid yellow;
-	}
-	
-	@include screen-large {
-// 		border: 1px solid red;
-	}
-	
-	@include screen-medium {
-// 		border: 1px solid green;
-	}
-	
+
 	@include screen-small {
-// 		border: 1px solid orange;
 		top: .5em; right: .5em; bottom: .5em; left: .5em;
 	}
 }

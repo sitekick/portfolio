@@ -1,62 +1,8 @@
 #project {
-	background: $grey;
-	opacity: .3;
-	position: absolute;
-	z-index: 100;
-	border-radius: 8px;
-	overflow: hidden;
 	
+	.secondary{
 	
-	.info{
-		width: 46.25%;
-		margin: 2.5% 0 5% 2.5%;
-		height: 95%;
-// 		background: green;
-		overflow-y: auto;
-		
-		h1 {
-			margin: 0 0 .5em;
-		}
-		h2 {
-			margin: 0 0 .75em;
-		}
-		p {
-			margin: 0 0 .5em;
-			line-height: 1.5em;
-		}
-				
-	@include screen-medium{
-		margin: 2.5%;
-		width: 95%;
-		height: 47.5%;
-	}
-	}
-	
-	.imagery{
-		float: right;
-		background: white;
-		width: 50%;
-		height: 100%;
-		overflow: hidden;
-		text-align: center;
-		transition: opacity 500ms;
-		opacity: 0;
-		position: relative;
-		
-		.content {
-			//clear: right;
-			//display: block;
-		}
-	
-	&.hidden{
-		visibility: hidden;
-	}
-	&.loaded{
-		opacity: 1;
-	}	
 	@include screen-medium {
-		float: none;
-		width: 100%;
 		height: 300px;
 	}
 	@include screen-small {
@@ -64,33 +10,19 @@
 	}
 	}
 
-	.close {
-		position: absolute; top:0; right: 0; z-index: 100;
-		background-color: $background;
-		transition: background-color 500ms;
-		
-		img{
-			display: block;
-		}
-	&:hover{
-		cursor: pointer;
-		background-color: $black;
-	}
-	}
-	
 	.tabs {
-		
+		margin: .5em 1em .5em .25em;
 		
 		ul {
 			list-style: none;
-			margin: 1em 0;
+			margin: 1em 0 0;
 		
 			li {
 			display: inline-block;
 			
-			
 				a{
 					padding: .5em;
+					margin-right: 1px;
 					display: block;
 					background: #333;
 					color: #FFF;
@@ -100,28 +32,33 @@
 		}
 		
 		.content {
-			
+			padding: 1em;
+									
 			.copy{
 				display: none;
 				
-				h2 {
-					font-size: 1.25em;
-					margin: 0 0 .5em;
-				}
-			
-				p {
-					font-size: .95em;
-					line-height: 1.4em;
-				}
-			
 			&.active {
 				display: block
 			}
 			}
 		}
-	}
+	}// .tabs	
+}
 
-@include screen-small {
-	
-}	
+#slider {
+	position: absolute; 
+	top: 0;
+	left: 0;
+	z-index: 1;
+ 
+	.item {
+		overflow: hidden;
+		position: relative; 
+		
+		img,
+		div {
+			position: absolute; top: 50%; left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
 }

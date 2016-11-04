@@ -24,10 +24,8 @@
 			flex: 1 1 25%;
 			margin-right: 2em;
 			padding-right: 0;
-			background: rgba(0,0,0, .15);
+			background: rgba(0,0,0, .2);
 			border-radius: 8px;
-			/* confirm this */
-// 			overflow: visible; 
 			/* flip effect */
 			perspective: 800px;
 		
@@ -47,7 +45,8 @@
 					transform: rotateX( 0deg ) rotateY(0deg); 
 				}
 				&.back {
-					background: $background;
+					background: rgba(0,0,0, .2);
+					transform: translateY(-50%);
 					transition: background-color 350ms;
 					/* flip effect */
 					transform: rotateX( -180deg ) rotateY(0deg); 

@@ -1,16 +1,15 @@
-#mask {
-// 	background: rgba(255,0,0, .5);
-	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000;
-}
-
 #interface {
 	position: absolute; top: 40%; left: 0; right: 0;
 	transform: translateY(-50%);
-// 	background: rgba(0,255,0, .5); 
 	 
 	.wrapper{
 		text-align: center;
 	}
+
+@include screen-medium{
+	top: 0;
+	transform: translateY(0);
+}
 }
 
 #tiles{
@@ -81,32 +80,15 @@
 #nav {
 	width: 100%;
 	list-style: none;
-	
-	> li{
-
-		a{
-			text-shadow: 2px 2px 2px #333;
-			
-			border: 0;
-			cursor:pointer;
-			color: $grey;
-				
-		&.active{
-			color: white;
-		}		
-		}	
-	}
 }
 
 .controls {
 		
 		h1 {
 			color: $white;
-			font-weight: normal;
-			letter-spacing: 2px;
 			text-align: center;
 			margin: 0 auto .25em;
-		
+			
 		@include screen-medium{
 			margin: 1em auto;
 		}
@@ -121,23 +103,18 @@
 					
 			li{
 				display: table-cell;
-				height: 10px;
-				padding-right: 2px;
+				height: 8px;
+				padding-right: 1px;
 			
 				a{
 					display: block;
-					padding: .25em;
-					background-color: rgba(74,139,216, .5);
+					padding: .25em .75em;
 					transition: background-color 750ms;
-					box-shadow: 2px 2px 2px #333;
+					box-shadow: 1px 1px 2px #333;
 					
 					span{
 						display: none;
 					}
-				
-				&.active{
-					background-color: rgba(74,139,216, 1);
-				}
 				}
 			
 			@include screen-medium {
