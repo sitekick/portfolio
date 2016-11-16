@@ -30,8 +30,12 @@ img {
 		padding: 0 1em;
 		text-shadow: 1px 1px 4px $black;
 	
+	@include mobile-device {
+		font-size: 1.2em;
+		letter-spacing: 1px;
 	}
-		
+	}
+	
 	a {
 		background-color: rgba(255,255,255, .25);
 	&.active{
@@ -55,6 +59,10 @@ div.tile {
 			h1 {
 				font-size: 1.625em;
 				color: $black;
+			
+			@include screen-medium {
+				font-size: 1.25em;
+			}
 			}
 						
 			p {
@@ -87,9 +95,36 @@ div.tile {
 		background: $grey;
 	}	
 	}// /.side
+
+.no-flexbox &{
+	
+	.side {
+		.content {
+			.tags {
+				button {
+					background: $coolgrey;
+					color: $white;
+					text-shadow: none;
+					border:1px solid $grey;
+				
+				&:hover{
+					color: $comp1;
+				}
+				}
+			}
+		}
+	}
+}
 }//.tile
 
 #project {
+	
+	.primary  {
+		
+		a{
+			color: $comp2;
+		}
+	}
 	
 	.tabs  {
 		
@@ -109,21 +144,12 @@ div.tile {
 					color: $coolgrey;
 					font-weight: 400;
 				}
-				&:hover{
-					//background: #777;
-				}
 				}
 			}
 		}
 		
 		.content {
-			
 			background: rgba(255,255,255, .7);
-			
-			a {
-				color: $comp2;
-			}
-			
 		}
 	}// .tabs
 	
@@ -141,7 +167,6 @@ h1 {
 h2 {
 	font-weight: 500;
 	margin: 0 0 .75em;
-// 	color: $comp1;
 }
 
 p {
@@ -152,14 +177,7 @@ p {
 
 
 #profile {
-	.wrapper {
-		.photo {
-			.side{
-				background: $grey;			
-			}
-		}
-	}
-	
+		
 	a.contact {
 		cursor: pointer;
 		font-size: .9375em;
@@ -172,21 +190,15 @@ p {
 	}
 	
 	a.me {
-
 		@include line-link;
-		
 	}
-	
 }
-
 
 #contact {
 	
 	.secondary {
 	
 		form {
-		
-					
 			input[type="text"],
 			input[type="email"],
 			textarea {
@@ -194,6 +206,17 @@ p {
 				font-weight: 400;
 				border: 1px solid $grey;
 				border-right-width: 4px;
+			
+			&.error{
+				border-color: $comp2;
+			}
+			
+			&.valid{
+				border-color: green;
+			}
+			&.valid:after{
+				content: '\2605';
+			}
 			}
 			
 			textarea{
@@ -201,7 +224,6 @@ p {
 			}
 		
 			input[type="submit"] {
-				margin: 2em 0 1em;
 				border: 0;
 				color: white;
 				background: $comp1;
@@ -212,5 +234,5 @@ p {
 			}
 		}	
 	}	
-		
 }
+

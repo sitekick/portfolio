@@ -10,8 +10,8 @@ function showProject(tile_class, tag, data){
 		 	id : 'project',
 		 	markup : {
 			 	primary : `<h1>${data.name}</h1><p>${data.description}</p>
-			 				${_formatTabTags(data,tag)}`,
-			 	secondary : `<div id="slider" class="content ${viewport}">${_formatImages(data,tag)}</div>`
+			 				${__formatTabTags(data,tag)}`,
+			 	secondary : `<div id="slider" class="content ${viewport}">${__formatImages(data,tag)}</div>`
 		 	},
 		 	events : {
 			 	afterload : function(){
@@ -22,6 +22,56 @@ function showProject(tile_class, tag, data){
 			 	}
 		 	}
 		});
+	
+	function __formatTabTags(){
+		
+		let foci = data.foci;
+		let content = '';
+		let markup = '<div class="tabs"><ul tabindex="0">';
+		let counter = 0;
+		
+		for(focus in foci){	
+			let activate = ( focus == tag) ? true : false;
+			let a_classes = '';
+			if(activate)
+				a_classes += 'active ';
+			if(foci[focus].favorite)
+				a_classes += 'fav';
+			markup += `<li data-index="${counter}" class="${focus}"><a href="#" tabindex="-1" class="tab${(activate) ? ' active' : ''}">${foci[focus].tag}</a></li>`;
+			content += `<div class="copy ${focus} ${a_classes}">${foci[focus].copy}</div>`;
+			counter++;
+		}
+		
+		markup += '</ul>';
+		markup += '<div class="content">';
+		markup += content
+		markup += '</div></div>';
+		
+		return markup;
+}
+
+	function __formatImages(){
+		
+		let markup = '';
+		
+		let foci = data.foci;
+		
+		for(focus in foci){	
+			
+			markup += `<div class="item ${foci[focus].highlight.type} ${focus}">`
+			switch(foci[focus].highlight.type){
+				case 'image' :
+					markup += `<img src="assets/img/${focus}/${foci[focus].highlight.content}" alt=""/>`;
+				break;
+				case 'html' :
+					markup += `<div class="wrapper">${foci[focus].highlight.content}</div>`;
+				break;
+			};
+			
+			markup += `</div>`
+		}
+		return markup;
+	}
 	
 	
 
@@ -46,7 +96,7 @@ function _projectEvents(tile_class, active_tag, mode) {
 	
 	/* tabs nav */
 	
-	$('#project .tabs a').on('click', function() {
+	$('#project .tabs a.tab').on('click', function() {
 		// menu 
 		$('#project .tabs a.active').removeClass('active');
 		$(this).addClass('active');
@@ -56,55 +106,13 @@ function _projectEvents(tile_class, active_tag, mode) {
 		$(content, '#project .tabs .content').addClass('active');
 		
 	});
+	
+	
+	/* iframe */
+	let src = $('#project iframe').attr('data-src');
+	$('#project iframe').attr('src', src);
+
 		
 }// _projectEvents
 	
 
-function _formatTabTags(data, active){
-	
-	let foci = data.foci;
-	let content = '';
-	let markup = '<div class="tabs"><ul tabindex="0">';
-
-	for(let i = 0; i < foci.length; i++){
-		let activate = ( foci[i].slug == active) ? true : false;
-		let a_classes = '';
-		if(activate)
-			a_classes += 'active ';
-		if(foci[i].favorite)
-			a_classes += 'fav';
-		markup += `<li data-index="${i}" class="${foci[i].slug}"><a href="#" tabindex="-1" class="${a_classes}">${foci[i].tag}</a></li>`;
-		content += `<div class="copy ${foci[i].slug} ${(activate) ? 'active' : ''}">${foci[i].copy}</div>`;
-	}
-	
-	markup += '</ul>';
-	markup += '<div class="content">';
-	markup += content
-	markup += '</div></div>';
-	
-	return markup;
-}
-
-
-function _formatImages(data, tag_active){
-	
-	let markup = '';
-	
-	let highlights = data.foci
-	
-	for(let i = 0; i < highlights.length; i++){	
-	
-		markup += `<div class="item ${highlights[i].highlight.type} ${highlights[i].slug}">`
-		switch(highlights[i].highlight.type){
-			case 'image' :
-			markup += `<img src="assets/img/${highlights[i].slug}/${highlights[i].highlight.content}" alt=""/>`;
-			break;
-			case 'div' :
-			markup += `<div>${highlights[i].highlight.content}</div>`;
-			break;
-		};
-		
-		markup += `</div>`
-	}
-	return markup;
-}

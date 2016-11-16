@@ -4,7 +4,10 @@ $(function () {
 	
 	$.getJSON('assets/data/projects.json', function (data) {
 		
-		tileModule(data);
+		let contact = getParameterByName('contact');
+		/* if the contact form was submitted; bypass tiles while validating */
+		if(  contact == null ) 
+			tileModule(data);
 		
 	});
 	
@@ -18,8 +21,6 @@ $(function () {
 	
 	//$('html').removeClass('no-js').addClass('js').addClass('no-flexbox')
 
-	
-	
 });
 
 

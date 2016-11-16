@@ -2,7 +2,7 @@
 
 var resizeQuery = function () {
 
-	var mQueries = ['(max-width: 500px)', '(max-width: 768px)', '(max-width: 1024px)', '(min-width: 1024px)'];
+	var mQueries = ['(max-width: 500px)', '(max-width: 768px) and (orientation: landscape)', '(max-width: 768px)', '(max-width: 1024px)', '(max-width: 1324px)', '(min-width: 1324px)'];
 	var currentMQ = idQuery();
 
 	var monitorMQ = function monitorMQ(eventsobj, init) {
@@ -31,10 +31,7 @@ var resizeQuery = function () {
 	function idQuery() {
 		for (var i = 0; i < mQueries.length; i++) {
 			if (Modernizr.mq(mQueries[i]) == true) {
-
 				return mQueries[i];
-
-				break;
 			}
 		}
 	}

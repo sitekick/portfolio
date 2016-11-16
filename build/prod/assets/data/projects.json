@@ -1,0 +1,208 @@
+{
+	"projects" : [
+		{
+			"name" : "Bottle Corporation",
+			"description" : "This is a portfolio project for a fictitious computer components and services corporation. I hired a copywriter to envision a business and describe its mission and services.  I created a logo and website prototype after reviewing this material and researching the company’s would be competition - <a href=\"http://www.arrow.com\" target=\"_blank\">Arrow Electronics</a>, <a href=\"http://www.avnet.com\" target=\"_blank\">AVNET</a>, and <a href=\"http://www.ncr.com\" target=\"_blank\">NCR</a>",
+			"foci" : {
+				"logo-design" : {
+					"tag" : "logo design",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "bottle.png"
+					},
+					"copy" : "<h2>Logo Design</h2><p>The design for Bottle Corporation uses a square bracket and curly brace, marks commonly used in computer programming, to identify the company as a provider of technology based products and services.</p>"
+				},
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "image",
+						"content" : "bottle.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>The homepage places emphasis on the two main revenue streams – electronic components and software services.  Many of the \"competitor\" websites overwhelmed visitors with too much information.  Interactive components allow visual order to be maintained in the layout while still allowing a great deal of information to be presented.  Navigation is facilitated with the clean layout and by distinguishing menus from page content with color.</p>"
+},
+				"html-js" : {
+					"tag" : "html/js",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "html",
+						"content" : "<a class=\"sitelink\" href=\"http://bottle.imac/build/dev\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://bottle.imac/build/dev\" src=\"\"  />",
+						"static" : "logo-design"
+					},
+					"copy" : "<h2>HTML-JS</h2><p>As this is not a real world project no production website exists so a one-page advanced prototype is presented.  Some features are best demonstrated by viewing this site in a new browser window.</p><ul><li><strong>Responsive</strong> In addition to media queries, Javascript optimizes layout as device width changes.</li><li><strong>JSON</strong> The interactive components use JSON to load copy and imagery.</li><li><strong>Javascript</strong> Handles user interaction with the product data, blog content, and menus.</li><li><strong>CSS3</strong> Flexbox usage that gracefully degrades for cross browser support.</li><li><strong>Data visualization</strong> Line, bar, and doughnut charts using Chart.js.</li><li><strong>Accessibility</strong> Javascript enhanced tab focused and keyboard navigation.</li></ul>"
+			}
+}
+		},{
+			"name" : "New Heritage",
+			"description" : "This portfolio project was created for a fictitious real estate company specializing in historic preservation.  A copywriter was hired to <a href=\"#\" target=\"_blank\">describe the mission and services</a> provided by the company they envisioned.",
+			"foci" : {
+				"logo-design" : {
+					"tag" : "logo design",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "newheritage.png"
+					},
+					"copy" : "<h2>Logo Design</h2><p>The vibrant, reddish-orange, color contrasts the warm grey to suggest the revitalization that is brought about by the company. New Heritage Realty restores and repurposes historic structures, which is represented by the colored compound shape formed around the post and lintel structure of the capital letter H.</p>"
+				},
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "image",
+						"content" : "newheritage.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>This design extends the simplicity and color palette of the logo and features a responsive photo gallery that serves as a navigation element.  The presentation of site content into two categories, structures and people, borrows from the relationship between space and people that defines architecture.  Custom de-saturate and orange hue filters carry through branding of photographs.</p>"
+				},
+				"html-js" : {
+					"tag" : "html/js",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "html",
+						"content" : "<a class=\"sitelink\" href=\"http://newheritage.imac/build/dev\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://newheritage.imac/build/dev\" src=\"\" />",
+						"static" : "logo-design"
+					},
+					"copy" : "<h2>HTML-JS</h2><p>As this is not a real world project no production website exists so a one-page advanced prototype is presented.  Some features are best demonstrated by viewing this site in <a href=\"#\" target=\"_blank\">a new browser window</a>.<ul><li><strong>Responsive</strong> In addition to media queries, Javascript optimizes layout as device width changes.</li><li><strong>JSON</strong> Page copy and imagery is dynamically loaded to display page content.</li><li><strong>Javascript</strong> User interaction with the photo gallery as well as custom photograph filters.</li><li><strong>CSS3</strong> Flexbox usage that gracefully degrades for cross browser support.</li><li><strong>Accessibility</strong> Javascript enhanced tab focused and keyboard navigation.</li><li><strong>HTML5</strong> Canvas element allows for filtering and cropping of images required by the design concept.</li></ul></p>"
+				}
+}
+		},{
+			"name" : "Sitekick",
+			"description" : "The identity created for expanding my web services business.  While I recently renamed my sole-proprietorship to Sitekick, the brand was established for a larger business planned to provide a wider range of services. The name suggests the company is a trusted partner, or sidekick, in the website design industry.",
+			"foci" : {
+				"logo-design" : {
+					"tag" : "logo design",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "sitekick.jpg"
+					},
+					"copy" : "<h2>Logo Design</h2><p>The five pointed star made of mouse cursors represents the many choices business owners must make when establishing, maintaining and marketing a website. The intent of the badge shaped icon is to present the company as an authorized agent, a deputy, empowered to act on its client's behalf.</p>"
+				},
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "image",
+						"content" : "sitekick.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>The intention of this web design was to further present the company as a tool for businesses to engage for assistance with their website needs. The textured background and push button styling frames the website as an interface between client and provider.</p>"
+				}
+			}
+				},{
+			"name" : "FloClear",
+			"description" : "Manufacturers of equipment that recycles liquids used during offset printing. A long time client asked to rebrand the company to emphasize the \"green\" aspects of its product line.",
+			"foci" : {
+				"logo-design" : {
+					"tag" : "logo design",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "image",
+						"content" : "floclear.jpg"
+					},
+					"copy" : "<h2>Logo Design</h2><p>The blue and green color palette; recycling arrows; and water droplet promote the environmental benefits of using this company's equipment.</p>"
+				},
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "floclear.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>Continuing the client's desire to push the \"green\" benefits of using their products, the design prominently depicts clean water. As a symbol of a healthy environment, this imagery is used to backdrop the primary marketing content on the home page.</p>"
+				},
+				"html-js" : {
+					"tag" : "html/js",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "html",
+						"content" : "<a class=\"sitelink\" href=\"http://www.floclear.com\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://www.floclear.com\" src=\"\" />",
+						"static" : "logo-design"
+					},
+					"copy" : "<h2>HTML-JS</h2><p>This website uses a custom Wordpress theme created using the Genesis framework.</p><ul><li><strong>Responsive</strong></li></ul>"
+				}
+			}
+			},{
+			"name" : "Hammer Law Firm",
+			"description" : "This firm sought a website to market their new practice. The client brought an initial logo design to the table at the start of the project; however, some refinement was required for it to serve as a suitable identity when used online.",
+			"foci" : {
+				"logo-design" : {
+					"tag" : "logo design",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "image",
+						"content" : "hammer.png"
+					},
+					"copy" : "<h2>Logo Design</h2><p>The square mark was enhanced with gradient shading and other effects to give the design a more contemporary appeal.</p>"
+				},
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "hammer.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>The client wanted to emphasize her firm's expertise in birth injury law in the design of the home page. Unique to this industry are restrictions on the size and appearance of fonts used for certain claims made on the website. Design choices were also influenced by the need to optimize the website for indexing by search engines.</p>"
+				},
+				"html-js" : {
+					"tag" : "html/js",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "html",
+						"content" : "<a class=\"sitelink\" href=\"http://www.hammerlegalteam.com\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://www.hammerlegalteam.com\" src=\"\"  />",
+						"static" : "logo-design"
+					},
+					"copy" : "<h2>HTML-JS</h2><p>This website uses a custom Wordpress theme created using the Genesis framework.<ul><li><strong>Responsive</strong></li><li><strong>Javascript</strong></li></ul></p>"
+				}
+			}
+			},{
+			"name" : "Montgomery Capital",
+			"description" : "A financial planning firm under new leadership looked to rebrand their business.",
+			"foci" : {
+				"logo-design" : {
+					"tag" : "logo design",
+					"favorite" :true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "montgomery.png"
+					},
+					"copy" : "<h2>Logo Design</h2><p>The color palette of the logo was simplified to use just a single color. The desire to present stability and security in the identity was fulfilled by forming the initials of the business name into the facade of a stylized, temple-like, building that suggests financial institutions.</p>"
+				},
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "image",
+						"content" : "montgomery.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>A clean design that remains consistent with the updated logo.</p>"
+				},
+				"html-js" : {
+					"tag" : "html/js",
+					"favorite" : false,
+					"highlight" : {
+						"type" : "html",
+						"content" : "<a class=\"sitelink\" href=\"http://www.montgomerycap.com\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://www.montgomerycap.com\" src=\"\"  />",
+						"static" : "logo-design"
+					},
+					"copy" : "<h2>HTML-JS</h2><p>This website uses a custom Wordpress theme created using the Genesis framework.</p><ul><li><strong>Responsive</strong></li></ul>"
+				}
+			}
+			},{
+			"name" : "Liberty Crossing",
+			"description" : "This residential real estate development is located in Williamsburg, VA.",
+			"foci" : {
+				"web-design" : {
+					"tag" : "web design",
+					"favorite" : true,
+					"highlight" : {
+						"type" : "image",
+						"content" : "liberty.jpg"
+					},
+					"copy" : "<h2>Web Design</h2><p>As the neighborhood is located in the city that once served as capital of the British colonies in America, the web design was themed around these historic origins. A color palette of earth tones, serene background, and historic motifs presented the development as a quaint community tucked away in one of the country’s biggest tourist destinations. </p>"
+				}
+			}
+			}
+		]
+}
+

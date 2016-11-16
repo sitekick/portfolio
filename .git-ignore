@@ -3,4 +3,5 @@ arch
 .sass-cache
 node_modules
 .tmp
-.bower_components
+src/lib
+content

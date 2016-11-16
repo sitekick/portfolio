@@ -45,8 +45,7 @@
 					transform: rotateX( 0deg ) rotateY(0deg); 
 				}
 				&.back {
-					background: rgba(0,0,0, .2);
-					transform: translateY(-50%);
+					background-color: rgba(0,0,0, .2);
 					transition: background-color 350ms;
 					/* flip effect */
 					transform: rotateX( -180deg ) rotateY(0deg); 
@@ -89,12 +88,11 @@
 				transform: rotateX( -180deg ) rotateY( 0deg );
 				
 				.back {
-					background: $grey;
+					background-color: $grey;
 					
 					.content{
 						opacity: 1;
 					}
-					
 				}
 			}
 			&.flip-x2 {
@@ -115,6 +113,10 @@
 		&.last{
 			margin-right: 0;
 			padding-right: 0;
+		}
+		
+		@include mobile-device {
+			margin-right: 1em;
 		}
 		}//li
 	}//tiles
@@ -140,6 +142,31 @@
 		margin: 1.5em 0;
 	}
 	}
+
+#profile{
+	
+	.wrapper {
+		
+		.photo{
+			transform-style: preserve-3d;
+		
+			.side {
+				backface-visibility: hidden;
+			
+			
+			&.back {
+				transform: rotateY(-180deg);
+			}
+			}
+		
+		&.flip{
+			transform: rotateY(-180deg);
+		}
+		}
+	}
+	
+	
+}
 
 } // flexbox
 

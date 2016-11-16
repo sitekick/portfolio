@@ -5,14 +5,13 @@ var gulp = require('gulp'),
 
 gulp.task('serve-D', function () {
     
-   
     bs.init({
 		proxy: config.server.url + config.server.build.dev,
 		ui : false
 	});
-	var path = '.' + config.server.build.dev;
+	var path = './build' + config.server.build.dev;
 	
-	bs.watch(path + '/index.html').on('change', bs.reload);
+	bs.watch(path + '/index.php').on('change', bs.reload);
 	bs.watch(path + '/assets/data/**/*.json').on('change', bs.reload);
 	bs.watch(path + '/assets/img/**/*.{gif,png,svg,jpg}').on('change', bs.reload);
 	bs.watch(path + '/assets/css/style.css').on('change', bs.reload);

@@ -1,19 +1,16 @@
 #project {
 	
 	.secondary{
+		
+	&.loaded{
+		opacity: 1;
+	}
+	}
 	
-	@include screen-medium {
-		height: 300px;
-	}
-	@include screen-small {
-		height: 250px;
-	}
-	}
-
 	.tabs {
 		margin: .5em 1em .5em .25em;
 		
-		ul {
+		> ul {
 			list-style: none;
 			margin: 1em 0 0;
 		
@@ -37,28 +34,125 @@
 			.copy{
 				display: none;
 				
+				ul {
+					margin: 1em 1em 1em 2em;
+					font-weight: 300;
+				
+					strong{
+						font-weight: 400;
+					}
+					
+					li {
+						margin-bottom: .8em;
+					}
+				
+				}
+			
 			&.active {
 				display: block
 			}
+			&.fav{
+				
+				h2:after{
+					content: '\2605';
+					font-size: 1.25rem;
+					margin-left: .25em;
+					vertical-align: middle;
+					color: $coolgrey;
+				}
 			}
+			}//.copy
 		}
 	}// .tabs	
 }
 
 #slider {
 	position: absolute; 
-	top: 0;
-	left: 0;
 	z-index: 1;
- 
+
 	.item {
 		overflow: hidden;
 		position: relative; 
 		
-		img,
-		div {
-			position: absolute; top: 50%; left: 50%;
+		> img,
+		> div.wrapper {
+			position: absolute; top: 50%;
+		}
+		
+		> img{
+			left: 50%;
 			transform: translate(-50%, -50%);
+		
+		&.overflow{
+			top: 0;
+			transform: translate(-50%, 0);
+		}
+		}
+		
+		> div.wrapper{
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			transform: translate(0, 0);
+			text-align: left;
+		
+			a.sitelink {
+				display: none;
+				background-color: $coolgrey;
+				margin: 0 35%;
+				padding: 5px;
+				transition: background-color 500ms;
+				
+				img{
+					display: block;
+				}
+				
+			&:hover{
+				background-color: $comp1;
+			}	
+			@include screen-small{
+				margin: 0 27.5%;
+			}
+			}
+			
+			iframe{
+				display: block;
+				width: 130%;
+				height: 130%;
+				border: 0;
+				-ms-zoom: 0.75;
+				-moz-transform: scale(0.75);
+				-moz-transform-origin: 0 0;
+				-o-transform: scale(0.75);
+				-o-transform-origin: 0 0;
+				-webkit-transform: scale(0.75);
+				-webkit-transform-origin: 0 0;
+			}
+		
+		@include screen-medium {
+			top: 50%;
+			text-align: center;	
+				
+				a.sitelink{
+					display: inline-block;
+					transform: translateY(-50%);
+				}
+				iframe {
+					display: none;
+				}		
+		}
+		}// .wrapper
+	
+/*
+	&.web-design{
+		> img{
+		@include screen-medium{
+			top: 0;
+			transform: translate(-50%, 0);
+		}	
 		}
 	}
+*/
+	}//.item
 }

@@ -15,7 +15,7 @@ var getViewport = (function() {
 	var viewports = {
 		queries : {
 			mobile : ['(max-width: 500px)','(max-width: 768px)'],
-			desktop : ['(max-width: 1024px)','(min-width: 1024px)']
+			desktop : ['(max-width: 1024px)','(max-width: 1324px)','(min-width: 1324px)']
 		}
 	}
 	
@@ -35,8 +35,6 @@ var getViewport = (function() {
 		enumerable: false
 		});
 	
-	
-		
 	return (function() {
 		return viewports.viewport;
 	});

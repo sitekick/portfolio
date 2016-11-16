@@ -3,13 +3,8 @@ var growPanel = (function () {
 	var module = function(settings) {
 		
 		let markup = `<div id="${settings.id}" class="growpanel">
-				<div class="secondary">
-					<div class="close" tabindex="0"><img tabindex="-1" src="assets/img/button.close.png" alt="close button"/></div>
-					${settings.markup.secondary}
-					</div>
-				<div class="primary">
-					${settings.markup.primary}
-				</div>
+				<div class="secondary"><div class="close" tabindex="0"><img tabindex="-1" src="assets/img/button.close.png" alt="close button"/></div>${settings.markup.secondary}</div>
+				<div class="primary">${settings.markup.primary}</div>
 			</div>`;
 
 		

@@ -2,9 +2,9 @@
   "name": "portfolio",
   "version": "1.0.0",
   "description": "",
-  "repository" : {
-	  "type" : "git",
-	  "url" : "https://github.com/sitekick/portfolio.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sitekick/portfolio.git"
   },
   "main": "index.html",
   "scripts": {
@@ -29,6 +29,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "main-bower-files": "^2.13.1",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.2.2",
     "wiredep": "^4.0.0"

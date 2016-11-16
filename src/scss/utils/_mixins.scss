@@ -1,5 +1,5 @@
 @mixin screen-full {
-	@media screen and (min-width: #{$screen-large}){
+	@media screen and (min-width: #{$screen-full}){
 		@content;
 	}
 }
@@ -22,12 +22,22 @@
 	}
 }
 
+@mixin screen-medium-landscape {
+	@media screen and (max-width: #{$screen-medium}) and (orientation: landscape) {
+		@content;
+	}
+}
 @mixin screen-small {
 	@media screen and (max-width: #{$screen-small}){
 		@content;
 	}
 }
-
+@mixin mobile-device {
+	@media screen and (max-width: #{$screen-small}),
+	screen and (max-width: #{$screen-medium}) and (orientation: landscape){
+		@content;
+	}
+}
 @mixin line-link {
 	
 	font-size: 1.0625em;

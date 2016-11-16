@@ -6,7 +6,7 @@ module.exports = {
 		}
 	},
 	html : {
-		src : './src/templates/*.html',
+		src : './src/templates/*.php',
 		dest : {
 			dev : './build/dev',
 			prod : './build/prod'
@@ -58,7 +58,10 @@ module.exports = {
 		}
 	},
 	lib: {
-		src:  './src/lib/**/*',
+		src: {
+			dev : './src/lib/**/*',
+			prod : './src/lib/**/*',
+			}, 
 		dest: {
 			dev : './build/dev/assets/lib',
 			prod : './build/prod/assets/lib'
@@ -106,13 +109,14 @@ module.exports = {
 			dev : './build/dev',
 			prod : './build/prod'
 		},
-		index: '/index.html'
+		dest : './src/js/vendor',
+		index: '/index.php'
 	},
 	server : {
 		url : 'portfolio.imac',
 		build : {
-			dev : '/build/dev',
-			prod : '/build/prod'
+			dev : '/dev',
+			prod : '/prod'
 		}
 	}
 };

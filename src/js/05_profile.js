@@ -11,9 +11,11 @@
 		if( $('#profile .photo').hasClass('hide') ){
 			//inactive
 			backgroundImages.blur = true;
+			$('#profile').css('z-index', 'auto');
 		} else {
 			//active
 			backgroundImages.blur = false;
+			$('#profile').css('z-index', 100);
 		}
 		
 		_resetLoop();
@@ -37,11 +39,13 @@
 		 	markup : _markup(),
 		 	events : {
 			 	afterload : function(){
-				 	console.log('open');
+				 		let captchaContainer;
+						let loadCaptcha = (function() {
+						  captchaContainer = grecaptcha.render('recaptcha2', {'sitekey' : '6LeOvAsUAAAAAAZdqwnqALUgWk_FyAlsPiirxyNy'});
+						})();
 			 	},
 			 	afterclose : function(){
 				 	contact = false;
-				 	console.log('open');
 				 	$('#profile .photo').removeClass('flip');
 			 	}
 		 	}
@@ -52,17 +56,18 @@
 				primary : `<h1>Hunter Williams</h1><h2>designer • developer</h2>
 				<p>Lorem ipsum</p>
 				<a class="linkedin" href="https://www.linkedin.com/in/bhunterwilliams" target="_blank"><img width="125px" src="assets/img/linkedin/logo@1x.png" alt="linked in profile hunter williams" /></a>`,
-				secondary : `<form action="#" method="post"><div>
+				secondary : `<form action="index.php?contact=true" method="post"><div>
 				<p><label for="name">Name</label> 
-				<input type="text" id="name" placeholder="Name" maxlength="100">
+				<input type="text" name="name" id="name" placeholder="Name" maxlength="100">
 				</p>
 				<p><label for="email">Email</label> 
-				<input type="email" id="email" placeholder="Email address" maxlength="100">
+				<input type="email" name="email" id="email" placeholder="Email address" maxlength="100">
 				</p>
 				<p><label for="comment">Comment</label> 
-				<textarea id="comment" rows="8" columns="5" placeholder="Comment"></textarea>
-				</p></div>
-				<input id="submit" type="submit" value="Send"></form>`
+				<textarea id="comment" name="comment" rows="8" columns="5" placeholder="Comment" maxlength="300"></textarea>
+				<div id="recaptcha2" class="g-recaptcha"></div>
+				</div>
+				<input id="submit" type="submit" value="Send" /></form>`
 			}
 		}
 	
