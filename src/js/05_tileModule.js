@@ -10,12 +10,6 @@ var tileModule = (function() {
 					viewport = 'screen-small';
 					viewmode = 'mobile';
 			},
-/*
-			'(max-width: 500px) and (orientation: portrait)' : function() { 
-					viewport = 'screen-small-portrait';
-					viewmode = 'mobile';
-			},
-*/
 			'(max-width: 768px)' : function() { 
 					viewport = 'screen-medium';
 					viewmode = 'mobile';
@@ -94,8 +88,20 @@ var tileModule = (function() {
 				let css = $('#tiles .tile').css('transition-duration').split(',');
 				let val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0; 
 				return dur + val ;
+			},
+			preload : {
+				files : [],
+				flip_x : function(id, src){
+					
+					let tile = '#tiles .tile-' + id;
+					/* add background */
+					$(tile).find('.front').css('background-image', 'url(assets/img/' +  src + ')');
+					/* remove preloading class from parent li */
+					$(tile).parent('li').removeClass('preloading');
+					/* flip the tile */
+					$(tile).addClass('flip-x');
+				}
 			}
-			
 		}
 		
 		$('#container').append( _tileMarkup() );
@@ -127,11 +133,35 @@ var tileModule = (function() {
 			/* animate active tiles */
 			for(let i = 1; i <= vars.cap; i++){
 				setTimeout(function() {
-					/* flip the first set of tiles */
-					let li = $('#tiles .tile-' + i).addClass('flip-x');
+					/* preload */
+					if(vars.preload.files[i].loaded === true){
+						vars.preload.flip_x(vars.preload.files[i].id, vars.preload.files[i].src);
+					} else {
+						/* created setter to fire when value is true */
+						Object.defineProperty(vars.preload.files[i], "loaded", { 
+							set: function () { 
+								 vars.preload.flip_x(this.id, this.src)
+								} 
+						});
+						
+						
+					}
+					
 				},timer.time);
 				timer.time += timer.lengthen;
 			};
+			
+			
+			function __manipulateTile(tileid,tilesrc){
+				let tile = '#tiles .tile-' + tileid;
+				/* add background */
+				$(tile).find('.front').css('background-image', 'url(assets/img/' +  tilesrc + ')');
+				/* remove preloading class from parent li */
+				$(tile).parent('li').removeClass('preloading');
+				/* flip the tile */
+				$(tile).addClass('flip-x');
+			}
+			
 
 		}
 		
@@ -144,6 +174,8 @@ var tileModule = (function() {
 			
 			let tile_events = {
 				flip : function(el) {
+					if( $(el).hasClass('preloading') ) return;
+					
 					$('.tile', el).removeClass('transform0').addClass('flip-y');
 				},
 				unflip : function(el) {
@@ -262,6 +294,8 @@ var tileModule = (function() {
 					/* timed to occur after transition transform completion */
 					
 					for(let i=0; i<vars.cap; i++){
+						//tmp
+						//continue;
 						
 						let tile_current = '#tiles .tile-' + currents[i];
 						let tile_next = '#tiles .tile-' + nexts[i];
@@ -277,6 +311,11 @@ var tileModule = (function() {
 						
 						if( currents.indexOf(nexts[i]) < 0 ) {
 							/* new tiles shown on next set */
+							/* set image */
+							//console.log(vars.preload.files[nexts[i]].src);
+							let img_src = 'url(assets/img/' + vars.preload.files[nexts[i]].src + ')';
+							$(tile_next).find('.front').css('background-image', img_src);
+							/* show */
 							$(tile_next).addClass('flip-x').parent('li').attr('tabindex', '-1').addClass('show');
 						}
 						
@@ -311,11 +350,14 @@ var tileModule = (function() {
 					/* tile faces */
 					let current_tile = $('#tiles .tile-' + current_start);
 					let upcoming_tile = $('#tiles .tile-' + next_start);
-					let img_src = $('.front', upcoming_tile).css('background-image');
+					
+					//let img_src = $('.front', upcoming_tile).css('background-image');
+					let img_src = 'url(assets/img/' + vars.preload.files[next_start].src + ')';
+					
 					let img_class = ( $('.front', upcoming_tile).hasClass('center') ) ? 'center': ''; 
 					
+					console.log(img_src);
 					$('.back', current_tile).css('background-image', img_src).addClass(img_class);
-					
 					/* flip */
 					
 					setTimeout(function() {
@@ -375,22 +417,19 @@ var tileModule = (function() {
 					filter1:
 					for(tile_focus in tile_foci){
 						
+						/* determine image path for tile using first suitable instance(having static image) */
+						if(image_path == undefined && tile_foci[tile_focus].highlight.type == 'image'){
+							image_path = `${tile_focus}/${tile_foci[tile_focus].highlight.content}`;
+							image_class = (tile_focus == 'logo-design') ? 'center' : 'fill';
+						}
+						
 						if (tile_foci[tile_focus].favorite === true) {
 							favorites[tile_focus] = tile_foci[tile_focus];
 						} else {
 							continue filter1;
 						}					
 						
-						/* determine image path for tile using first suitable instance(having static image) */
-						if(image_path == undefined && tile_foci[tile_focus].highlight.type == 'image'){
-							image_path = `${tile_focus}/${tile_foci[tile_focus].highlight.content}`;
-							image_class = (tile_focus == 'logo-design') ? 'center' : 'fill';
-						}
-					}
-					
-					if(Object.keys(favorites).length == Object.keys(tile_foci).length){
-						vars.filter.count++;
-						continue tilesloop;
+						
 					}
 					
 					tile_foci = favorites;
@@ -426,11 +465,12 @@ var tileModule = (function() {
 						image_class = (vars.filter.active == 'logo-design') ? 'center' : 'fill';
 						}
 				};	
-			
+			/* preload tile content */
+			__preloadTile(idelta + 1, image_path);
 			/* markup for matching tiles */
-			markup += `<li ${(idelta < vars.cap) ? 'tabindex="-1"' : ''} class="${(idelta < vars.cap) ? ((idelta+1) == vars.cap) ? 'show last' : 'show' : ''}">
+			markup += `<li ${(idelta < vars.cap) ? 'tabindex="-1"' : ''} class="${(idelta < vars.cap) ? ((idelta+1) == vars.cap) ? 'show preloading last' : 'show preloading' : ''} ">
 				 <div data-project="${i}" class="tile tile-${(idelta + 1)}">  
-						<div class="side front ${image_class}" style="background-image: url('assets/img/${image_path}')"></div>
+						<div class="side front ${image_class}"></div>
 						<div class="side back">
 							<div class="content">
 									<h1>${vars.tiles[i].name}</h1>
@@ -468,6 +508,22 @@ var tileModule = (function() {
 		
 		return markup;
 		
+		function __preloadTile(id, src){
+		
+			let obj = {
+				"id" : id,
+				"src" : src,
+				"loaded" : false,
+			}
+			
+			vars.preload.files[id] = obj;
+			
+			let tileImg = new Image();
+			
+			tileImg = new Image();
+			tileImg.onload = function () { vars.preload.files[id].loaded = true};
+			tileImg.src = 'assets/img/' + src;
+		}
 		
 		function __formatDescription(desc){
 		
@@ -499,7 +555,7 @@ var tileModule = (function() {
 			let markup = `<div class="controls ${mode}"><h1>Portfolio</h1><ul>`;
 			
 			for(button in buttons){
-				markup += `<li><a tabindex="-1" id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} " href="#"><span>${buttons[button].tile}</span></a></li>`;
+				markup += `<li><a tabindex="-1" id="button-${buttons[button].tile}" class="button ${(buttons[button].state == 'show') ? 'active' : ''} "><span>${buttons[button].tile}</span></a></li>`;
 			}
 			
 			markup += '</ul></div>';

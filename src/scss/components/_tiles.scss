@@ -33,7 +33,7 @@
 					background-size: cover;
 					background-repeat: no-repeat;
 					background-position: top center;	
-					
+					box-shadow: inset 0px 0px 5px $black;
 					
 					&.back {
 						
@@ -85,9 +85,17 @@
 				&.center{
 					background-size: 75%;
 					background-position: center center;
+
 				}
 				}// .side
 			}// .tile
+	&.preloading{
+		transition: background-size 500ms;
+		background-position: center center;
+		background-image: url(../img/icons/ring-alt.gif);
+		background-repeat: no-repeat;
+		background-size: 25%;
+	}
 	
 	@include screen-medium {
 		height: 225px;
@@ -99,6 +107,7 @@
 		height: 190px;
 	}
 	}// li
+
 
 }//#tiles
 

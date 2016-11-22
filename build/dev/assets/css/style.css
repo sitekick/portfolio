@@ -185,6 +185,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top center;
+  box-shadow: inset 0px 0px 5px #3C3744;
 }
 #tiles > li div.tile .side.back .content {
   display: block;
@@ -223,6 +224,14 @@ body {
 #tiles > li div.tile .side.center {
   background-size: 75%;
   background-position: center center;
+}
+#tiles > li.preloading {
+  -webkit-transition: background-size 500ms;
+  transition: background-size 500ms;
+  background-position: center center;
+  background-image: url(../img/icons/ring-alt.gif);
+  background-repeat: no-repeat;
+  background-size: 25%;
 }
 @media screen and (max-width: 768px) {
   #tiles > li {
@@ -624,7 +633,7 @@ body {
           flex: 1 1 25%;
   margin-right: 2em;
   padding-right: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   /* flip effect */
   -webkit-perspective: 800px;

@@ -17,12 +17,6 @@ var tileModule = function () {
 			viewport = 'screen-small';
 			viewmode = 'mobile';
 		},
-		/*
-  			'(max-width: 500px) and (orientation: portrait)' : function() { 
-  					viewport = 'screen-small-portrait';
-  					viewmode = 'mobile';
-  			},
-  */
 		'(max-width: 768px)': function maxWidth768px() {
 			viewport = 'screen-medium';
 			viewmode = 'mobile';
@@ -101,8 +95,20 @@ var tileModule = function () {
 				var css = $('#tiles .tile').css('transition-duration').split(',');
 				var val = Number(css[0].substring(0, css[0].indexOf('s'))) * 1000 || 0;
 				return dur + val;
-			}
+			},
+			preload: {
+				files: [],
+				flip_x: function flip_x(id, src) {
 
+					var tile = '#tiles .tile-' + id;
+					/* add background */
+					$(tile).find('.front').css('background-image', 'url(assets/img/' + src + ')');
+					/* remove preloading class from parent li */
+					$(tile).parent('li').removeClass('preloading');
+					/* flip the tile */
+					$(tile).addClass('flip-x');
+				}
+			}
 		};
 
 		$('#container').append(_tileMarkup());
@@ -134,8 +140,17 @@ var tileModule = function () {
 
 			var _loop = function _loop(_i) {
 				setTimeout(function () {
-					/* flip the first set of tiles */
-					var li = $('#tiles .tile-' + _i).addClass('flip-x');
+					/* preload */
+					if (vars.preload.files[_i].loaded === true) {
+						vars.preload.flip_x(vars.preload.files[_i].id, vars.preload.files[_i].src);
+					} else {
+						/* created setter to fire when value is true */
+						Object.defineProperty(vars.preload.files[_i], "loaded", {
+							set: function set() {
+								vars.preload.flip_x(this.id, this.src);
+							}
+						});
+					}
 				}, timer.time);
 				timer.time += timer.lengthen;
 			};
@@ -143,6 +158,16 @@ var tileModule = function () {
 			for (var _i = 1; _i <= vars.cap; _i++) {
 				_loop(_i);
 			};
+
+			function __manipulateTile(tileid, tilesrc) {
+				var tile = '#tiles .tile-' + tileid;
+				/* add background */
+				$(tile).find('.front').css('background-image', 'url(assets/img/' + tilesrc + ')');
+				/* remove preloading class from parent li */
+				$(tile).parent('li').removeClass('preloading');
+				/* flip the tile */
+				$(tile).addClass('flip-x');
+			}
 		}
 
 		function _addEvents() {
@@ -154,6 +179,8 @@ var tileModule = function () {
 
 			var tile_events = {
 				flip: function flip(el) {
+					if ($(el).hasClass('preloading')) return;
+
 					$('.tile', el).removeClass('transform0').addClass('flip-y');
 				},
 				unflip: function unflip(el) {
@@ -269,6 +296,8 @@ var tileModule = function () {
 					/* timed to occur after transition transform completion */
 
 					for (var _i2 = 0; _i2 < vars.cap; _i2++) {
+						//tmp
+						//continue;
 
 						var tile_current = '#tiles .tile-' + currents[_i2];
 						var tile_next = '#tiles .tile-' + nexts[_i2];
@@ -284,6 +313,11 @@ var tileModule = function () {
 
 						if (currents.indexOf(nexts[_i2]) < 0) {
 							/* new tiles shown on next set */
+							/* set image */
+							//console.log(vars.preload.files[nexts[i]].src);
+							var img_src = 'url(assets/img/' + vars.preload.files[nexts[_i2]].src + ')';
+							$(tile_next).find('.front').css('background-image', img_src);
+							/* show */
 							$(tile_next).addClass('flip-x').parent('li').attr('tabindex', '-1').addClass('show');
 						}
 
@@ -315,11 +349,14 @@ var tileModule = function () {
 					/* tile faces */
 					var current_tile = $('#tiles .tile-' + current_start);
 					var upcoming_tile = $('#tiles .tile-' + next_start);
-					var img_src = $('.front', upcoming_tile).css('background-image');
+
+					//let img_src = $('.front', upcoming_tile).css('background-image');
+					var img_src = 'url(assets/img/' + vars.preload.files[next_start].src + ')';
+
 					var img_class = $('.front', upcoming_tile).hasClass('center') ? 'center' : '';
 
+					console.log(img_src);
 					$('.back', current_tile).css('background-image', img_src).addClass(img_class);
-
 					/* flip */
 
 					setTimeout(function () {
@@ -378,22 +415,17 @@ var tileModule = function () {
 
 					filter1: for (tile_focus in tile_foci) {
 
-						if (tile_foci[tile_focus].favorite === true) {
-							favorites[tile_focus] = tile_foci[tile_focus];
-						} else {
-							continue filter1;
-						}
-
 						/* determine image path for tile using first suitable instance(having static image) */
 						if (image_path == undefined && tile_foci[tile_focus].highlight.type == 'image') {
 							image_path = tile_focus + '/' + tile_foci[tile_focus].highlight.content;
 							image_class = tile_focus == 'logo-design' ? 'center' : 'fill';
 						}
-					}
 
-					if (Object.keys(favorites).length == Object.keys(tile_foci).length) {
-						vars.filter.count++;
-						continue tilesloop;
+						if (tile_foci[tile_focus].favorite === true) {
+							favorites[tile_focus] = tile_foci[tile_focus];
+						} else {
+							continue filter1;
+						}
 					}
 
 					tile_foci = favorites;
@@ -427,9 +459,10 @@ var tileModule = function () {
 						image_class = vars.filter.active == 'logo-design' ? 'center' : 'fill';
 					}
 				};
-
+				/* preload tile content */
+				__preloadTile(idelta + 1, image_path);
 				/* markup for matching tiles */
-				markup += '<li ' + (idelta < vars.cap ? 'tabindex="-1"' : '') + ' class="' + (idelta < vars.cap ? idelta + 1 == vars.cap ? 'show last' : 'show' : '') + '">\n\t\t\t\t <div data-project="' + _i4 + '" class="tile tile-' + (idelta + 1) + '">  \n\t\t\t\t\t\t<div class="side front ' + image_class + '" style="background-image: url(\'assets/img/' + image_path + '\')"></div>\n\t\t\t\t\t\t<div class="side back">\n\t\t\t\t\t\t\t<div class="content">\n\t\t\t\t\t\t\t\t\t<h1>' + vars.tiles[_i4].name + '</h1>\n\t\t\t\t\t\t\t\t\t<p>' + __formatDescription(vars.tiles[_i4].description) + '</p>\n\t\t\t\t\t\t\t\t\t' + __formatTileTags(tile_foci) + ' \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</li>';
+				markup += '<li ' + (idelta < vars.cap ? 'tabindex="-1"' : '') + ' class="' + (idelta < vars.cap ? idelta + 1 == vars.cap ? 'show preloading last' : 'show preloading' : '') + ' ">\n\t\t\t\t <div data-project="' + _i4 + '" class="tile tile-' + (idelta + 1) + '">  \n\t\t\t\t\t\t<div class="side front ' + image_class + '"></div>\n\t\t\t\t\t\t<div class="side back">\n\t\t\t\t\t\t\t<div class="content">\n\t\t\t\t\t\t\t\t\t<h1>' + vars.tiles[_i4].name + '</h1>\n\t\t\t\t\t\t\t\t\t<p>' + __formatDescription(vars.tiles[_i4].description) + '</p>\n\t\t\t\t\t\t\t\t\t' + __formatTileTags(tile_foci) + ' \n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</li>';
 
 				vars.buttons.push({
 					tile: idelta + 1,
@@ -455,6 +488,25 @@ var tileModule = function () {
 			markup += '</div></div></div>';
 
 			return markup;
+
+			function __preloadTile(id, src) {
+
+				var obj = {
+					"id": id,
+					"src": src,
+					"loaded": false
+				};
+
+				vars.preload.files[id] = obj;
+
+				var tileImg = new Image();
+
+				tileImg = new Image();
+				tileImg.onload = function () {
+					vars.preload.files[id].loaded = true;
+				};
+				tileImg.src = 'assets/img/' + src;
+			}
 
 			function __formatDescription(desc) {
 
@@ -483,7 +535,7 @@ var tileModule = function () {
 				var markup = '<div class="controls ' + mode + '"><h1>Portfolio</h1><ul>';
 
 				for (button in buttons) {
-					markup += '<li><a tabindex="-1" id="button-' + buttons[button].tile + '" class="button ' + (buttons[button].state == 'show' ? 'active' : '') + ' " href="#"><span>' + buttons[button].tile + '</span></a></li>';
+					markup += '<li><a tabindex="-1" id="button-' + buttons[button].tile + '" class="button ' + (buttons[button].state == 'show' ? 'active' : '') + ' "><span>' + buttons[button].tile + '</span></a></li>';
 				}
 
 				markup += '</ul></div>';
