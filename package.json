@@ -8,13 +8,14 @@
   },
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Hunter Williams",
   "license": "ISC",
   "devDependencies": {
     "bower": "^1.7.9",
     "browser-sync": "^2.17.5",
+    "chai": "^3.5.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
@@ -29,7 +30,9 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.11",
     "main-bower-files": "^2.13.1",
+    "mocha": "^3.1.2",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.2.2",
     "wiredep": "^4.0.0"

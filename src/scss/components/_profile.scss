@@ -51,7 +51,7 @@
 		}//.photo
 	
 	&:focus{
-		outline: none;
+		//outline: none;
 	}
 	
 	}//.wrapper
@@ -62,23 +62,6 @@
 }
 
 }//#profile
-
-#background {
-	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -10;
-	background-size: cover;
-	background-position: center center;
-	background-repeat : no-repeat;
-	opacity: 0;
-	filter: blur(10px);
-	transition: opacity 3000ms;
-
-&.loaded{
-	opacity: .25;
-}
-&.focus{
-	filter: blur(0);
-}
-}
 
 #contact {
 	

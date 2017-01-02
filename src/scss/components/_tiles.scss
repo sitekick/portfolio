@@ -119,6 +119,10 @@
 	span{
 		font-size: 1.25rem;
 	}
+&:focus{
+	outline: 0;
+}
+
 }
 
 .controls {
@@ -150,6 +154,7 @@
 					padding: .25em .75em;
 					transition: background-color 750ms;
 					box-shadow: 1px 1px 2px #333;
+					cursor: pointer;
 					
 					span{
 						display: none;

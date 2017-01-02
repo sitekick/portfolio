@@ -48,7 +48,7 @@
 	"projects" : [{
 			"name": "Servetus W. Ogan House",
 			"title": "Wynne, Arkansas",
-			"summary": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.",
+			"summary": "",
 			"image": "assets/img/buildings/4/1024x678.jpg",
 			"text" : {
 				"quadrant" : 3,
@@ -57,7 +57,7 @@
 			} , {
 			"name": "Old Exchange and Provost Dungeon",
 			"title": "Charleston, South Carolina",
-			"summary": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.",
+			"summary": "",
 			"image": "assets/img/buildings/1/1000x699.jpg",
 			"text" : {	
 				"quadrant" : 1,
@@ -66,7 +66,7 @@
 			} , {
 			"name": "Charles A. Krause House",
 			"title": "Milwaukee, Wisconsin",
-			"summary": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.",
+			"summary": "",
 			"image": "assets/img/buildings/5/1000x720.jpg",
 			"text" : {	
 				"quadrant" : 4,
@@ -75,7 +75,7 @@
 			} ,{
 			"name": "The Ferguson Mansion",
 			"title": "Louisville, KY",
-			"summary": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.",
+			"summary": "",
 			"image": "assets/img/buildings/2/1024x768.jpg",
 			"text" : {	
 				"quadrant" : 4,
@@ -84,7 +84,7 @@
 			} , {
 			"name": "Old Sears Building on Ponce",
 			"title": "Atlanta, GA",
-			"summary": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.",
+			"summary": "",
 			"image": "assets/img/buildings/6/1024x714.jpg",
 			"text" : {	
 				"quadrant" : 1,
@@ -93,7 +93,7 @@
 			} , {
 			"name": "Warrnambool Post Office",
 			"title": "Warrnambool, AUS",
-			"summary": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.",
+			"summary": "",
 			"image": "assets/img/buildings/3/1024x768.jpg",
 			"text" : {	
 				"quadrant" : 4,

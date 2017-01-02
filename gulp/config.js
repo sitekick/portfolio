@@ -20,7 +20,8 @@ module.exports = {
 		src: {
 			dev : [
 				'./src/js/vendor/*.js',
-				'./src/js/*.js', 
+				'./src/js/*.js',
+				'!./src/js/vendor/00_bower.js',
 				'!./src/js/arch',
 				'!./src/js/arch/**/*'
 				],

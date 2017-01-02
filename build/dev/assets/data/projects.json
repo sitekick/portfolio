@@ -30,7 +30,7 @@
 						"content" : "<a class=\"sitelink\" href=\"http://sitekick.com/bottle\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://sitekick.com/bottle\" src=\"\"  />",
 						"static" : "web-design"
 					},
-					"copy" : "<h2>HTML-JS</h2><p>This is not a real world project, so no production website exists. A one-page advanced prototype is presented, some features are best demonstrated by viewing this site in a <a href=\"/bottle\" target=\"_blank\">new browser window</a>.</p><ul><li><strong>Responsive</strong> In addition to media queries, Javascript optimizes layout as device width changes.</li><li><strong>JSON</strong> The interactive components use JSON to load copy and imagery.</li><li><strong>Javascript</strong> Handles user interaction with the product data, blog content, and menus.</li><li><strong>CSS3</strong> Flexbox usage that gracefully degrades for cross browser support.</li><li><strong>Data visualization</strong> Line, bar, and doughnut charts using Chart.js.</li><li><strong>Accessibility</strong> Javascript enhanced tab focused and keyboard navigation.</li></ul>"
+					"copy" : "<h2>HTML-JS</h2><p>This is not a real world project, so no production website exists. A one-page advanced prototype is presented, some features are best demonstrated by viewing this site in a <a href=\"http://www.sitekick.com/bottle\" target=\"_blank\">new browser window</a>.</p><ul><li><strong>Responsive</strong> In addition to media queries, Javascript adapts the layout for different modes of display. <a href=\"https://gist.github.com/sitekick/70d45f6035f2071355ee686c50ed0eed\" target=\"_blank\">View Gist</a></li><li><strong>JSON</strong> The interactive components use JSON to load copy and imagery.</li><li><strong>Javascript</strong> Handles user interaction with the product data, blog content, and menus.</li><li><strong>CSS3</strong> Flexbox usage that gracefully degrades for cross browser support.</li><li><strong>Data visualization</strong> Line, bar, and doughnut charts using Chart.js.</li></ul>"
 			}
 }
 		},{
@@ -63,7 +63,7 @@
 						"content" : "<a class=\"sitelink\" href=\"http://www.sitekick.com/newheritage\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://www.sitekick.com/newheritage\" src=\"\" />",
 						"static" : "web-design"
 					},
-					"copy" : "<h2>HTML-JS</h2><p>This is not a real world project, so no production website exists. A one-page advanced prototype is presented, some features are best demonstrated by viewing this site in <a href=\"http://www.sitekick.com/newheritage\" target=\"_blank\">a new browser window</a>.<ul><li><strong>Responsive</strong> In addition to media queries, Javascript optimizes layout as device width changes.</li><li><strong>JSON</strong> Page copy and imagery is dynamically loaded to display page content.</li><li><strong>Javascript</strong> User interaction with the photo gallery as well as custom photograph filters.</li><li><strong>CSS3</strong> Flexbox usage that gracefully degrades for cross browser support.</li><li><strong>Accessibility</strong> Javascript enhanced tab focused and keyboard navigation.</li><li><strong>HTML5</strong> Canvas element allows for filtering and cropping of images required by the design concept.</li></ul></p>"
+					"copy" : "<h2>HTML-JS</h2><p>This is not a real world project, so no production website exists. A one-page advanced prototype is presented, some features are best demonstrated by viewing this site in <a href=\"http://www.sitekick.com/newheritage\" target=\"_blank\">a new browser window</a>.<ul><li><strong>Responsive</strong> In addition to media queries, Javascript adapts the layout for different modes of display. <a href=\"https://gist.github.com/sitekick/70d45f6035f2071355ee686c50ed0eed\" target=\"_blank\">View Gist</a></li><li><strong>JSON</strong> Page copy and imagery is dynamically loaded to display page content.</li><li><strong>User interaction</strong> Scrollable content is enhanced with a custom module to enable dragging with the mouse. <a href=\"https://gist.github.com/sitekick/d6290470af17c69309daefef1bf2220a\" target=\"_blank\">View Gist</a></li><li><strong>HTML5</strong> Use of the canvas element and custom image filters.</li><li><strong>CSS3</strong> Flexbox usage that gracefully degrades for cross browser support.</li><li><strong>Accessibility</strong> Javascript enhanced keyboard navigation. <a href=\"https://gist.github.com/sitekick/7d70dd483061913b468700acc82f4a0a\" target=\"_blank\">View Gist</a></li></ul></p>"
 				}
 }
 		},{
@@ -179,7 +179,7 @@
 				},
 				"html-js" : {
 					"tag" : "html/js",
-					"favorite" : true,
+					"favorite" : false,
 					"highlight" : {
 						"type" : "html",
 						"content" : "<a class=\"sitelink\" href=\"http://www.montgomerycap.com\" target=\"_blank\"><img src=\"assets/img/icons/folder.png\" alt=\"open in new window\" title=\"open in new window\"></a><iframe data-src=\"http://www.montgomerycap.com\" src=\"\"  />",

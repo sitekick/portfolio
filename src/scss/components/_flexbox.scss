@@ -28,14 +28,14 @@
 			border-radius: 8px;
 			/* flip effect */
 			perspective: 800px;
-		
+			
 			div.tile{
 				width: 100%;
 				/* flip effect */
 				transform-style: preserve-3d;
 				transition: transform 750ms;
 				transform: rotateX( 0deg ) rotateY(-180deg); 
-			
+				
 				.side {
 					/* flip effect */
 					backface-visibility: hidden;
@@ -49,17 +49,15 @@
 					transition: background-color 350ms;
 					/* flip effect */
 					transform: rotateX( -180deg ) rotateY(0deg); 
-					
+
 					.content {
-						/* flip effect */
-						transition: opacity 350ms;
 						opacity: 0;
 					}
+					
 				&.flipping{
 					background-color: $white;		
 					
 					.content{
-						/* flip effect */
 						opacity: 1;
 					}
 				}
@@ -111,8 +109,8 @@
 		}
 		
 		&.last{
-			margin-right: 0;
-			padding-right: 0;
+			//margin-right: 0;
+			//padding-right: 0;
 		}
 		
 		@include mobile-device {

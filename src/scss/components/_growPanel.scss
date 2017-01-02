@@ -44,12 +44,6 @@
 			cursor: pointer;
 			background-color: $comp1;
 		}
-		@include mobile-device{
-/*
-			position: fixed;
-			border: 1px solid red;
-*/
-		}
 		}
 	
 	&.loaded{

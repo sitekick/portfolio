@@ -37,12 +37,12 @@ var tileModule = function () {
 			viewport = 'screen-full';
 			viewmode = 'desktop';
 		},
-		'(all)': function all() {
+		'(any)': function any() {
 			layoutTiles();
 		}
 	};
 
-	resizeQuery(events, true);
+	var rq = resizeQuery(events, true);
 
 	var module = function module(data) {
 
@@ -355,7 +355,6 @@ var tileModule = function () {
 
 					var img_class = $('.front', upcoming_tile).hasClass('center') ? 'center' : '';
 
-					console.log(img_src);
 					$('.back', current_tile).css('background-image', img_src).addClass(img_class);
 					/* flip */
 
@@ -427,8 +426,13 @@ var tileModule = function () {
 							continue filter1;
 						}
 					}
-
-					tile_foci = favorites;
+					// if no favorites for project then skip
+					if (Object.keys(favorites).length != 0) {
+						tile_foci = favorites;
+					} else {
+						vars.filter.count++;
+						continue tilesloop;
+					}
 				} else {
 
 					var found = false;

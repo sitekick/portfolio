@@ -109,14 +109,6 @@ body {
   cursor: pointer;
   background-color: #4A8BD8;
 }
-@media screen and (max-width: 500px), screen and (max-width: 768px) and (orientation: landscape) {
-  .growpanel .secondary .close {
-    /*
-    			position: fixed;
-    			border: 1px solid red;
-    */
-  }
-}
 .growpanel .secondary.loaded {
   opacity: 1;
 }
@@ -256,6 +248,9 @@ body {
 #nav span {
   font-size: 1.25rem;
 }
+#nav:focus {
+  outline: 0;
+}
 
 .controls h1 {
   color: #FFF;
@@ -284,6 +279,7 @@ body {
   -webkit-transition: background-color 750ms;
   transition: background-color 750ms;
   box-shadow: 1px 1px 2px #333;
+  cursor: pointer;
 }
 .controls > ul li a span {
   display: none;
@@ -355,16 +351,6 @@ body {
 #slider .item {
   overflow: hidden;
   position: relative;
-  /*
-  	&.web-design{
-  		> img{
-  		@include screen-medium{
-  			top: 0;
-  			transform: translate(-50%, 0);
-  		}	
-  		}
-  	}
-  */
 }
 #slider .item > img,
 #slider .item > div.wrapper {
@@ -509,35 +495,8 @@ body {
       -ms-transform: scaleX(0) scaleY(0);
           transform: scaleX(0) scaleY(0);
 }
-#profile .wrapper:focus {
-  outline: none;
-}
 #profile .preload {
   display: none;
-}
-
-#background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -10;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  -webkit-filter: blur(10px);
-          filter: blur(10px);
-  -webkit-transition: opacity 3000ms;
-  transition: opacity 3000ms;
-}
-#background.loaded {
-  opacity: .25;
-}
-#background.focus {
-  -webkit-filter: blur(0);
-          filter: blur(0);
 }
 
 #contact .primary a.linkedin {
@@ -670,16 +629,12 @@ body {
           transform: rotateX(-180deg) rotateY(0deg);
 }
 .flexbox #tiles li div.tile .side.back .content {
-  /* flip effect */
-  -webkit-transition: opacity 350ms;
-  transition: opacity 350ms;
   opacity: 0;
 }
 .flexbox #tiles li div.tile .side.back.flipping {
   background-color: #FFF;
 }
 .flexbox #tiles li div.tile .side.back.flipping .content {
-  /* flip effect */
   opacity: 1;
 }
 .flexbox #tiles li div.tile.transform0 {
@@ -727,10 +682,6 @@ body {
 }
 .flexbox #tiles li.show {
   display: block;
-}
-.flexbox #tiles li.last {
-  margin-right: 0;
-  padding-right: 0;
 }
 @media screen and (max-width: 500px), screen and (max-width: 768px) and (orientation: landscape) {
   .flexbox #tiles li {
@@ -1014,23 +965,35 @@ div.tile .side.back {
   color: #4A8BD8;
 }
 
-#project .primary a {
+#project .primary p a {
+  color: #3C3744;
+}
+#project .primary p a:hover {
   color: #D62839;
 }
-#project .tabs ul li a {
+#project .tabs > ul li a {
   font-size: 1.0625em;
   background: #B4C5E4;
   padding: .35em .5em;
   color: #FFF;
   font-weight: 300;
 }
-#project .tabs ul li a.active {
+#project .tabs > ul li a.active {
   background: rgba(255, 255, 255, 0.7);
   color: #B4C5E4;
   font-weight: 400;
 }
 #project .tabs .content {
   background: rgba(255, 255, 255, 0.7);
+}
+#project .tabs .content .copy a {
+  color: #4A8BD8;
+}
+#project .tabs .content .copy a:hover {
+  color: #D62839;
+}
+#project .tabs .content .copy ul {
+  line-height: 1.35em;
 }
 
 /* =========== HEADERS ============ */

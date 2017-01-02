@@ -121,14 +121,21 @@ div.tile {
 	
 	.primary  {
 		
-		a{
+		p{
+			
+			a{
+			color: $black;
+		
+			&:hover{
 			color: $comp2;
+			}
+			}
 		}
 	}
 	
 	.tabs  {
 		
-		ul {
+		> ul {
 		
 			li {
 			
@@ -150,6 +157,20 @@ div.tile {
 		
 		.content {
 			background: rgba(255,255,255, .7);
+			
+			.copy{
+				
+				a {
+					color: $comp1;
+				&:hover{
+					color: $comp2;
+				}
+				}
+			
+				ul {
+					line-height: 1.35em;
+				}
+			}
 		}
 	}// .tabs
 	
